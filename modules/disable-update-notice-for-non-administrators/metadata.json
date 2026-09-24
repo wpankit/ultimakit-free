@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_disable_update_notice_for_non_administrators",
+    "name": "Disable Update Notice for Non-admin Users",
+    "description": "Don't show WordPress version update notices to users that can't update the site.",
+    "category": "Disable Components",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "disable-update-notice-for-non-administrators-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

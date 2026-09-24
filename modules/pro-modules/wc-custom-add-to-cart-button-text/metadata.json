@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_wc_custom_add_to_cart_button_text",
+    "name": "Woo - Custom \"Add to Cart\" Button Text",
+    "description": "Set custom text to Add to Cart Button.",
+    "category": "WooCommerce",
+    "plan": "free",
+    "type": "WooCommerce",
+    "link": "set-custom-text-to-add-to-cart-button-in-woocommerce",
+    "is_active": false,
+    "settings": "yes",
+    "settings_link": "#"
+}

@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_disable_auto_updates",
+    "name": "Disable Auto Updates",
+    "description": "Disable auto updates for Core WordPress, Themes and Plugins",
+    "category": "Disable Components",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "disable-auto-updates-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "disable-auto-updates-for-wordpress"
+}

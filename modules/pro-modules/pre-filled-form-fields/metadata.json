@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_gf_pre_filled_form_fields",
+    "name": "Pre-Filled Form Fields via URL Parameters",
+    "description": "This module allows you to pre-fill Gravity Forms fields dynamically using URL parameters. It supports a wide range of field types, including text, checkboxes, multiple select, and name fields.",
+    "category": "Forms",
+    "plan": "free",
+    "type": "Gravity Forms",
+    "link": "pre-filled-form-fields-via-url-parameters-in-gravity-forms",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

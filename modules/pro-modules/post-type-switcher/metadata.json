@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_post_type_switcher",
+    "name": "Post Type Switcher",
+    "description": "Switch post type between available post types quickly and easily.",
+    "category": "Utilities",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "post-type-switcher-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

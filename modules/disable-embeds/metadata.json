@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_disable_embeds",
+    "name": "Disable Embeds",
+    "description": "Remove an extra request and prevent others from adding embeds in your site.",
+    "category": "Disable Components",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "disable-embeds-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

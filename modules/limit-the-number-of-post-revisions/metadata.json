@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_limit_the_number_of_post_revisions",
+    "name": "Limit the Number of Post Revisions",
+    "description": "Reduce Database size by limiting post revisions.",
+    "category": "Content Management",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "limit-the-number-of-post-revisions-in-wordpress",
+    "is_active": false,
+    "settings": "yes",
+    "settings_link": "#"
+}

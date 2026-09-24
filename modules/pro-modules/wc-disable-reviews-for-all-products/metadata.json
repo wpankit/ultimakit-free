@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_wc_disable_reviews_for_all_products",
+    "name": "Woo - Disable Reviews For All Products",
+    "description": "Disable Reviews For All Products. (Remove comments support from Post Type: Product)",
+    "category": "WooCommerce",
+    "plan": "free",
+    "type": "WooCommerce",
+    "link": "disable-reviews-for-all-products-in-woocommerce",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

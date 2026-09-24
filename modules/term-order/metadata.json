@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_term_order",
+    "name": "Term Order",
+    "description": "Enable drag-and-drop term reordering in WordPress.",
+    "category": "Content Management",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "set-term-order-in-wordpress",
+    "is_active": false,
+    "settings": "yes",
+    "settings_link": "#"
+}

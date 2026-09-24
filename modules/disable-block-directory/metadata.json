@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_disable_block_directory",
+    "name": "Disable Block Directory",
+    "description": "Prevent block directory results from being shown when searching for blocks in the editor.",
+    "category": "Disable Components",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "disable-block-directory-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

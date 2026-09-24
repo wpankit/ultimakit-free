@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_change_login_url",
+    "name": "Change Login URL",
+    "description": "Change the default login URL to a custom one.",
+    "category": "Security",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "change-wordpress-login-url",
+    "is_active": false,
+    "settings": "yes",
+    "settings_link": "#"
+} 

@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_disable_comment_url_linking",
+    "name": "Disable Comment URL Linking",
+    "description": "Prevent automatically formatting URLs in comments as links.",
+    "category": "Disable Components",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "disable-comment-url-linking-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_wc_hide_out_of_stock_products",
+    "name": "Woo - Hide Out Of Stock Products",
+    "description": "Allows store owners to automatically hide products from the store's catalog if they are out of stock",
+    "category": "WooCommerce",
+    "plan": "free",
+    "type": "WooCommerce",
+    "link": "hide-out-of-stock-products-in-woocommerce",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

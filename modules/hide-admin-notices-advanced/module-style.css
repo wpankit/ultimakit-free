@@ -1,0 +1,46 @@
+.ultimakit-role-manager {
+  width: 100%;
+  max-width: 100%; /* Adjusted for fixed width columns */
+  margin: auto;
+}
+.ultimakit-role-manager .header{
+  width: 100%;
+  font-weight: 600;
+  background: gray;
+  padding: 5px;
+  border-radius: 3px;
+  color: white;
+  margin-bottom: 18px;
+}
+
+.ultimakit-role-manager .header > div, .ultimakit-role-manager .role > div {
+  flex: 0 0 20%; /* No grow, no shrink, fixed width */
+  text-align: left;
+}
+
+.ultimakit-role-manager .header, .ultimakit-role-manager .role {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ultimakit-role-manager .role{
+  margin-bottom: 10px;
+}
+
+.ultimakit-role-manager .header > div, .role > div {
+  flex: 1;
+  text-align: left;
+}
+
+
+.ultimakit-role-manager .form-check{
+      flex: auto !important;
+    text-align: left !important;
+}
+
+
+.module_settings .module-switch{
+    margin-top: 2px !important;
+    margin-bottom: 2px !important;
+}

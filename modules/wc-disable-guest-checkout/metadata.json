@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_wc_disable_guest_checkout",
+    "name": "Woo - Disable Guest Checkout",
+    "description": "Require users to log in or sign up before they can check out.",
+    "category": "WooCommerce",
+    "plan": "free",
+    "type": "WooCommerce",
+    "link": "disable-guest-checkout-in-woocommerce",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

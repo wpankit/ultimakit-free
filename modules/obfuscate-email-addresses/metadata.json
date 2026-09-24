@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_obfuscate_email_addresses",
+    "name": "Obfuscate Email Addresses",
+    "description": "Protect email addresses from spam bots.",
+    "category": "Security",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "obfuscate-email-addresses-in-wordpress",
+    "is_active": false,
+    "settings": "yes",
+    "settings_link": "#"
+} 

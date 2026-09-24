@@ -1,0 +1,36 @@
+/* Admin bar icon */
+#wpadminbar #wp-admin-bar-site-protection-status .ab-icon:before {
+    content: '\f160';
+    top: 2px;
+}
+
+/* Settings page styles */
+.site-protection-settings {
+    max-width: 800px;
+    margin: 20px 0;
+}
+
+.site-protection-settings .form-table th {
+    width: 200px;
+}
+
+.site-protection-settings .security-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 8px;
+    background-color: #f0ffe6;
+    border: 1px solid #4caf50;
+    border-radius: 12px;
+    color: #4caf50;
+    font-size: 12px;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.site-protection-settings .security-status {
+    margin-top: 20px;
+    padding: 15px;
+    background: #fff;
+    border-left: 4px solid #4caf50;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+}

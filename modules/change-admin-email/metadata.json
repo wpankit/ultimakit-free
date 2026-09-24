@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_change_admin_email",
+    "name": "Change Admin Email",
+    "description": "Change Admin Email Without Verification",
+    "category": "Security",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "change-admin-email-in-wordpress-without-email-verification",
+    "is_active": false,
+    "settings": "yes",
+    "settings_link": "#"
+}

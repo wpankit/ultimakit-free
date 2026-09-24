@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_keyword_density_checker",
+    "name": "Keyword Density Checker",
+    "description": "Analyze the frequency of a target keyword in a post or page and provide a simple score.",
+    "category": "Content Management",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "keyword-density-checker-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

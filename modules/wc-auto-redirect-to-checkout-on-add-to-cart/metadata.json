@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_wc_auto_redirect_to_checkout_on_add_to_cart",
+    "name": "Woo - Auto-Redirect to Checkout on Add to Cart",
+    "description": "Automatically redirect to checkout on add to cart from the single product page.",
+    "category": "WooCommerce",
+    "plan": "free",
+    "type": "WooCommerce",
+    "link": "auto-redirect-to-checkout-on-add-to-cart-in-woocommerce",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

@@ -1,0 +1,5 @@
+.wpuk-gf-datetime-field-icon::before {
+    content: "\f469"; /* Dashicons clock glyph */
+    font-family: Dashicons;
+    margin-right: 5px;
+}

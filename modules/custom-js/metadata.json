@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_custom_js",
+    "name": "Custom JS",
+    "description": "Add Custom JS on Frontend.",
+    "category": "Custom Code",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "add-custom-js-in-wordpress",
+    "is_active": false,
+    "settings": "yes",
+    "settings_link": "#"
+}

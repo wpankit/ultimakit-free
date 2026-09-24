@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_cleanup_admin_bar",
+    "name": "Cleanup Admin Bar",
+    "description": "Remove various elements from the admin bar.",
+    "category": "Optimizations",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "cleanup-admin-bar-in-wordpress",
+    "is_active": false,
+    "settings": "yes",
+    "settings_link": "#"
+}

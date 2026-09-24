@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_disable_automatic_updates_emails",
+    "name": "Disable Automatic Updates Emails",
+    "description": "Stop receiving emails about automatic updates on your WordPress site.",
+    "category": "Disable Components",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "disable-automatic-updates-email-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

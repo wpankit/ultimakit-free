@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_gf_auto_clear_fields_on_focus",
+    "name": "Auto-Clear Form Field on Focus",
+    "description": "This module automatically clears the input values of form fields when they gain focus, providing users with a clean slate to enter new information.",
+    "category": "Form",
+    "plan": "free",
+    "type": "Gravity Forms",
+    "link": "auto-clear-form-fields-on-focus-in-gravity-forms",
+    "is_active": false,
+    "settings": "yes",
+    "settings_link": "#"
+}

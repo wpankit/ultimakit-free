@@ -1,0 +1,17 @@
+#word-count-tracker-container {
+    padding: 10px;
+}
+
+#word-count-tracker-container p {
+    margin: 0 0 10px 0;
+}
+
+#current-word-count {
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+#target-word-count {
+    width: 100%;
+    margin-top: 5px;
+}

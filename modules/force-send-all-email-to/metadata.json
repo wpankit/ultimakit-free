@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_force_send_all_email_to",
+    "name": "Force Send All Email To",
+    "description": "Redirect all outgoing emails to a specific email address (useful for testing).",
+    "category": "Utilities",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "force-send-all-email-to-in-wordpress",
+    "is_active": false,
+    "settings": "yes",
+    "settings_link": "#"
+} 

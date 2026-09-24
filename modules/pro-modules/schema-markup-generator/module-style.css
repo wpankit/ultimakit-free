@@ -1,0 +1,245 @@
+/**
+ * Schema Markup Generator Styles
+ */
+
+ .ultimakit-schema-markup-generator {
+    padding: 15px;
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+    margin: 15px 0;
+}
+
+/* Schema Type Selector */
+.schema-type-selector {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.schema-type-selector select {
+    max-width: 400px;
+}
+
+/* Schema Builders */
+.schema-builder {
+    background: #f9f9f9;
+    padding: 20px;
+    margin: 15px 0;
+    border: 1px solid #e5e5e5;
+    border-radius: 3px;
+}
+
+.schema-builder h3 {
+    margin-top: 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    color: #23282d;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* Form Tables */
+.schema-builder .form-table {
+    margin-top: 0;
+}
+
+.schema-builder .form-table th {
+    padding: 15px 10px 15px 0;
+    width: 200px;
+}
+
+.schema-builder .form-table td {
+    padding: 15px 10px;
+}
+
+.schema-builder input[type="text"],
+.schema-builder input[type="number"],
+.schema-builder textarea {
+    width: 100%;
+    max-width: 500px;
+}
+
+.schema-builder .description {
+    color: #666;
+    font-style: italic;
+    margin: 5px 0 0;
+    display: block;
+}
+
+/* FAQ Items */
+.faq-items {
+    margin: 15px 0;
+}
+
+.faq-controls {
+    margin-bottom: 15px;
+}
+
+.faq-item {
+    background: #fff;
+    padding: 15px;
+    margin-bottom: 10px;
+    border: 1px solid #e5e5e5;
+    border-radius: 3px;
+    position: relative;
+}
+
+.faq-item:hover {
+    border-color: #999;
+}
+
+.faq-item label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.faq-item .remove-faq {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    color: #dc3545;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 3px;
+}
+
+.faq-item .remove-faq:hover {
+    background: #fee;
+}
+
+/* Schema Preview */
+.schema-preview {
+    margin-top: 20px;
+    padding: 20px;
+    background: #f9f9f9;
+    border: 1px solid #e5e5e5;
+    border-radius: 3px;
+}
+
+.schema-preview h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #23282d;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.schema-preview textarea {
+    font-family: monospace;
+    resize: vertical;
+    min-height: 200px;
+}
+
+.schema-validation-status {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 3px;
+    display: none;
+}
+
+.schema-validation-status.success {
+    background: #dff0d8;
+    border: 1px solid #d6e9c6;
+    color: #3c763d;
+}
+
+.schema-validation-status.error {
+    background: #f2dede;
+    border: 1px solid #ebccd1;
+    color: #a94442;
+}
+
+/* Buttons */
+.validate-schema {
+    margin-top: 10px;
+}
+
+/* Required Fields */
+.schema-builder input[required],
+.schema-builder textarea[required] {
+    border-left: 4px solid #dc3545;
+}
+
+.schema-builder input[required]:valid,
+.schema-builder textarea[required]:valid {
+    border-left: 4px solid #28a745;
+}
+
+/* Loading State */
+.schema-builder.loading {
+    position: relative;
+}
+
+.schema-builder.loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.7);
+    z-index: 1;
+}
+
+/* Add to your existing CSS file */
+.business-hours-day {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.business-hours-day label {
+    min-width: 100px;
+}
+
+.business-hours-day input[type="time"] {
+    width: 120px;
+}
+
+.schema-builder table.form-table th {
+    width: 200px;
+    padding: 15px 10px;
+}
+
+.schema-builder table.form-table td {
+    padding: 10px;
+}
+
+.schema-builder .select-image {
+    margin-top: 5px;
+}
+
+.schema-builder input[type="url"],
+.schema-builder input[type="text"],
+.schema-builder input[type="email"],
+.schema-builder input[type="tel"],
+.schema-builder textarea {
+    width: 100%;
+    max-width: 500px;
+}
+
+.schema-builder .description {
+    color: #666;
+    font-style: italic;
+    margin-top: 5px;
+}
+
+/* Responsive Adjustments */
+@media screen and (max-width: 782px) {
+    .schema-builder .form-table th {
+        padding-bottom: 5px;
+    }
+    
+    .schema-builder .form-table td {
+        padding-left: 0;
+    }
+    
+    .schema-builder input[type="text"],
+    .schema-builder input[type="number"],
+    .schema-builder textarea {
+        max-width: 100%;
+    }
+}

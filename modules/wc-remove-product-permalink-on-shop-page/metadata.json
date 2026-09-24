@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_wc_remove_product_permalink_on_shop_page",
+    "name": "Woo - Remove Product Permalink on Shop",
+    "description": "Remove product permalink on shop pages (only works with non-block themes).",
+    "category": "WooCommerce",
+    "plan": "free",
+    "type": "WooCommerce",
+    "link": "remove-product-permalink-on-shop-page-in-woocommerce",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

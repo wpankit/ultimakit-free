@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_custom_admin_footer",
+    "name": "Custom Admin Footer",
+    "description": "Allows users to add a custom message in the WordPress admin footer, replacing the default text.",
+    "category": "Custom Code",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "custom-admin-footer-in-wordpress",
+    "is_active": false,
+    "settings": "yes",
+    "settings_link": "#"
+}

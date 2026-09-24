@@ -1,0 +1,17 @@
+{
+  "name": "scss-to-css",
+  "version": "1.0.0",
+  "description": "UltimaKit For WP - Project",
+  "scripts": {
+    "build-css": "sass --no-source-map scss/main.scss main.css",
+    "watch-css": "sass --watch scss/main.scss:main.css"
+  },
+  "devDependencies": {
+    "cssnano": "^5.1.15",
+    "postcss-cli": "^9.1.0",
+    "sass": "^1.83.0"
+  },
+  "dependencies": {
+    "postcss": "^8.4.47"
+  }
+}

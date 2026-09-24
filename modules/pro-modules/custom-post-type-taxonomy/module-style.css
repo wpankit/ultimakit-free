@@ -1,0 +1,74 @@
+#ultimakit_module_custom_Post_Type_Taxonomy_form ul {
+    display: flex;
+    justify-content: center;
+}
+
+#ultimakit_module_custom_Post_Type_Taxonomy_form ul {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two equal columns */
+}
+
+#ultimakit_module_custom_Post_Type_Taxonomy_form ul li {
+    /* Style your list items here */
+    padding: 5px;
+    border-radius: 5px;
+}
+
+#snippets-container .dashicons-edit{
+	color: #3498DB;
+}
+
+#snippets-container .dashicons-trash{
+	color: #d11a2a;
+}
+
+.snippets-button .module-switch{
+	position: relative;
+	top: auto;
+    right: auto;
+    margin: 0;
+}
+
+.snippet-list a{
+	text-decoration: none;
+	margin-right: 5px;
+}
+
+#create-custom-post-type, .remove_snippet,
+#create-custom-taxonomies{
+	width: 250px;
+	margin-right:10px;
+	background: #FF7F50 !important;
+	border: none;
+	margin-left: 20px;
+}
+
+.remove_snippet{
+	width: 150px;
+}
+
+.snippet_select{
+	padding: 5px !important;
+    width: 150px;
+    margin-top: 10px;
+    position: relative;
+}
+
+#snippets-container{
+	margin: 35px 0px;
+	text-align: center;
+}
+
+.remove_snippet{
+	background: red !important;
+	float: right;
+    margin-top: 10px;
+    margin-right: 0px;
+}
+
+#create-custom-post-type{
+	background: #000080 !important
+}
+#create-custom-post-type:hover{
+	background: #0000809e !important
+}

@@ -1,0 +1,41 @@
+#ultimakit-keyword-suggestions {
+    padding: 10px;
+}
+
+#ultimakit-keyword-suggestions .suggestion-input {
+    margin-bottom: 10px;
+}
+
+#ultimakit-keyword-suggestions .suggestion-results {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+#ultimakit-keyword-suggestions .suggestion-item {
+    padding: 8px;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+#ultimakit-keyword-suggestions .suggestion-item:hover {
+    background-color: #f8f9fa;
+}
+
+#ultimakit-keyword-suggestions .suggestion-loading,
+#ultimakit-keyword-suggestions .no-suggestions,
+#ultimakit-keyword-suggestions .suggestion-error {
+    padding: 8px;
+    text-align: center;
+    color: #666;
+}
+
+#ultimakit-keyword-suggestions .suggestion-error {
+    color: #dc3545;
+}
+
+#keyword-input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}

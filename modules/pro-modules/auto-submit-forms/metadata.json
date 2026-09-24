@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_gf_auto_submit_forms",
+    "name": "Auto-Submit on Last Field",
+    "description": "Automatically submits the form when the last field is completed, streamlining user experience and reducing submission steps. Includes settings to enable or disable the feature on a per-form basis.",
+    "category": "Forms",
+    "plan": "free",
+    "type": "Gravity Forms",
+    "link": "auto-submit-forms-on-last-field-in-gravity-forms",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

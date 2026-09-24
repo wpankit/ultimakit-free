@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_scroll_to_top",
+    "name": "Scroll To Top",
+    "description": "Adds a customizable button that appears when users scroll down a page, allowing them to return to the top with a smooth scrolling effect.",
+    "category": "Utilities",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "add-scroll-to-top-button-in-wordpress",
+    "is_active": false,
+    "settings": "yes",
+    "settings_link": "#"
+}

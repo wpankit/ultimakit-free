@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_custom_css",
+    "name": "Custom CSS",
+    "description": "Add Custom CSS on Frontend.",
+    "category": "Custom Code",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "add-custom-css-in-wordpress",
+    "is_active": false,
+    "settings": "yes",
+    "settings_link": "#"
+}

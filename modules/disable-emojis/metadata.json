@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_disable_emojis",
+    "name": "Disable Emojis",
+    "description": "Disable Emoji's in WordPress to improve your site's performance",
+    "category": "Disable Components",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "disable-emojis-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

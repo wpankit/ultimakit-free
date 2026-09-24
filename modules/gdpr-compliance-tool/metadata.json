@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_gdpr_compliance_tool",
+    "name": "Simple GDPR Compliance Tool",
+    "description": "Adds a customizable cookie consent banner to notify users about cookies and an easy way to link to a privacy policy page.",
+    "category": "Content Management",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "set-gdpr-compliance-message-in-wordpress",
+    "is_active": false,
+    "settings": "yes",
+    "settings_link": "#"
+}

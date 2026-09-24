@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_disallow_plugin_upload",
+    "name": "Disallow Plugin Upload",
+    "description": "Disable zip file uploads for plugins, which are used to install plugins on your website.",
+    "category": "Admin Interface",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "disallow-plugin-upload-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

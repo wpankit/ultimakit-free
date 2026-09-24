@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_sitemap_generator",
+    "name": "Sitemap Generator",
+    "description": "Generate a sitemap.xml file.",
+    "category": "Utilities",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "sitemap-generator-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

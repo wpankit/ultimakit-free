@@ -1,0 +1,4 @@
+#dashboard_right_now .comment-count{display: none !important;}
+#activity-widget div#latest-comments {
+    display: none !important;
+}

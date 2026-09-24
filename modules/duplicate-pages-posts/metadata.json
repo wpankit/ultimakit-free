@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_duplicate_pages_posts",
+    "name": "Duplicate Pages & Posts",
+    "description": "Duplicate pages and posts on the fly as you need to.",
+    "category": "Content Management",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "duplicate-pages-and-posts-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

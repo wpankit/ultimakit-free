@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_wider_admin_menu",
+    "name": "Wider Admin Menu",
+    "description": "Give the admin menu more room to better accommodate wider items.",
+    "category": "Admin Interface",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "wider-admin-menu-in-wordpress",
+    "is_active": false,
+    "settings": "yes",
+    "settings_link": "#"
+}

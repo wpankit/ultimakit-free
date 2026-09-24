@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_pixel_tag_manager",
+    "name": "Pixel Tag Manager",
+    "description": "Pixel Tag Manager integrates your website with Google, Facebook, and Pinterest IDs for seamless tracking and analytics.",
+    "category": "Utilities",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "pixel-tag-manager-in-wordpress",
+    "is_active": false,
+    "settings": "yes",
+    "settings_link": "#"
+}

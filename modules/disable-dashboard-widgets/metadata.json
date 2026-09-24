@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_disable_dashboard_widgets",
+    "name": "Disable Dashboard Widgets",
+    "description": "Improve dashboard performance by disabling widgets. Disabled widgets won't load assets or appear in Screen Options.",
+    "category": "Disable Components",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "disable-dashboard-widgets-in-wordpress",
+    "is_active": false,
+    "settings": "yes",
+    "settings_link": "#"
+}

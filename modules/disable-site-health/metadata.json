@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_disable_site_health",
+    "name": "Disable Site Health",
+    "description": "Completely hide the Site Health menu item and dashboard widget.",
+    "category": "Disable Components",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "disable-site-health-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

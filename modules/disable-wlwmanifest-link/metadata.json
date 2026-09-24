@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_disable_wlwmanifest_link",
+    "name": "Disable wlwmanifest link",
+    "description": "Disable WordPress from adding the Windows Live Writer manifest link to your pages.",
+    "category": "Disable Components",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "disable-wlwmanifest-link-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

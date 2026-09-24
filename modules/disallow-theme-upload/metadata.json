@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_disallow_theme_upload",
+    "name": "Disallow Theme Upload",
+    "description": "Disable zip file uploads for themes, which are used to install themes on your website.",
+    "category": "Admin Interface",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "disallow-theme-upload-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

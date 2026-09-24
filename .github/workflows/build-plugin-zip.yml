@@ -1,0 +1,170 @@
+name: Build plugin zip
+
+# Produces an installable plugin zip containing only the files WordPress needs.
+# What gets left out is defined in .distignore at the repo root.
+on:
+  push:
+    branches:
+      - main
+  release:
+    types: [published]
+  workflow_dispatch:
+
+concurrency:
+  group: build-zip-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build distributable zip
+    runs-on: ubuntu-latest
+    # Needed only by the final step, which uploads the zip to a published release.
+    permissions:
+      contents: write
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Read slug and version from the plugin header
+        id: plugin
+        run: |
+          set -euo pipefail
+          FILE="wp-ultimakit.php"
+
+          # The zip's top-level folder must be the plugin slug, because that becomes the
+          # directory name under wp-content/plugins on install. Text Domain is the
+          # canonical slug (ultimakit-for-wp) — the repo folder name is not.
+          SLUG=$(grep -m1 'Text Domain:' "$FILE" | sed -E 's/.*Text Domain:[[:space:]]*//' | tr -d '\r' | xargs)
+          VERSION=$(grep -m1 '^ \* Version:' "$FILE" | sed -E 's/.*Version:[[:space:]]*//' | tr -d '\r' | xargs)
+
+          if [ -z "$SLUG" ] || [ -z "$VERSION" ]; then
+            echo "::error::Could not parse Text Domain / Version from $FILE"
+            exit 1
+          fi
+
+          echo "slug=$SLUG"       >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "Building $SLUG version $VERSION"
+
+      - name: Stage plugin files
+        env:
+          SLUG: ${{ steps.plugin.outputs.slug }}
+        run: |
+          set -euo pipefail
+          mkdir -p "build/$SLUG"
+
+          # The Freemius SDK is runtime-critical — the plugin fatals without it, and it sits
+          # under a dev-sounding src/ path. rsync applies rules in order and stops at the
+          # first match, so protecting it here means no later pattern (now or after a future
+          # SDK update introduces new file types) can strip anything out of it.
+          rsync -a \
+            --include='/src/freemius/***' \
+            --exclude-from=.distignore \
+            --exclude='/build' \
+            ./ "build/$SLUG/"
+
+          # Belt and braces: .distignore names the hidden entries that exist today, but
+          # this guarantees nothing hidden ships even if a new dotfile is added later.
+          find "build/$SLUG" -name '.*' -prune -exec rm -rf {} +
+
+          # Empty directories carry no meaning in a plugin zip.
+          find "build/$SLUG" -type d -empty -delete
+
+      - name: Verify the staged plugin
+        env:
+          SLUG: ${{ steps.plugin.outputs.slug }}
+        run: |
+          set -euo pipefail
+          ROOT="build/$SLUG"
+          fail=0
+
+          require() {
+            if [ ! -e "$ROOT/$1" ]; then
+              echo "::error::Missing required file: $1"
+              fail=1
+            fi
+          }
+
+          refuse() {
+            if [ -e "$ROOT/$1" ]; then
+              echo "::error::Development file leaked into the build: $1"
+              fail=1
+            fi
+          }
+
+          # Runtime-critical
+          require "wp-ultimakit.php"
+          require "README.txt"
+          require "includes/class-wp-ultimakit.php"
+          require "admin/css/main.css"
+          require "src/freemius/start.php"   # Freemius SDK — the plugin fatals without it
+          require "modules"
+          require "languages"
+
+          # Must never ship
+          refuse ".git"
+          refuse ".github"
+          refuse ".claude"
+          refuse ".wordpress-org"
+          refuse "vendor"
+          refuse "composer.json"
+          refuse "admin/css/package-lock.json"
+          refuse "admin/css/bootstrap.min.css"
+
+          if find "$ROOT" -name '.*' -print -quit | grep -q .; then
+            echo "::error::Hidden files remain in the build:"
+            find "$ROOT" -name '.*'
+            fail=1
+          fi
+
+          # The Freemius SDK must arrive byte-for-byte complete. Comparing against the
+          # checkout catches any future pattern that silently clips a file out of it.
+          SRC_SDK=$(find src/freemius -type f | wc -l)
+          OUT_SDK=$(find "$ROOT/src/freemius" -type f | wc -l)
+          if [ "$SRC_SDK" -ne "$OUT_SDK" ]; then
+            echo "::error::Freemius SDK is incomplete: $OUT_SDK of $SRC_SDK files were staged."
+            diff <(cd src/freemius && find . -type f | sort) \
+                 <(cd "$ROOT/src/freemius" && find . -type f | sort) || true
+            fail=1
+          else
+            echo "Freemius SDK: $OUT_SDK/$SRC_SDK files staged."
+          fi
+
+          echo "Staged $(find "$ROOT" -type f | wc -l) files, $(du -sh "$ROOT" | cut -f1) total."
+          exit $fail
+
+      - name: Create zip
+        id: zip
+        env:
+          SLUG: ${{ steps.plugin.outputs.slug }}
+          VERSION: ${{ steps.plugin.outputs.version }}
+        run: |
+          set -euo pipefail
+          NAME="$SLUG-$VERSION.zip"
+          ( cd build && zip -rq "../$NAME" "$SLUG" )
+
+          echo "name=$NAME" >> "$GITHUB_OUTPUT"
+          echo "### \`$NAME\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Size: $(du -h "$NAME" | cut -f1)" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Files: $(unzip -l "$NAME" | tail -1 | awk '{print $2}')" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload zip as workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.plugin.outputs.slug }}-${{ steps.plugin.outputs.version }}
+          path: ${{ steps.zip.outputs.name }}
+          if-no-files-found: error
+          retention-days: 90
+
+      # Only when a GitHub Release is published — a push to main never publishes anything.
+      - name: Attach zip to the release
+        if: github.event_name == 'release'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ZIP: ${{ steps.zip.outputs.name }}
+        run: gh release upload "${{ github.event.release.tag_name }}" "$ZIP" --clobber

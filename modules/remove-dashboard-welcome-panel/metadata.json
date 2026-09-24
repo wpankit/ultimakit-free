@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_remove_dashboard_welcome_panel",
+    "name": "Remove Dashboard Welcome Panel",
+    "description": "Hide the Welcome Panel on the WordPress dashboard for all users.",
+    "category": "Admin Interface",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "remove-dashboard-welcome-panel-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

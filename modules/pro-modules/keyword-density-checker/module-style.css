@@ -1,0 +1,56 @@
+.wpuk-keyword-density-checker {
+    padding: 15px;
+    background: #fff;
+    border: 1px solid #e2e4e7;
+    margin-top: 10px;
+}
+
+.wpuk-input-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    max-width: 600px;
+}
+
+.wpuk-input-group input {
+    flex: 1;
+}
+
+.wpuk-density-results {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 4px;
+    max-width: 600px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.wpuk-density-score,
+.wpuk-occurrence-count,
+.wpuk-density-status {
+    padding: 10px;
+    background: #fff;
+    border: 1px solid #e2e4e7;
+    border-radius: 4px;
+}
+
+.wpuk-label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.status-poor { color: #dc3545; }
+.status-low { color: #ffc107; }
+.status-good { color: #28a745; }
+.status-high { color: #dc3545; }
+
+.wpuk-density-error {
+    color: #dc3545;
+    padding: 10px;
+    background: #f8d7da;
+    border-radius: 4px;
+    margin-top: 10px;
+    max-width: 600px;
+}

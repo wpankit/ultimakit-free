@@ -1,0 +1,33 @@
+.keyword-form {
+    background: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #ccd0d4;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+}
+
+.keyword-form h2 {
+    margin-top: 0;
+}
+
+.keyword-list {
+    margin-top: 30px;
+}
+
+#add-keyword-form input[type="text"],
+#add-keyword-form input[type="url"],
+#add-keyword-form input[type="number"] {
+    width: 300px;
+}
+
+.wp-list-table th {
+    font-weight: 600;
+}
+
+.delete-keyword {
+    color: #a00;
+}
+
+.delete-keyword:hover {
+    color: #dc3232;
+}

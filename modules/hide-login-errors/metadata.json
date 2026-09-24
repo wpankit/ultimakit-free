@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_hide_login_errors",
+    "name": "Hide Login Errors",
+    "description": "Improve safety by hiding the specific login error information.",
+    "category": "Log In/Out | Register",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "hide-login-errors-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

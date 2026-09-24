@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_gf_disable_gf_styles",
+    "name": "Disable Gravity Forms Styles",
+    "description": "This module disables the default Gravity Forms CSS.",
+    "category": "Disable",
+    "plan": "free",
+    "type": "Gravity Forms",
+    "link": "disable-defaults-styles-in-gravity-forms",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

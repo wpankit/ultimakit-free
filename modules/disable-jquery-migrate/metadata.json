@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_disable_jquery_migrate",
+    "name": "Disable jQuery Migrate",
+    "description": "Prevent loading the jQuery Migrate script in the frontend.",
+    "category": "Disable Components",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "disable-jquery-migrate-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

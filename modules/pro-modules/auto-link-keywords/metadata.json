@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_auto_link_keywords",
+    "name": "Auto Link Keywords",
+    "description": "Auto link keywords in your content.",
+    "category": "Content Management",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "auto-link-keywords-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

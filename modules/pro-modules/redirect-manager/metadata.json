@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_redirect_manager",
+    "name": "Redirect Manager",
+    "description": "Create and manage 301 redirects for deleted or moved pages.",
+    "category": "Utilities",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "redirect-manager-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

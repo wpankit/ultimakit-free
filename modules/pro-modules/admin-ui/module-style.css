@@ -1,0 +1,26 @@
+#ultimakit_module_admin_ui_form ul {
+    display: flex;
+    justify-content: center;
+}
+
+#ultimakit_module_admin_ui_form ul {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two equal columns */
+}
+
+#ultimakit_module_admin_ui_form ul li {
+    /* Style your list items here */
+    padding: 5px;
+    border-radius: 5px;
+}
+
+#ultimakit_module_admin_ui_modal .modal-footer button:first-child{
+    margin-right: 10px;
+}
+#ultimakit_module_admin_ui_modal .modal-footer{
+    padding-right: 30px;
+}
+
+#ultimakit_module_admin_ui_modal{
+    max-width: 75%;
+}

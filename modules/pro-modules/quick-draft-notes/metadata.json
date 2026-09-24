@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_quick_draft_notes",
+    "name": "Quick Draft Notes",
+    "description": "This module lets you jot down ideas and reminders for your posts directly in the editor.",
+    "category": "Content Management",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "quick-draft-notes-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

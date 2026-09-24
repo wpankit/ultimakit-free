@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_redirect_after_login",
+    "name": "Redirect After Login",
+    "description": "Redirect users to specific pages upon logging in, enhancing user experience and engagement",
+    "category": "Security",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "redirect-after-login-in-wordpress",
+    "is_active": false,
+    "settings": "yes",
+    "settings_link": "#"
+}

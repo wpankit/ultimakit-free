@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_clean_user_profiles",
+    "name": "Clean User Profiles",
+    "description": "Clean up user profiles by removing unused sections.",
+    "category": "Admin Interface",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "clean-user-profiles-in-wordpress",
+    "is_active": false,
+    "settings": "yes",
+    "settings_link": "#"
+}

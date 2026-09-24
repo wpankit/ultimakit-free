@@ -1,0 +1,29 @@
+{
+    "name": "ankitpanchal/ultimakit-for-wp-pro",
+    "autoload": {
+        "psr-4": {
+            "Ankitpanchal\\UltimakitForWpPro\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ankit Panchal",
+            "email": "wptoolsdev@gmail.com"
+        }
+    ],
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.7",
+        "wp-coding-standards/wpcs": "^3.1",
+        "phpcsstandards/phpcsutils": "^1.0.0",
+        "phpcsstandards/phpcsextra": "^1.0.0"
+    },
+    "scripts": {
+        "lint": "phpcs --standard=WordPress --extensions=php --ignore='vendor/*,tests/*,node_modules/*,src/freemius/*' . -p -v",
+        "lint-fix": "phpcbf --standard=WordPress --extensions=php --ignore='vendor/*,tests/*,node_modules/*,src/freemius/*' ."
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    }
+}

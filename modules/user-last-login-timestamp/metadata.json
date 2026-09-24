@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_user_last_login_timestamp",
+    "name": "User Last Login Timestamp",
+    "description": "Displays the exact date and time a user last logged into your website, helping you track user activity.",
+    "category": "Log In/Out | Register",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "user-last-login-timestamp-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

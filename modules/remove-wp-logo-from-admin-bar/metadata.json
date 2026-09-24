@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_remove_wp_logo_from_admin_bar",
+    "name": "Remove the WordPress Logo From the Admin Bar",
+    "description": "Hide the WordPress logo in the admin bar for all users.",
+    "category": "Admin Interface",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "remove-wp-logo-from-admin-bar-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

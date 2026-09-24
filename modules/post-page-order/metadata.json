@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_post_page_order",
+    "name": "Post & Page Order",
+    "description": "Drag and drop pages to re-order page and post into a custom order.",
+    "category": "Utilities",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "order-post-and-pages-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

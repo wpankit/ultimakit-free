@@ -1,0 +1,179 @@
+/* Link Checker Module Styles */
+.card {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.form-check-label {
+    display: inline-block;
+    margin-left: 8px;
+    font-size: 14px;
+    color: #333;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.form-check {
+    margin-bottom: 15px;
+}
+
+.btn-primary {
+    margin-top: 10px;
+}
+
+.alert {
+    margin-bottom: 20px;
+}
+.broken-links-table {
+    margin-top: 20px;
+}
+
+/* Progress Bar */
+.progress {
+    height: 20px;
+    margin: 20px 0;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
+}
+
+/* Table Styles */
+.table {
+    margin-bottom: 1rem;
+    background-color: transparent;
+    border-collapse: collapse;
+}
+
+.table th {
+    font-weight: 600;
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+/* URL Input Field */
+.table input[type="text"] {
+    width: 100%;
+    max-width: 300px;
+}
+
+/* Status Badges */
+.badge {
+    font-weight: 500;
+    padding: 0.5em 0.8em;
+}
+
+.badge.bg-warning {
+    color: #000;
+}
+
+/* Animation for Updated Row */
+.table-success {
+    transition: background-color 0.5s ease;
+}
+
+/* Button Styles */
+.btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    border-radius: 0.2rem;
+}
+
+/* Spinner Animation */
+.spinner-border-sm {
+    width: 1rem;
+    height: 1rem;
+    border-width: 0.2em;
+}
+
+/* Responsive Table */
+@media (max-width: 768px) {
+    .table-responsive {
+        margin-bottom: 1rem;
+        border: 0;
+    }
+    
+    .table input[type="text"] {
+        max-width: 200px;
+    }
+    
+    .btn-sm {
+        padding: 0.2rem 0.4rem;
+        font-size: 0.8rem;
+    }
+}
+
+/* Card Styles */
+.card {
+    border: none;
+    box-shadow: 0 0 10px rgba(0,0,0,.05);
+}
+
+.card-title {
+    color: #333;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+/* Form Check Styles */
+.form-check {
+    padding-left: 0rem;
+}
+
+.form-check-input {
+    margin-left: -1.8rem;
+}
+
+/* Alert Styles */
+.alert {
+    border: none;
+    border-radius: 4px;
+}
+
+.alert-info {
+    background-color: #e8f4fd;
+    color: #0c5460;
+}
+
+/* Pagination Styles */
+.pagination {
+    margin-bottom: 2rem;
+}
+
+.page-link {
+    padding: 0.5rem 1rem;
+    color: #0d6efd;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+}
+
+.page-link:hover {
+    background-color: #e9ecef;
+    border-color: #dee2e6;
+}
+
+.page-item.disabled .page-link {
+    color: #6c757d;
+    background-color: #fff;
+    border-color: #dee2e6;
+}
+
+#broken-link-checker-settings .form-check-label{
+    text-indent: unset !important;
+}
+
+/* Animation Keyframes */
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+.fade-out {
+    animation: fadeOut 0.5s ease-out forwards;
+}

@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_featured_image_checker",
+    "name": "Featured Image Checker",
+    "description": "Scan your content for missing featured images.",
+    "category": "Optimizations",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "featured-image-checker-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

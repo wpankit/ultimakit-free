@@ -1,0 +1,62 @@
+/* Multiple User Roles Module Styles */
+.ultimakit-multiple-roles-container {
+    margin: 20px 0;
+}
+
+.ultimakit-role-checkbox {
+    margin: 5px 0;
+}
+
+.ultimakit-role-checkbox label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.ultimakit-role-checkbox input[type="checkbox"] {
+    margin: 0;
+}
+
+.ultimakit-user-roles-section {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 4px;
+}
+
+.ultimakit-user-roles-section h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+.ultimakit-role-description {
+    font-style: italic;
+    color: #666;
+    font-size: 12px;
+    margin-left: 20px;
+}
+
+/* Users List Column Styles */
+.ultimakit-additional-role {
+    background: #e7f3ff;
+    color: #0073aa;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 500;
+    border: 1px solid #b3d9ff;
+    display: inline-block;
+    margin: 1px 0;
+}
+
+.wp-list-table .column-role .ultimakit-additional-role {
+    display: block;
+    margin: 2px 0;
+}
+
+.wp-list-table .column-role strong {
+    color: #333;
+    font-weight: 600;
+} 

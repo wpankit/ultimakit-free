@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_extend_login_expiration_time",
+    "name": "Extend Login Expiration Time",
+    "description": "Setting \"Remember Me\" will keep you logged in for the selected number of days.",
+    "category": "Log In/Out | Register",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "extend-login-expiration-time-in-wordpress",
+    "is_active": false,
+    "settings": "yes",
+    "settings_link": "#"
+}

@@ -1,0 +1,11 @@
+#quick-draft-notes-container {
+    margin-top: 10px;
+}
+
+#quick-draft-notes {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 14px;
+    resize: vertical; /* Allow vertical resizing */
+}

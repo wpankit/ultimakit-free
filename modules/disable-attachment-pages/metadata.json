@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_disable_attachment_pages",
+    "name": "Disable Attachment Pages",
+    "description": "Disable Attachment Pages: Redirects attachment pages to their parent post or the homepage, improving user experience and SEO.",
+    "category": "Disable Components",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "disable-dynamic-attachement-pages-in-wordpress",
+    "is_active": false,
+    "settings": "yes",
+    "settings_link": "#"
+}

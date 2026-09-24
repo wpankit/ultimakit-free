@@ -1,0 +1,39 @@
+.ultimakit-meta-tag-editor {
+    padding: 10px;
+}
+
+.ultimakit-meta-tag-editor .meta-field {
+    margin-bottom: 20px;
+}
+
+.ultimakit-meta-tag-editor .meta-field label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.ultimakit-meta-tag-editor .preview-box {
+    border: 1px solid #ddd;
+    padding: 15px;
+    background: #fff;
+    margin-top: 10px;
+}
+
+.ultimakit-meta-tag-editor .preview-title {
+    color: #1a0dab;
+    font-size: 18px;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+.ultimakit-meta-tag-editor .preview-url {
+    color: #006621;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.ultimakit-meta-tag-editor .preview-description {
+    color: #545454;
+    font-size: 13px;
+    line-height: 1.4;
+}

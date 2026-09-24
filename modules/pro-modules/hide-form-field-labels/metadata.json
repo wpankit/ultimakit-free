@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_gf_hide_form_field_labels",
+    "name": "Hide Form Field Labels",
+    "description": "This module allows you to hide the labels of form fields in Gravity Forms, giving you more control over the form's appearance. It is useful for forms where labels are not required or when placeholders are used instead.",
+    "category": "Disable",
+    "plan": "free",
+    "type": "Gravity Forms",
+    "link": "hide-form-field-labels-in-gravity-forms",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

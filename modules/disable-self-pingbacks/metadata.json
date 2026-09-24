@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_disable_self_pingbacks",
+    "name": "Disable Self Pingbacks",
+    "description": "Prevent WordPress from automatically creating pingbacks from your own site.",
+    "category": "Disable Components",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "disable-self-pingbacks-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

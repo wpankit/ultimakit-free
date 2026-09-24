@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_word_count_tracker",
+    "name": "Word Count Tracker",
+    "description": "Track the word count of your posts and pages.",
+    "category": "Content Management",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "word-count-tracker-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

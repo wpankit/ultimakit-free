@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_wc_zero_to_free",
+    "name": "WooCommerce Change \u201c$0.00\u201d to \u201cFree\u201d",
+    "description": "WooCommerce Change \u201c$0.00\u201d to \u201cFree\u201d",
+    "category": "WooCommerce",
+    "plan": "free",
+    "type": "WooCommerce",
+    "link": "wc-change-zero-price-to-free-in-woocommerce",
+    "is_active": false,
+    "settings": "yes",
+    "settings_link": "#"
+}

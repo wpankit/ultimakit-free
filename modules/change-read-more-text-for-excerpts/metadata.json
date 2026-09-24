@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_change_read_more_text_for_excerpts",
+    "name": "Change Read More Text for Excerpts",
+    "description": "Customize the \"Read More\" text that shows up after excerpts.",
+    "category": "Content Management",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "change-read-more-text-for-excerpts-in-wordpress",
+    "is_active": false,
+    "settings": "yes",
+    "settings_link": "#"
+}

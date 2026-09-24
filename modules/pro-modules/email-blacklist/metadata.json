@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_gf_email_blacklist",
+    "name": "Email Blacklist",
+    "description": "The Email Blacklist Add-on for Gravity Forms was built to help block submissions from users with generic or competitors email addresses.",
+    "category": "Form",
+    "plan": "free",
+    "type": "Gravity Forms",
+    "link": "add-email-address-to-email-blacklist-gravity-forms",
+    "is_active": false,
+    "settings": "yes",
+    "settings_link": "#"
+}

@@ -1,0 +1,1745 @@
+@charset "UTF-8";
+/**
+ * UltimaKit for WP — admin UI
+ *
+ * Self-contained design system. This replaces the Bootstrap builds the plugin used to load
+ * (bootstrap.min.css + bootstrap.rtl.min.css, ~466KB combined) while keeping the exact class
+ * contract that Bootstrap's JS and the 60+ module settings modals depend on:
+ *
+ *   .modal / .modal-dialog / .modal-content / .fade / .show / .modal-backdrop / body.modal-open
+ *   .nav-tabs / .nav-link / .tab-content / .tab-pane
+ *   .btn / .btn-primary / .btn-secondary / .btn-close
+ *   .form-check / .form-switch / .form-check-input / .form-check-label / .form-control
+ *   .alert / .alert-dismissible / .collapse
+ *   grid + spacing utilities used in module markup
+ *
+ * Layout and element-level rules are scoped to the plugin's own containers so they cannot
+ * leak into the rest of wp-admin the way Bootstrap did. The component classes above
+ * (.btn, .table, .modal, ...) are deliberately NOT container-scoped: the plugin's other
+ * admin screens — Advanced Custom JS & CSS, Activity Logs, Form Analytics — render their
+ * markup outside the dashboard shell and need them too. That is safe because none of these
+ * class names exist in WordPress core, and this stylesheet is only ever enqueued on
+ * UltimaKit pages.
+ *
+ * Directional properties are logical (inline-start/end) so RTL works from this one file.
+ */
+
+/* ==========================================================================
+   1. Design tokens
+   ========================================================================== */
+
+:root {
+	--uk-brand: #6366f1;
+	--uk-brand-strong: #4f46e5;
+	--uk-brand-soft: #eef2ff;
+	--uk-accent: #8b5cf6;
+
+	--uk-bg: #f4f5f9;
+	--uk-surface: #ffffff;
+	--uk-surface-muted: #fafafc;
+
+	--uk-text: #1f2430;
+	--uk-text-muted: #646b7a;
+	--uk-text-subtle: #8b91a1;
+
+	--uk-border: #e4e6ed;
+	--uk-border-strong: #d3d6e0;
+
+	--uk-success: #15803d;
+	--uk-success-soft: #dcfce7;
+	--uk-warning: #b45309;
+	--uk-warning-soft: #fef3c7;
+	--uk-danger: #b91c1c;
+	--uk-danger-soft: #fee2e2;
+
+	--uk-radius-sm: 6px;
+	--uk-radius: 10px;
+	--uk-radius-lg: 14px;
+
+	--uk-shadow-sm: 0 1px 2px rgba(16, 20, 40, .06);
+	--uk-shadow: 0 2px 8px rgba(16, 20, 40, .07);
+	--uk-shadow-lg: 0 12px 32px rgba(16, 20, 40, .14);
+
+	--uk-ring: 0 0 0 3px rgba(99, 102, 241, .28);
+
+	--uk-space: 16px;
+	--uk-header-h: 64px;
+
+	--uk-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* ==========================================================================
+   2. Shell
+   ========================================================================== */
+
+.ultimakit-modern-dashboard,
+.ultimakit-header,
+.wpuk_modal {
+	font-family: var(--uk-font);
+	color: var(--uk-text);
+	box-sizing: border-box;
+}
+
+.ultimakit-modern-dashboard *,
+.ultimakit-modern-dashboard *::before,
+.ultimakit-modern-dashboard *::after,
+.ultimakit-header *,
+.wpuk_modal *,
+.wpuk_modal *::before,
+.wpuk_modal *::after {
+	box-sizing: border-box;
+}
+
+/* WordPress adds its own margins to .wrap; normalise the plugin's own canvas. */
+.wrap .ultimakit-header {
+	margin: 0 20px 0 0;
+}
+
+.wrap .ultimakit-modern-dashboard {
+	margin: 0 20px 0 0;
+	padding: 0;
+}
+
+/* --- Brand header ------------------------------------------------------- */
+
+.ultimakit-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: 12px;
+	min-height: var(--uk-header-h);
+	padding: 12px 20px;
+	margin-top: 12px;
+	background: linear-gradient(100deg, var(--uk-brand) 0%, var(--uk-accent) 100%);
+	border-radius: var(--uk-radius-lg) var(--uk-radius-lg) 0 0;
+	box-shadow: var(--uk-shadow);
+}
+
+.header-brand {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	min-width: 0;
+}
+
+.header-brand .logo {
+	display: block;
+	height: 30px;
+	width: auto;
+	max-width: 190px;
+}
+
+.version-info,
+.wpuk-version-info {
+	display: inline-flex;
+	align-items: center;
+	padding: 3px 9px;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, .18);
+	color: #fff;
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: .01em;
+	white-space: nowrap;
+}
+
+.header-actions {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	flex-wrap: wrap;
+}
+
+.header-actions .btn {
+	background: rgba(255, 255, 255, .16);
+	border-color: rgba(255, 255, 255, .32);
+	color: #fff;
+	font-weight: 600;
+	white-space: nowrap;
+}
+
+.header-actions .btn:hover,
+.header-actions .btn:focus {
+	background: #fff;
+	border-color: #fff;
+	color: var(--uk-brand-strong);
+}
+
+/* --- Dashboard toolbar -------------------------------------------------- */
+
+.ultimakit-dashboard-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: 14px;
+	padding: 16px 20px;
+	background: var(--uk-surface);
+	border: 1px solid var(--uk-border);
+	border-top: 0;
+	box-shadow: var(--uk-shadow-sm);
+}
+
+.header-content h1 {
+	margin: 0;
+	padding: 0;
+	font-size: 19px;
+	line-height: 1.3;
+	font-weight: 700;
+	color: var(--uk-text);
+}
+
+.header-content p {
+	margin: 3px 0 0;
+	font-size: 13px;
+	color: var(--uk-text-muted);
+}
+
+.dashboard-header-actions {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	flex-wrap: wrap;
+}
+
+/* Search ----------------------------------------------------------------- */
+
+.search-box {
+	position: relative;
+	display: flex;
+	align-items: center;
+}
+
+.search-box input {
+	width: 260px;
+	max-width: 100%;
+	height: 36px;
+	padding-block: 0;
+	padding-inline: 34px 12px;
+	border: 1px solid var(--uk-border-strong);
+	border-radius: var(--uk-radius);
+	background: var(--uk-surface);
+	color: var(--uk-text);
+	font-size: 13px;
+	line-height: 34px;
+	transition: border-color .15s ease, box-shadow .15s ease;
+}
+
+.search-box input::placeholder {
+	color: var(--uk-text-subtle);
+}
+
+.search-box input:focus {
+	outline: none;
+	border-color: var(--uk-brand);
+	box-shadow: var(--uk-ring);
+}
+
+.search-box .search-icon {
+	position: absolute;
+	inset-inline-start: 9px;
+	color: var(--uk-text-subtle);
+	font-size: 17px;
+	width: 17px;
+	height: 17px;
+	pointer-events: none;
+}
+
+/* Toolbar button groups -------------------------------------------------- */
+
+.view-toggle,
+.settings-actions {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.view-toggle .btn,
+.settings-actions .btn,
+.settings-actions label.btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+	padding: 0;
+	border: 1px solid var(--uk-border-strong);
+	border-radius: var(--uk-radius);
+	background: var(--uk-surface);
+	color: var(--uk-text-muted);
+	cursor: pointer;
+}
+
+.view-toggle .btn .dashicons,
+.settings-actions .btn .dashicons,
+.settings-actions label.btn .dashicons {
+	width: 18px;
+	height: 18px;
+	font-size: 18px;
+	line-height: 1;
+}
+
+.view-toggle .btn:hover,
+.settings-actions .btn:hover,
+.settings-actions label.btn:hover {
+	border-color: var(--uk-brand);
+	color: var(--uk-brand);
+	background: var(--uk-brand-soft);
+}
+
+.view-toggle .btn.active {
+	background: var(--uk-brand);
+	border-color: var(--uk-brand);
+	color: #fff;
+}
+
+.view-toggle .btn.active:hover {
+	background: var(--uk-brand-strong);
+	border-color: var(--uk-brand-strong);
+	color: #fff;
+}
+
+.settings-actions .btn-primary {
+	background: var(--uk-brand);
+	border-color: var(--uk-brand);
+	color: #fff;
+}
+
+.settings-actions .btn-primary:hover {
+	background: var(--uk-brand-strong);
+	border-color: var(--uk-brand-strong);
+	color: #fff;
+}
+
+/* ==========================================================================
+   3. Layout: sidebar + content
+   ========================================================================== */
+
+.ultimakit-dashboard-layout {
+	display: grid;
+	grid-template-columns: 244px minmax(0, 1fr);
+	gap: 0;
+	align-items: start;
+	background: var(--uk-bg);
+	border: 1px solid var(--uk-border);
+	border-top: 0;
+	border-radius: 0 0 var(--uk-radius-lg) var(--uk-radius-lg);
+	overflow: hidden;
+}
+
+.ultimakit-sidebar {
+	position: sticky;
+	top: 42px;
+	align-self: start;
+	max-height: calc(100vh - 60px);
+	overflow-y: auto;
+	padding: 18px 14px;
+	background: var(--uk-surface);
+	border-inline-end: 1px solid var(--uk-border);
+}
+
+.sidebar-header h3,
+.sidebar-categories h4 {
+	margin: 0 0 10px;
+	padding: 0;
+	font-size: 11px;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: .07em;
+	color: var(--uk-text-subtle);
+}
+
+.category-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.category-item {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	margin: 0;
+	padding: 8px 10px;
+	border-radius: var(--uk-radius-sm);
+	cursor: pointer;
+	color: var(--uk-text-muted);
+	font-size: 13px;
+	line-height: 1.35;
+	transition: background-color .12s ease, color .12s ease;
+}
+
+.category-item:hover {
+	background: var(--uk-surface-muted);
+	color: var(--uk-text);
+}
+
+.category-item.active {
+	background: var(--uk-brand-soft);
+	color: var(--uk-brand-strong);
+	font-weight: 600;
+}
+
+.category-name {
+	min-width: 0;
+	overflow-wrap: anywhere;
+}
+
+.category-count {
+	flex: 0 0 auto;
+	min-width: 24px;
+	padding: 1px 7px;
+	border-radius: 999px;
+	background: #eceef4;
+	color: var(--uk-text-muted);
+	font-size: 11px;
+	font-weight: 600;
+	text-align: center;
+}
+
+.category-item.active .category-count {
+	background: var(--uk-brand);
+	color: #fff;
+}
+
+.category-item:not(.active) .category-count {
+	background: #eceef4;
+}
+
+/* Search hit highlighting */
+.category-item.has-search-results {
+	background: var(--uk-warning-soft);
+	color: var(--uk-warning);
+}
+
+.category-item.has-search-results .category-count {
+	background: var(--uk-warning);
+	color: #fff;
+}
+
+.category-item.has-search-results:hover {
+	background: #fde9bd;
+}
+
+.category-item.has-search-results.active {
+	background: var(--uk-brand-soft);
+	color: var(--uk-brand-strong);
+}
+
+.category-item.has-search-results.active .category-count {
+	background: var(--uk-brand);
+	color: #fff;
+}
+
+.ultimakit-main-content {
+	min-width: 0;
+	padding: 18px;
+}
+
+/* ==========================================================================
+   4. Module grid
+   ========================================================================== */
+
+.modules-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(268px, 1fr));
+	gap: 14px;
+	align-items: stretch;
+}
+
+.modules-grid.loading {
+	opacity: .55;
+	pointer-events: none;
+}
+
+.module-block {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	min-height: 132px;
+	padding: 16px 16px 46px;
+	background: var(--uk-surface);
+	border: 1px solid var(--uk-border);
+	border-radius: var(--uk-radius);
+	box-shadow: var(--uk-shadow-sm);
+	transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+}
+
+.module-block:hover {
+	border-color: var(--uk-brand);
+	box-shadow: var(--uk-shadow);
+	transform: translateY(-1px);
+}
+
+/* Plan accent stripe */
+.module-block::after {
+	content: "";
+	position: absolute;
+	inset-block-start: 0;
+	inset-inline-start: 0;
+	width: 3px;
+	height: 100%;
+	border-start-start-radius: var(--uk-radius);
+	border-end-start-radius: var(--uk-radius);
+	background: transparent;
+	transition: background-color .15s ease;
+}
+
+.module-block.active::after {
+	background: var(--uk-brand);
+}
+
+.module-block.active {
+	border-color: #c9cbf7;
+	background: linear-gradient(180deg, #fbfbff 0%, var(--uk-surface) 60%);
+}
+
+.module-block.inactive::after {
+	background: transparent;
+}
+
+.module-title {
+	margin: 0;
+	padding-inline-end: 52px;
+	font-size: 14px;
+	font-weight: 650;
+	line-height: 1.35;
+	color: var(--uk-text);
+	overflow-wrap: anywhere;
+}
+
+.module-description {
+	margin: 0;
+	font-size: 12.5px;
+	line-height: 1.5;
+	color: var(--uk-text-muted);
+	overflow-wrap: anywhere;
+}
+
+/* Plan badges */
+.plugin-badge,
+.doc-badge {
+	position: absolute;
+	inset-block-end: 14px;
+	inset-inline-end: 14px;
+	padding: 2px 8px;
+	border-radius: 999px;
+	background: #eef0f5;
+	color: var(--uk-text-muted);
+	font-size: 10.5px;
+	font-weight: 600;
+	letter-spacing: .02em;
+	white-space: nowrap;
+}
+
+.doc-badge {
+	inset-inline-end: auto;
+	inset-inline-start: 14px;
+}
+
+.doc-badge a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.WooCommerce .doc-badge,
+.module-block.WooCommerce .plugin-badge {
+	background: #f3e8ff;
+	color: #6b21a8;
+}
+
+.ultimakit-unavailable {
+	opacity: .55;
+	pointer-events: none;
+}
+
+/* Settings link ---------------------------------------------------------- */
+
+.learn-more-link {
+	position: absolute;
+	inset-block-end: 12px;
+	inset-inline-start: 14px;
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	padding: 4px 9px;
+	border: 1px solid var(--uk-border-strong);
+	border-radius: var(--uk-radius-sm);
+	background: var(--uk-surface);
+	color: var(--uk-text-muted);
+	font-size: 12px;
+	font-weight: 600;
+	text-decoration: none;
+	cursor: pointer;
+	transition: border-color .12s ease, color .12s ease, background-color .12s ease;
+}
+
+.learn-more-link::before {
+	content: "\f111";
+	font-family: dashicons;
+	font-size: 13px;
+	line-height: 1;
+	vertical-align: middle;
+}
+
+.learn-more-link:hover,
+.learn-more-link:focus {
+	border-color: var(--uk-brand);
+	background: var(--uk-brand-soft);
+	color: var(--uk-brand-strong);
+}
+
+.ultimakit_hide_settings {
+	display: none !important;
+}
+
+/* Toggle switch on the card --------------------------------------------- */
+
+.module-block .module-switch,
+.ultimakit-modern-dashboard .module-block .form-check.form-switch {
+	position: absolute;
+	inset-block-start: 14px;
+	inset-inline-end: 14px;
+	display: flex;
+	align-items: center;
+	margin: 0;
+	padding: 0;
+	min-height: 0;
+}
+
+/* ==========================================================================
+   5. Compact view
+   ========================================================================== */
+
+.ultimakit-modern-dashboard.compact-view .modules-grid {
+	grid-template-columns: repeat(auto-fill, minmax(226px, 1fr));
+	gap: 10px;
+}
+
+.ultimakit-modern-dashboard.compact-view .module-block {
+	min-height: 0;
+	padding: 12px 14px;
+	flex-direction: row;
+	align-items: center;
+}
+
+.ultimakit-modern-dashboard.compact-view .module-description {
+	display: none;
+}
+
+.ultimakit-modern-dashboard.compact-view .module-title {
+	font-size: 13px;
+	padding-inline-end: 48px;
+}
+
+.ultimakit-modern-dashboard.compact-view .module-switch,
+.ultimakit-modern-dashboard.compact-view .module-block .form-check.form-switch {
+	inset-block-start: 50%;
+	transform: translateY(-50%);
+}
+
+.ultimakit-modern-dashboard.compact-view .learn-more-link,
+.ultimakit-modern-dashboard.compact-view .plugin-badge,
+.ultimakit-modern-dashboard.compact-view .doc-badge {
+	display: none;
+}
+
+/* ==========================================================================
+   6. Bootstrap compatibility layer
+   Class names below are load-bearing: Bootstrap's JS and 60+ module templates
+   rely on them. Restyled, not renamed.
+   ========================================================================== */
+
+/* --- Buttons ------------------------------------------------------------ */
+
+.btn {
+	/* The box-sizing reset is scoped to the dashboard shell; module pages need it too. */
+	box-sizing: border-box;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	padding: 7px 14px;
+	border: 1px solid transparent;
+	border-radius: var(--uk-radius);
+	background: var(--uk-surface);
+	color: var(--uk-text);
+	font-family: inherit;
+	font-size: 13px;
+	font-weight: 600;
+	line-height: 1.4;
+	text-decoration: none;
+	cursor: pointer;
+	transition: background-color .15s ease, border-color .15s ease, color .15s ease, box-shadow .15s ease;
+}
+
+.btn:focus-visible {
+	outline: none;
+	box-shadow: var(--uk-ring);
+}
+
+.btn-sm {
+	padding: 5px 10px;
+	font-size: 12px;
+}
+
+.btn-primary {
+	background: var(--uk-brand);
+	border-color: var(--uk-brand);
+	color: #fff;
+}
+
+.btn-primary:hover {
+	background: var(--uk-brand-strong);
+	border-color: var(--uk-brand-strong);
+	color: #fff;
+}
+
+.btn-secondary {
+	background: var(--uk-surface);
+	border-color: var(--uk-border-strong);
+	color: var(--uk-text-muted);
+}
+
+.btn-secondary:hover {
+	background: var(--uk-surface-muted);
+	border-color: var(--uk-text-subtle);
+	color: var(--uk-text);
+}
+
+/* Legacy colour helpers kept for module markup that still uses them. */
+.bg-primary {
+	background-color: var(--uk-brand) !important;
+	border-color: var(--uk-brand) !important;
+	color: #fff !important;
+}
+
+.bg-secondary {
+	background-color: #6b7280 !important;
+	border-color: #6b7280 !important;
+	color: #fff !important;
+}
+
+.bg-warning {
+	background-color: var(--uk-accent) !important;
+	border-color: var(--uk-accent) !important;
+	color: #fff !important;
+}
+
+/* --- Close button (used by dismissible alerts and modals) --------------- */
+
+.btn-close {
+	box-sizing: content-box;
+	width: 14px;
+	height: 14px;
+	padding: 5px;
+	border: 0;
+	border-radius: var(--uk-radius-sm);
+	background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%231f2430' stroke-linecap='round' stroke-width='2' d='M2 2l12 12M14 2L2 14'/%3e%3c/svg%3e") center/12px auto no-repeat;
+	opacity: .5;
+	cursor: pointer;
+}
+
+.btn-close:hover {
+	opacity: 1;
+	background-color: var(--uk-surface-muted);
+}
+
+.alert-dismissible .btn-close {
+	position: absolute;
+	inset-block-start: 10px;
+	inset-inline-end: 10px;
+}
+
+/* --- Alerts ------------------------------------------------------------- */
+
+.alert {
+	position: relative;
+	padding: 14px 16px;
+	margin-block-end: 14px;
+	border: 1px solid var(--uk-border);
+	border-radius: var(--uk-radius);
+	background: var(--uk-surface);
+	color: var(--uk-text);
+	font-size: 13px;
+	line-height: 1.55;
+	box-shadow: var(--uk-shadow-sm);
+}
+
+.alert .alert-heading {
+	margin: 0 0 6px;
+	font-size: 14px;
+	font-weight: 700;
+}
+
+.alert p {
+	margin: 0 0 6px;
+	font-size: 13px;
+}
+
+.alert p:last-child {
+	margin-bottom: 0;
+}
+
+.alert ul {
+	margin: 6px 0;
+	padding-inline-start: 20px;
+}
+
+.alert-info {
+	border-inline-start: 4px solid var(--uk-brand);
+}
+
+.alert-success {
+	background: var(--uk-success-soft);
+	border-color: #bbf7d0;
+	color: var(--uk-success);
+}
+
+.alert-warning {
+	background: var(--uk-warning-soft);
+	border-color: #fde68a;
+	color: var(--uk-warning);
+}
+
+.alert-danger {
+	background: var(--uk-danger-soft);
+	border-color: #fecaca;
+	color: var(--uk-danger);
+}
+
+/* Bootstrap fade utility (also drives modal + alert transitions). */
+.fade {
+	transition: opacity .15s linear;
+}
+
+.fade:not(.show) {
+	opacity: 0;
+}
+
+.collapse:not(.show) {
+	display: none;
+}
+
+.collapsing {
+	height: 0;
+	overflow: hidden;
+	transition: height .25s ease;
+}
+
+/* --- Modals ------------------------------------------------------------
+   Bootstrap's JS sets display:block inline, adds .show, appends .modal-backdrop
+   and puts .modal-open on <body>. These rules implement that contract.
+   ---------------------------------------------------------------------- */
+
+.wpuk_modal,
+.modal {
+	position: fixed;
+	inset: 0;
+	z-index: 100050;
+	display: none;
+	width: 100%;
+	height: 100%;
+	overflow-x: hidden;
+	overflow-y: auto;
+	outline: 0;
+}
+
+body.modal-open {
+	overflow: hidden;
+}
+
+.modal-backdrop {
+	position: fixed;
+	inset: 0;
+	z-index: 100040;
+	width: 100vw;
+	height: 100vh;
+	background-color: #0f1424;
+}
+
+.modal-backdrop.fade {
+	opacity: 0;
+}
+
+.modal-backdrop.show {
+	opacity: .55;
+}
+
+.modal-dialog,
+.wpuk_modal .modal-dialog {
+	position: relative;
+	width: auto;
+	max-width: 560px;
+	margin: 40px auto;
+	pointer-events: none;
+}
+
+.modal.fade .modal-dialog {
+	transform: translateY(-24px);
+	transition: transform .2s ease-out;
+}
+
+.modal.show .modal-dialog {
+	transform: none;
+}
+
+.modal-lg .modal-dialog,
+.modal-dialog.modal-lg {
+	max-width: 760px;
+}
+
+.modal-sm .modal-dialog,
+.modal-dialog.modal-sm {
+	max-width: 400px;
+}
+
+.modal-dialog-centered,
+.wpuk_modal .modal-dialog-centered {
+	display: flex;
+	align-items: center;
+	min-height: calc(100% - 80px);
+}
+
+.modal-content {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	background: var(--uk-surface);
+	border: 1px solid var(--uk-border);
+	border-radius: var(--uk-radius-lg);
+	box-shadow: var(--uk-shadow-lg);
+	pointer-events: auto;
+	outline: 0;
+}
+
+.wpuk_modal .modal-header,
+.ultimakit_modal .modal-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 16px 20px;
+	border-block-end: 1px solid var(--uk-border);
+	background: var(--uk-surface-muted);
+	border-start-start-radius: var(--uk-radius-lg);
+	border-start-end-radius: var(--uk-radius-lg);
+}
+
+.wpuk_modal .modal-title,
+.ultimakit_modal .modal-title {
+	margin: 0;
+	font-size: 15px;
+	font-weight: 700;
+	line-height: 1.35;
+	color: var(--uk-text);
+}
+
+.modal-body {
+	position: relative;
+	flex: 1 1 auto;
+	padding: 18px 20px;
+	max-height: min(62vh, 620px);
+	overflow-y: auto;
+}
+
+.wpuk_modal .modal-footer,
+.ultimakit_modal .modal-footer {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 8px;
+	padding: 14px 20px;
+	border-block-start: 1px solid var(--uk-border);
+	background: var(--uk-surface-muted);
+	border-end-start-radius: var(--uk-radius-lg);
+	border-end-end-radius: var(--uk-radius-lg);
+}
+
+.modal-footer .btn {
+	min-width: 92px;
+}
+
+/* --- Settings form fields inside modals --------------------------------- */
+
+.module_settings ul,
+.wpuk_modal ul,
+.ultimakit_modal ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+}
+
+.module_settings ul > li,
+.wpuk_modal ul > li {
+	margin: 0;
+	padding: 0;
+}
+
+.module_settings label,
+.wpuk_modal label {
+	display: inline-block;
+	margin-block-end: 5px;
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--uk-text);
+}
+
+.module_settings small,
+.wpuk_modal small,
+.modal-body small {
+	display: block;
+	margin-block-start: 5px;
+	font-size: 12px;
+	line-height: 1.5;
+	color: var(--uk-text-muted);
+}
+
+.modal-body input[type="text"],
+.modal-body input[type="number"],
+.modal-body input[type="password"],
+.modal-body input[type="email"],
+.modal-body input[type="url"],
+.modal-body select,
+.modal-body textarea,
+.module_settings input[type=number],
+.form-control,
+.form-select {
+	display: block;
+	width: 100%;
+	max-width: 100%;
+	min-height: 36px;
+	padding: 7px 11px;
+	border: 1px solid var(--uk-border-strong);
+	border-radius: var(--uk-radius-sm);
+	background: var(--uk-surface);
+	color: var(--uk-text);
+	font-family: inherit;
+	font-size: 13px;
+	line-height: 1.5;
+	box-shadow: none;
+	transition: border-color .15s ease, box-shadow .15s ease;
+}
+
+.modal-body input[type="text"]:focus,
+.modal-body input[type="number"]:focus,
+.modal-body input[type="password"]:focus,
+.modal-body select:focus,
+.modal-body textarea:focus,
+.form-control:focus,
+.form-select:focus {
+	outline: none;
+	border-color: var(--uk-brand);
+	box-shadow: var(--uk-ring);
+}
+
+.modal-body textarea {
+	min-height: 118px;
+	resize: vertical;
+	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	font-size: 12.5px;
+	line-height: 1.6;
+}
+
+.modal-body textarea[name="custom_css"],
+.modal-body textarea[name="custom_js"] {
+	min-height: 220px;
+	background: #1f2430;
+	border-color: #2c3242;
+	color: #e6e9f2;
+}
+
+.modal-body textarea[name="custom_css"]::placeholder,
+.modal-body textarea[name="custom_js"]::placeholder {
+	color: #767f96;
+}
+
+.modal-body textarea::-webkit-scrollbar {
+	width: 10px;
+	height: 10px;
+}
+
+.modal-body textarea::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+.modal-body textarea::-webkit-scrollbar-thumb {
+	background: var(--uk-border-strong);
+	border-radius: 999px;
+}
+
+.modal-body textarea::-webkit-scrollbar-thumb:hover {
+	background: var(--uk-text-subtle);
+}
+
+.modal-body textarea[name="custom_css"]::-webkit-scrollbar-track,
+.modal-body textarea[name="custom_js"]::-webkit-scrollbar-track {
+	background: #191d28;
+}
+
+.modal-body textarea[name="custom_css"]::-webkit-scrollbar-thumb,
+.modal-body textarea[name="custom_js"]::-webkit-scrollbar-thumb {
+	background: #3b4256;
+}
+
+.form-label {
+	display: inline-block;
+	margin-block-end: 5px;
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--uk-text);
+}
+
+/* --- Switches and checkboxes ------------------------------------------- */
+
+.form-check {
+	position: relative;
+	display: block;
+	min-height: 20px;
+	padding-inline-start: 26px;
+	margin-block-end: 6px;
+}
+
+.form-check .form-check-input {
+	position: absolute;
+	inset-inline-start: 0;
+	margin-block-start: 2px;
+}
+
+.form-check-input[type="checkbox"],
+.form-check-input[type="radio"] {
+	width: 16px;
+	height: 16px;
+	margin: 0;
+	border: 1px solid var(--uk-border-strong);
+	border-radius: 4px;
+	background: var(--uk-surface);
+	cursor: pointer;
+	appearance: none;
+	-webkit-appearance: none;
+	transition: background-color .15s ease, border-color .15s ease;
+}
+
+.form-check-input[type="radio"] {
+	border-radius: 50%;
+}
+
+.form-check-input[type="checkbox"]:checked,
+.form-check-input[type="radio"]:checked {
+	background-color: var(--uk-brand);
+	border-color: var(--uk-brand);
+}
+
+.form-check-input[type="checkbox"]:checked {
+	background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3 6-6'/%3e%3c/svg%3e");
+	background-size: 13px;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+.form-check-input:focus-visible {
+	outline: none;
+	box-shadow: var(--uk-ring);
+}
+
+/* Switch variant — used on every module card and in module settings. */
+.form-switch {
+	padding-inline-start: 0;
+	display: inline-flex;
+	align-items: center;
+	gap: 9px;
+	min-height: 0;
+	margin: 0;
+}
+
+.form-switch .form-check-input,
+.ultimakit-modern-dashboard .module-block .form-check.form-switch .form-check-input,
+.wpuk_modal .form-check.form-switch .form-check-input {
+	position: relative;
+	inset-inline-start: auto;
+	flex: 0 0 auto;
+	width: 40px !important;
+	height: 22px !important;
+	margin: 0;
+	border: 1px solid var(--uk-border-strong);
+	border-radius: 999px;
+	background-color: #d8dbe4;
+	background-image: none;
+	cursor: pointer;
+	appearance: none;
+	-webkit-appearance: none;
+	box-shadow: none;
+	transition: background-color .18s ease, border-color .18s ease;
+}
+
+/*
+ * The switch knob.
+ *
+ * WordPress admin (wp-admin/css/forms.css) styles input[type="checkbox"]:checked::before
+ * with a checkmark glyph, its own dimensions and `margin: -0.1875rem 0 0 -0.25rem`. That
+ * selector has the SAME specificity as a plain `.form-switch .form-check-input::before`,
+ * so any property not declared here still lands on the knob — core's negative margin
+ * pushed it 3px up and 4px left, so every switch that was turned on rendered with the knob
+ * escaping through the top of the track.
+ *
+ * Including the `input` type selector puts this above core's rule outright, so the reset
+ * does not depend on stylesheet load order. Every property core sets is neutralised.
+ */
+.form-switch input.form-check-input::before,
+.ultimakit-modern-dashboard .module-block .form-check.form-switch input.form-check-input::before,
+.wpuk_modal .form-check.form-switch input.form-check-input::before {
+	content: "";
+	position: absolute;
+	inset-block-start: 2px;
+	inset-inline-start: 2px;
+	display: block;
+	width: 16px;
+	height: 16px;
+	min-width: 0;
+	margin: 0;
+	padding: 0;
+	float: none;
+	vertical-align: baseline;
+	border-radius: 50%;
+	background: #fff;
+	box-shadow: 0 1px 2px rgba(16, 20, 40, .28);
+	transition: transform .18s ease;
+}
+
+/*
+ * Plain (non-switch) checkboxes draw their tick with background-image, so core's
+ * checkmark pseudo-element would sit on top of ours.
+ */
+.form-check-input[type="checkbox"]:checked::before {
+	content: none;
+}
+
+.form-switch .form-check-input::after,
+.ultimakit-modern-dashboard .module-block .form-check.form-switch .form-check-input::after,
+.wpuk_modal .form-check.form-switch .form-check-input::after {
+	display: none;
+}
+
+.form-switch .form-check-input:checked,
+.ultimakit-modern-dashboard .module-block .form-check.form-switch .form-check-input:checked,
+.wpuk_modal .form-check.form-switch .form-check-input:checked {
+	background-color: var(--uk-brand);
+	border-color: var(--uk-brand);
+	background-image: none;
+}
+
+.form-switch .form-check-input:checked::before,
+.ultimakit-modern-dashboard .module-block .form-check.form-switch .form-check-input:checked::before,
+.wpuk_modal .form-check.form-switch .form-check-input:checked::before {
+	transform: translateX(18px);
+}
+
+.form-switch .form-check-input:focus-visible,
+.ultimakit-modern-dashboard .module-block .form-check.form-switch .form-check-input:focus-visible,
+.wpuk_modal .form-check.form-switch .form-check-input:focus-visible {
+	outline: none;
+	box-shadow: var(--uk-ring);
+}
+
+/* The template ships a literal "Toggle me" label next to every switch. */
+.switch-label,
+.form-switch .form-check-label,
+.ultimakit-modern-dashboard .module-block .form-check.form-switch .form-check-label,
+.wpuk_modal .form-check.form-switch .form-check-label {
+	position: absolute !important;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+/* In module settings the switch sits inline with its own descriptive text. */
+.wpuk_modal .form-check.form-switch,
+.module_settings .module-switch {
+	position: static;
+	display: inline-flex;
+	align-items: center;
+	gap: 9px;
+	font-size: 13px;
+	color: var(--uk-text);
+}
+
+/* --- RTL switch direction ---------------------------------------------- */
+
+[dir="rtl"] .form-switch .form-check-input:checked::before,
+[dir="rtl"] .ultimakit-modern-dashboard .module-block .form-check.form-switch .form-check-input:checked::before,
+[dir="rtl"] .wpuk_modal .form-check.form-switch .form-check-input:checked::before {
+	transform: translateX(-18px);
+}
+
+/* --- Tabs (pro-module settings screens) --------------------------------- */
+
+.nav-tabs {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 2px;
+	list-style: none;
+	margin: 0 0 16px;
+	padding: 0;
+	border-block-end: 1px solid var(--uk-border);
+}
+
+.nav-tabs .nav-item {
+	margin: 0;
+}
+
+.nav-tabs .nav-item .nav-link,
+.nav-tabs .nav-link {
+	display: block;
+	padding: 9px 14px;
+	border: 0;
+	border-block-end: 2px solid transparent;
+	background: none;
+	color: var(--uk-text-muted);
+	font-size: 13px;
+	font-weight: 600;
+	text-decoration: none;
+	cursor: pointer;
+	transition: color .15s ease, border-color .15s ease;
+}
+
+.nav-tabs .nav-item .nav-link:hover,
+.nav-tabs .nav-link:hover {
+	color: var(--uk-brand);
+	border-block-end-color: #c9cbf7;
+}
+
+.nav-tabs .nav-item .nav-link.active,
+.nav-tabs .nav-link.active {
+	color: var(--uk-brand-strong);
+	border-block-end-color: var(--uk-brand);
+	background: none;
+}
+
+.tab-content > .tab-pane {
+	display: none;
+}
+
+.tab-content > .tab-pane.active,
+.tab-content > .active {
+	display: block;
+}
+
+/* --- Minimal grid + spacing utilities used in module markup ------------- */
+
+.container,
+.container-fluid {
+	width: 100%;
+	margin-inline: auto;
+	padding-inline: 0;
+}
+
+.row {
+	display: flex;
+	flex-wrap: wrap;
+	margin-inline: -8px;
+}
+
+/*
+ * Bootstrap makes every direct child of .row full-width, and the column classes then narrow
+ * it. Without that default, module pages that drop content straight into a .row without
+ * column wrappers put everything on a single flex line — which is why the snippet action
+ * buttons rendered beside (and above) the list they belong underneath.
+ */
+.row > * {
+	flex-shrink: 0;
+	width: 100%;
+	max-width: 100%;
+}
+
+/* Gutters apply to columns only, so a bare child keeps its own padding. */
+.row > [class*="col-"] {
+	padding-inline: 8px;
+}
+
+/*
+ * A button placed directly in a row sizes to its content instead of filling the line, and
+ * must not stretch to the height of its tallest sibling.
+ */
+.row > .btn {
+	width: auto;
+	max-width: none;
+	flex: 0 0 auto;
+	align-self: flex-start;
+}
+
+.col-12 { flex: 0 0 100%; max-width: 100%; }
+.col-6 { flex: 0 0 50%; max-width: 50%; }
+.col-4 { flex: 0 0 33.3333%; max-width: 33.3333%; }
+.col-3 { flex: 0 0 25%; max-width: 25%; }
+
+.d-none { display: none !important; }
+.d-flex { display: flex !important; }
+.text-end { text-align: end !important; }
+.text-center { text-align: center !important; }
+.text-dark { color: var(--uk-text) !important; }
+.bg-white { background-color: var(--uk-surface) !important; }
+.border-bottom { border-block-end: 1px solid var(--uk-border) !important; }
+
+.p-0 { padding: 0 !important; }
+.p-3 { padding: 16px !important; }
+.pb-2 { padding-block-end: 8px !important; }
+.mt-3 { margin-block-start: 16px !important; }
+.mt-4 { margin-block-start: 24px !important; }
+.mb-3 { margin-block-end: 16px !important; }
+.mb-4 { margin-block-end: 24px !important; }
+.mb-5 { margin-block-end: 32px !important; }
+.my-2 { margin-block: 8px !important; }
+
+/* --- Cards used by some pro-module settings screens --------------------- */
+
+.card {
+	background: var(--uk-surface);
+	border: 1px solid var(--uk-border);
+	border-radius: var(--uk-radius);
+	box-shadow: var(--uk-shadow-sm);
+}
+
+.card-body {
+	padding: 16px;
+}
+
+.card-title {
+	margin: 0 0 8px;
+	font-size: 14px;
+	font-weight: 700;
+}
+
+/* --- Tables, pagination and badges used by pro-module settings screens --- */
+
+.table-responsive {
+	width: 100%;
+	overflow-x: auto;
+}
+
+.table {
+	width: 100%;
+	margin-block-end: 14px;
+	border-collapse: collapse;
+	background: var(--uk-surface);
+	font-size: 13px;
+}
+
+.table th,
+.table td {
+	padding: 9px 12px;
+	text-align: start;
+	vertical-align: middle;
+	border-block-end: 1px solid var(--uk-border);
+}
+
+.table th {
+	background: var(--uk-surface-muted);
+	font-weight: 650;
+	color: var(--uk-text);
+}
+
+.table-bordered th,
+.table-bordered td {
+	border: 1px solid var(--uk-border);
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+	background: var(--uk-surface-muted);
+}
+
+.pagination {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+	list-style: none;
+	margin: 14px 0 0;
+	padding: 0;
+}
+
+.page-item {
+	margin: 0;
+}
+
+.page-link {
+	display: inline-block;
+	padding: 6px 11px;
+	border: 1px solid var(--uk-border-strong);
+	border-radius: var(--uk-radius-sm);
+	background: var(--uk-surface);
+	color: var(--uk-text-muted);
+	font-size: 13px;
+	text-decoration: none;
+}
+
+.page-link:hover {
+	border-color: var(--uk-brand);
+	background: var(--uk-brand-soft);
+	color: var(--uk-brand-strong);
+}
+
+.page-item.active .page-link {
+	background: var(--uk-brand);
+	border-color: var(--uk-brand);
+	color: #fff;
+}
+
+.page-item.disabled .page-link {
+	opacity: .5;
+	pointer-events: none;
+}
+
+.badge {
+	display: inline-block;
+	padding: 2px 8px;
+	border-radius: 999px;
+	background: #eef0f5;
+	color: var(--uk-text-muted);
+	font-size: 11px;
+	font-weight: 600;
+	line-height: 1.6;
+}
+
+.btn-success {
+	background: #16a34a;
+	border-color: #16a34a;
+	color: #fff;
+}
+
+.btn-success:hover {
+	background: #15803d;
+	border-color: #15803d;
+	color: #fff;
+}
+
+.btn-outline,
+.btn-outline-secondary {
+	background: transparent;
+	border-color: var(--uk-border-strong);
+	color: var(--uk-text-muted);
+}
+
+.btn-outline:hover,
+.btn-outline-secondary:hover {
+	border-color: var(--uk-brand);
+	background: var(--uk-brand-soft);
+	color: var(--uk-brand-strong);
+}
+
+/* Bare checkbox rows produced by the shared field renderer. */
+.modal-body input[type="checkbox"],
+.modal-body input[type="radio"] {
+	margin-inline-end: 6px;
+	vertical-align: middle;
+}
+
+/* ==========================================================================
+   7. Select2 alignment
+   ========================================================================== */
+
+.wpuk_modal .select2-container,
+.modal-body .select2-container {
+	width: 100% !important;
+}
+
+.select2-container--default .select2-selection--multiple,
+.select2-container--default .select2-selection--single {
+	min-height: 36px;
+	border: 1px solid var(--uk-border-strong) !important;
+	border-radius: var(--uk-radius-sm) !important;
+}
+
+.select2-container--default.select2-container--focus .select2-selection--multiple,
+.select2-container--default.select2-container--open .select2-selection--single {
+	border-color: var(--uk-brand) !important;
+	box-shadow: var(--uk-ring);
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+	background: var(--uk-brand-soft) !important;
+	border: 1px solid #c9cbf7 !important;
+	border-radius: var(--uk-radius-sm) !important;
+	color: var(--uk-brand-strong) !important;
+	padding: 1px 7px !important;
+}
+
+.select2-dropdown {
+	border-color: var(--uk-border-strong) !important;
+	border-radius: var(--uk-radius-sm) !important;
+	box-shadow: var(--uk-shadow);
+	z-index: 100060;
+}
+
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+	background: var(--uk-brand) !important;
+}
+
+/* ==========================================================================
+   8. Toast notifications
+   ========================================================================== */
+
+#toast-container > div {
+	padding: 13px 16px 13px 46px;
+	border-radius: var(--uk-radius);
+	box-shadow: var(--uk-shadow-lg);
+	opacity: 1;
+	font-family: var(--uk-font);
+	font-size: 13px;
+	background-size: 18px;
+	background-position: 16px center;
+}
+
+#toast-container.toast-top-center > div,
+#toast-container.toast-bottom-center > div {
+	width: auto;
+	min-width: 280px;
+	max-width: 460px;
+}
+
+.toast-success {
+	background-color: #16a34a !important;
+}
+
+.toast-error {
+	background-color: #dc2626 !important;
+}
+
+.toast-warning {
+	background-color: #d97706 !important;
+}
+
+.toast-info {
+	background-color: var(--uk-brand) !important;
+}
+
+/* ==========================================================================
+   9. Misc / admin notices
+   ========================================================================== */
+
+.loading-spinner {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	border: 2px solid var(--uk-border-strong);
+	border-top-color: var(--uk-brand);
+	border-radius: 50%;
+	animation: ultimakit-spin .7s linear infinite;
+}
+
+@keyframes ultimakit-spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+.ultimakit-empty-state {
+	grid-column: 1 / -1;
+	padding: 48px 20px;
+	text-align: center;
+	color: var(--uk-text-muted);
+	background: var(--uk-surface);
+	border: 1px dashed var(--uk-border-strong);
+	border-radius: var(--uk-radius);
+}
+
+.ultimakit-empty-state strong {
+	display: block;
+	margin-block-end: 4px;
+	font-size: 14px;
+	color: var(--uk-text);
+}
+
+/* ==========================================================================
+   10. Responsive
+   ========================================================================== */
+
+@media screen and (max-width: 1200px) {
+	.modules-grid {
+		grid-template-columns: repeat(auto-fill, minmax(238px, 1fr));
+	}
+}
+
+@media screen and (max-width: 960px) {
+	.ultimakit-dashboard-layout {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.ultimakit-sidebar {
+		position: static;
+		max-height: none;
+		border-inline-end: 0;
+		border-block-end: 1px solid var(--uk-border);
+	}
+
+	.category-list {
+		flex-direction: row;
+		flex-wrap: wrap;
+	}
+
+	.category-item {
+		border: 1px solid var(--uk-border);
+	}
+}
+
+@media screen and (max-width: 782px) {
+	.wrap .ultimakit-header,
+	.wrap .ultimakit-modern-dashboard {
+		margin-inline-end: 10px;
+	}
+
+	.ultimakit-header,
+	.ultimakit-dashboard-header {
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	.dashboard-header-actions {
+		justify-content: space-between;
+	}
+
+	.search-box,
+	.search-box input {
+		width: 100%;
+	}
+
+	.modules-grid {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.modal-dialog,
+	.wpuk_modal .modal-dialog {
+		margin: 16px;
+	}
+
+	.ultimakit-main-content {
+		padding: 14px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.module-block,
+	.modal.fade .modal-dialog,
+	.fade,
+	.form-switch .form-check-input,
+	.form-switch .form-check-input::before {
+		transition: none !important;
+	}
+
+	.loading-spinner {
+		animation: none;
+	}
+}

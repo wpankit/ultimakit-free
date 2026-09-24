@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_list_active_plugins_first",
+    "name": "Show Active Plugins First",
+    "description": "Show active plugins first in the plugin list. This is especially helpful if you have many inactive plugins.",
+    "category": "Admin Interface",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "list-active-plugins-first-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

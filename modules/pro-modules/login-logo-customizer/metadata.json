@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_login_logo_customizer",
+    "name": "Login Logo Customizer",
+    "description": "Allows users to replace the default WordPress login page logo with their custom logo, with options to adjust its size and positioning.",
+    "category": "Log In/Out | Register",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "change-admin-login-logo-customizer-wordpress",
+    "is_active": false,
+    "settings": "yes",
+    "settings_link": "#"
+}

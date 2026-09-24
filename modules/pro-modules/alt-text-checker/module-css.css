@@ -1,0 +1,27 @@
+.tablenav-pages .next-page{
+    background-color: #6610F2;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-left: 10px;
+    
+
+}
+
+.tablenav-pages .prev-page{
+    background-color: #6610F2;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 10px !important;
+}
+
+.tablenav-pages .paging-input{
+    margin-right: 10px;
+}

@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_allow_only_logged_in_users",
+    "name": "Allow Only Logged-In Users",
+    "description": "Make your site private just for logged-in users.",
+    "category": "Security",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "allow-only-logged-in-users-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

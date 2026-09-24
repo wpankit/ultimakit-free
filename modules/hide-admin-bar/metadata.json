@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_hide_admin_bar",
+    "name": "Hide Admin Bar",
+    "description": "Hide Admin Bar for non-admin users.",
+    "category": "Admin Interface",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "hide-admin-bar-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

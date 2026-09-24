@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_force_ssl",
+    "name": "Force SSL",
+    "description": "Enforce HTTPS across the site.",
+    "category": "Security",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "force-ssl-https-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+} 

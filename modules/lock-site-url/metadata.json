@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_lock_site_url",
+    "name": "Lock Site URL",
+    "description": "Lock the site URL to prevent it from being changed.",
+    "category": "Security",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "lock-site-url-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

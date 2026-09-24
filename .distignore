@@ -1,0 +1,73 @@
+# Files and folders that must NOT ship inside the distributable plugin zip.
+#
+# Consumed by .github/workflows/build-plugin-zip.yml (via rsync --exclude-from) and
+# compatible with `wp dist-archive` and 10up/action-wordpress-plugin-deploy.
+#
+# Patterns follow rsync semantics:
+#   /name   anchored to the plugin root
+#   name    matches at any depth
+#   name/   directories only
+
+# -- Version control, CI and editor state -----------------------------------
+/.git
+/.github
+/.gitignore
+/.gitattributes
+/.editorconfig
+/.distignore
+
+# GitHub's readme; WordPress.org reads README.txt.
+/README.md
+
+# Agent/editor workspace, and the WordPress.org listing assets (banners and icons
+# belong in the SVN assets/ directory, never inside the plugin itself).
+/.claude
+/.wordpress-org
+
+# -- OS cruft ---------------------------------------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# -- Dependency management (dev only) ---------------------------------------
+# composer.json declares only require-dev (phpcs + WordPress coding standards) and
+# vendor/autoload.php is never required by the plugin, so none of this is runtime code.
+# NOTE: src/freemius IS runtime-critical and is deliberately NOT excluded. Every pattern
+# in this file is either anchored (leading /) or matches only files that can never be part
+# of the SDK, so a future Freemius update cannot be clipped by a stray glob. The build
+# workflow additionally protects /src/freemius explicitly and asserts its file count.
+/vendor
+/composer.json
+/composer.lock
+/package.json
+/package-lock.json
+node_modules
+
+# -- Front-end build tooling ------------------------------------------------
+/admin/css/package.json
+/admin/css/package-lock.json
+/admin/css/postcss.config.js
+/admin/css/main.css.map
+/admin/css/scss
+
+# -- Superseded assets ------------------------------------------------------
+# admin/css/main.css is now a self-contained design system; the Bootstrap builds are
+# no longer enqueued. Verified unreferenced by any PHP, JS or CSS in the plugin.
+/admin/css/bootstrap.min.css
+/admin/css/bootstrap.rtl.min.css
+/admin/css/main.min.css
+/admin/css/wp-ultimakit-admin.css
+/admin/js/bootstrap-switch.min.js
+
+# -- Runtime scratch space --------------------------------------------------
+# Export modules recreate tmp/ (with its index.php and .htaccess guards) on demand.
+# Anchored under /modules so it can never reach into the Freemius SDK.
+/modules/**/tmp/
+
+# -- Build output and local noise -------------------------------------------
+/build
+/dist
+*.zip
+*.log
+*.sql
+*.tar.gz

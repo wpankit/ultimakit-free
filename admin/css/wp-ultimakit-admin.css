@@ -1,0 +1,964 @@
+/**
+ * All of the CSS for your admin-specific functionality should be
+ * included in this file.
+ */
+
+/* Customizing Bootstrap Colors for WP UltimaKit */
+/* Primary Color */
+.btn-primary,
+.badge-primary,
+.bg-primary {
+	background-color: #6366f1 !important;
+	border-color: #6366f1 !important;
+}
+
+/* Secondary Color */
+.btn-secondary,
+.badge-secondary,
+.bg-secondary {
+	background-color: #e2e8f0 !important;
+	border-color: #e2e8f0 !important;
+}
+
+/* Highlight/Action Color */
+.btn-warning,
+.badge-warning,
+.bg-warning {
+	background-color: #8b5cf6 !important;
+	border-color: #8b5cf6 !important;
+}
+
+/* You can extend these overrides further based on your design needs */
+
+
+/* Additional Styling for WP UltimaKit Full-Width Navigation */
+.navbar {
+	font-family: 'Arial', sans-serif;
+	/* You can change this to any preferred font */
+}
+
+.nav-item.nav-link:hover {
+	color: #8b5cf6 !important;
+}
+
+.nav-item.nav-link:last-child {
+	padding: 5px 15px;
+	border: 2px solid #8b5cf6;
+	border-radius: 20px;
+}
+
+.nav-item.nav-link:last-child:hover {
+	background-color: #8b5cf6;
+	color: #ffffff !important;
+}
+
+.nav-item.nav-link.get-pro {
+	padding: 5px 15px;
+	border: 2px solid #8b5cf6;
+	border-radius: 20px;
+	background-color: #8b5cf6;
+	color: #ffffff;
+}
+
+.nav-item.nav-link.get-pro:hover {
+	background-color: #6366f1;
+	color: #ffffff !important;
+}
+
+.module-container {
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	padding: 20px;
+	margin: 20px 0;
+	border-radius: 15px;
+	background-color: #FFFFFF;
+}
+
+.module-container .filters .filter_container{
+	display: flex; 
+	align-items: center; 
+	margin-bottom: 25px;
+}
+
+.module-container .filters .filter_container h4{
+	margin-right: 20px;
+	color: #6366f1;
+	font-size: 22px;
+}
+
+.module-container .filters .filter_container select{
+	border: 2px solid #6366f1;
+	border-radius: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.module-container .filters .filter_container input{
+	border: 2px solid #6366f1;
+	border-radius: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.module-box {
+	background-color: #FFFFFF;
+	/* Increased padding for space */
+	border: 2px solid #e2e8f0;
+	border-radius: 15px;
+	margin: 10px;
+	position: relative;
+	height: 200px;
+	box-sizing: border-box;
+}
+
+.module-box:hover {
+	border: 2px solid #6366f1;
+	box-shadow: 0 4px 8px rgba(99, 102, 241, 0.3), 0 6px 20px rgba(99, 102, 241, 0.25);
+}
+
+.module-title {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	color: #6366f1;
+	font-size: 1.1rem;
+	max-width: 195px;
+}
+
+.module-description {
+	position: absolute;
+	top: 40px;
+	left: 10px;
+	font-size: 0.9em;
+	color: #666;
+	max-width: 90%;
+	margin-top: 15px;
+}
+
+.module-switch {
+	position: absolute;
+	top: 10px;
+	right: -30px;
+}
+
+/* Old learn-more-link styles removed - new styles are in main.css */
+
+
+.pro-badge {
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+	color: #FFFFFF;
+	/* White text */
+	background: linear-gradient(45deg, #6366f1, #8b5cf6);
+	/* Gradient from Deep Purple to Gold */
+	padding: 2px 8px;
+	border-radius: 8px;
+	font-size: 0.8em;
+	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+	/* To enhance text visibility against the gradient */
+}
+
+.free-badge {
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+	color: #FFFFFF;
+	/* White text */
+	background-color: #6366f1;
+	/* Gradient from Deep Purple to Gold */
+	padding: 2px 8px;
+	border-radius: 8px;
+	font-size: 0.8em;
+}
+
+.doc-badge {
+	position: absolute;
+    bottom: 10px;
+    right: 140px;
+    color: #6366f1;
+    padding: 1px 5px;
+    border-radius: 8px;
+    font-size: 0.9em;
+    cursor: pointer;
+}
+
+.doc-badge a{
+	text-decoration: none;
+	color: #6366f1;
+}
+
+/* Hide the default checkbox */
+.form-check-input {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	border: 0;
+}
+
+/* Styling the label which acts as the visual switch */
+.form-check-label {
+	position: relative;
+	padding-left: 45px;
+	/* Space for the switch */
+	cursor: pointer;
+	font-weight: 600;
+	/* Making the text a bit bolder */
+
+	/* Visually hide the text but still accessible for screen readers */
+	text-indent: -9999px;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+
+.form-check-label::before,
+.form-check-label::after {
+	content: "";
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+/* The track of the switch */
+.form-check-label::before {
+	left: 0;
+	width: 30px;
+	height: 16px;
+	background-color: #ddd;
+	/* Light grey for the track */
+	border-radius: 8px;
+	transition: background-color 0.3s;
+}
+
+/* The handle of the switch */
+.form-check-label::after {
+	left: 2px;
+	width: 12px;
+	height: 12px;
+	background-color: #fff;
+	/* White for the handle */
+	border-radius: 50%;
+	/* Making it circular */
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+	/* A subtle shadow */
+	transition: left 0.3s;
+	/* Transition effect for smooth movement */
+}
+
+/* When the switch is checked */
+.form-check-input:checked+.form-check-label::before {
+	background-color: #6366f1;
+	/* Deep Purple for active state */
+}
+
+.form-check-input:checked+.form-check-label::after {
+	left: 16px;
+	/* Move it to the other end */
+}
+
+
+/* Style the tabs container */
+.nav-tabs {
+	border-bottom: 2px solid #e2e8f0;
+	/* Light border at the bottom of the tabs */
+	margin-bottom: 15px;
+	/* Some space below the tabs before the content starts */
+}
+
+/* Style individual tabs */
+.nav-tabs .nav-item {
+	margin-bottom: -2px;
+	/* This negates the bottom border to create a seamless transition to the tab content below */
+}
+
+.nav-tabs .nav-link {
+	border-radius: 8px 8px 0 0;
+	/* Rounded top corners */
+	border: 2px solid transparent;
+	/* Transparent border which will change on hover and active state */
+	color: #6366f1;
+	/* Deep Purple text color */
+	padding: 10px 15px;
+	/* Slightly larger padding for better click area */
+	transition: all 0.3s;
+	/* Smooth transition for hover effects */
+	box-shadow: none;
+}
+
+/* Tab link on hover */
+.nav-tabs .nav-link:hover {
+	background-color: #F2F2F2;
+	/* Light grey background */
+	border-color: #e2e8f0;
+	/* Light border */
+	box-shadow: none;
+}
+
+/* Active tab link */
+.nav-tabs .nav-link.active {
+	background-color: #FFFFFF;
+	/* White background */
+	color: #6366f1;
+	/* Deep Purple text color for consistency */
+	border-color: #e2e8f0 #e2e8f0 #FFFFFF;
+	/* Borders on the top, left, and right with the bottom transparent (to blend with tab content below) */
+}
+
+/* Tab content container */
+.tab-content {
+	border: 2px solid #e2e8f0;
+	/* Light border */
+	border-top: none;
+	/* Remove top border to blend with tabs */
+	border-radius: 0 0 8px 8px;
+	/* Rounded bottom corners */
+	padding: 20px;
+	/* Padding inside the content area */
+	margin-top: -17px;
+}
+
+
+.plugin-badge {
+	position: absolute;
+	bottom: 10px;
+	right: 60px;
+	/* Adjust based on the width of your PRO badge and any desired spacing */
+	color: #FFFFFF;
+	background-color: #6366f1;
+	padding: 2px 8px;
+	border-radius: 8px;
+	font-size: 0.8em;
+	z-index: 10;
+}
+
+.pro-badge {
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+	color: #FFFFFF;
+	background-color: #6366f1;
+	padding: 2px 8px;
+	border-radius: 8px;
+	font-size: 0.8em;
+}
+
+/* Additional colors for different plugins */
+.plugin-badge.woocommerce {
+	background-color: #96588A;
+}
+
+
+.module-filters {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 20px;
+	/* Space before the module listing */
+}
+
+.filter-controls {
+	display: flex;
+	gap: 10px;
+	/* Provides space between the filter dropdowns */
+}
+
+.module-filters .form-select,
+.module-filters .form-control {
+	width: auto;
+	/* Adjust width to content for better flexibility */
+}
+
+.search-control {
+	width: 20%;
+	/* Width for the search box */
+}
+
+.search-control input {
+	width: 100% !important;
+}
+
+/* Container for all Help Content */
+.help-container {
+	background-color: #f8fafc;
+	/* A light background color for contrast */
+	border-radius: 10px;
+	/* Rounded corners for a modern look */
+	padding: 20px 30px;
+	/* Padding around the content */
+	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+	/* A subtle shadow for depth */
+}
+
+.help-section {
+	margin-bottom: 40px;
+	/* Increased space between sections */
+}
+
+.faqs .faq-item {
+	margin-bottom: 20px;
+	border-left: 4px solid #6366f1;
+	/* A left border highlight for FAQs */
+	padding-left: 15px;
+	/* Padding to offset the FAQ content from the left border */
+}
+
+.faqs h3 {
+	color: #6366f1;
+	font-size: 1.2em;
+	margin-bottom: 10px;
+}
+
+.help-section h2 {
+	border-bottom: 2px solid #e0e2e6;
+	/* A bottom border for section titles */
+	padding-bottom: 10px;
+	/* Padding to offset the title from the border */
+	margin-bottom: 20px;
+	font-size: 1.4em;
+	/* Increased size for section titles */
+}
+
+.help-section a {
+	color: #6366f1;
+	text-decoration: none;
+	/* No underline for a cleaner look */
+	transition: color 0.3s;
+	/* Smooth color transition on hover */
+}
+
+.help-section a:hover {
+	color: #4f46e5;
+	/* Slightly darker blue on hover */
+}
+
+.plugins-container {
+	display: flex;
+	flex-wrap: wrap;
+	/* Wrapping content for responsiveness */
+	gap: 20px;
+	/* Space between individual plugin items */
+}
+
+.plugin-item {
+	flex: 1;
+	/* Allows the plugin item to grow and fill available space */
+	max-width: calc(33.33% - 20px);
+	/* For three items in a row accounting for gap */
+	background-color: #f8fafc;
+	border-radius: 10px;
+	padding: 20px;
+	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+	text-align: center;
+	/* Centralizing the content for a clean look */
+}
+
+.plugin-image {
+	max-width: 100%;
+	/* Ensures the image doesn't overflow the container */
+	height: auto;
+	margin-bottom: 15px;
+	/* Space below the image */
+}
+
+.plugin-item h3 {
+	font-size: 1.2em;
+	color: #6366f1;
+	/* Deep purple for title */
+	margin-bottom: 10px;
+}
+
+.explore-btn {
+	background-color: #6366f1;
+	/* Bootstrap's primary blue */
+	color: #ffffff;
+	border-radius: 8px;
+	padding: 10px 20px;
+	text-decoration: none;
+	transition: background-color 0.3s;
+	/* Smooth color transition on hover */
+}
+
+.explore-btn:hover {
+	background-color: #4f46e5;
+	/* Slightly darker blue on hover */
+}
+
+
+
+/* Container Styles */
+.ultimakit-plans-comparison-container {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	padding: 20px;
+	background-color: #f8fafc;
+	/* Subtle background */
+}
+
+/* Plan Block Styles */
+.ultimakit-plan {
+	flex: 1;
+	margin: 15px;
+	padding: 20px;
+	border-radius: 10px;
+	box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+	text-align: center;
+	transition: transform 0.3s;
+	background-color: #fff;
+	/* White background */
+}
+
+/* Plan Block Hover Effect */
+.ultimakit-plan:hover {
+	transform: scale(1.05);
+	/* Slight grow effect on hover */
+	box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+	/* Enhanced box shadow on hover */
+}
+
+/* Plan Title Styles */
+.ultimakit-plan h2 {
+	font-size: 24px;
+	margin-top: 0;
+	color: #6366f1;
+	/* Blue title color */
+}
+
+/* Price Styles */
+.ultimakit-price {
+	font-size: 30px;
+	margin: 15px 0;
+	font-weight: bold;
+	color: #6366f1;
+	/* Blue price color */
+}
+
+/* List Styles */
+.ultimakit-ul {
+	list-style-type: none;
+	padding: 0;
+}
+
+/* List Item Styles */
+.ultimakit-li {
+	padding: 5px 0;
+	color: #333;
+	/* Text color */
+}
+
+/* Unavailable Feature Styles */
+.ultimakit-unavailable {
+	text-decoration: line-through;
+	color: #999;
+	/* Grayed-out text for unavailable features */
+}
+
+/* Button Styles */
+.ultimakit-btn {
+	display: inline-block;
+	padding: 10px 20px;
+	background-color: #6366f1;
+	/* Blue button background */
+	color: #fff;
+	/* White button text color */
+	border: none;
+	border-radius: 5px;
+	text-decoration: none;
+	transition: background-color 0.3s;
+}
+
+/* Button Hover Effect */
+.ultimakit-btn:hover {
+	background-color: #4f46e5;
+	/* Darker indigo on hover */
+}
+
+
+/* Style the select container */
+
+
+/* Style the select element */
+.filter-controls .form-select {
+	width: 200px;
+	/* Set a fixed width or adjust as needed */
+	padding: 10px;
+	font-size: 14px;
+	border: 1px solid #ccc;
+	/* Border color */
+	border-radius: 5px;
+	/* Rounded corners */
+	background-color: #fff;
+	/* Background color */
+	color: #333;
+	/* Text color */
+	cursor: pointer;
+}
+
+/* Style the select when hovered */
+.filter-controls .form-select:hover {
+	border-color: #555;
+	/* Border color on hover */
+}
+
+/* Style the select when focused */
+.filter-controls .form-select:focus {
+	border-color: #6366f1;
+	/* Border color on focus */
+	outline: none;
+	/* Remove the default focus outline */
+	box-shadow: 0 0 5px rgba(99, 102, 241, 0.3);
+	/* Add a box shadow on focus */
+}
+
+
+
+/* Style the text input element */
+.search-control .form-control {
+	width: 200px;
+	/* Set a fixed width or adjust as needed */
+	padding: 10px;
+	font-size: 14px;
+	border: 1px solid #ccc;
+	/* Border color */
+	border-radius: 5px;
+	/* Rounded corners */
+	background-color: #fff;
+	/* Background color */
+	color: #333;
+	/* Text color */
+}
+
+/* Style the text input when hovered */
+.search-control .form-control:hover {
+	border-color: #555;
+	/* Border color on hover */
+}
+
+/* Style the text input when focused */
+.search-control .form-control:focus {
+	border-color: #6366f1;
+	/* Border color on focus */
+	outline: none;
+	/* Remove the default focus outline */
+	box-shadow: 0 0 5px rgba(99, 102, 241, 0.3);
+	/* Add a box shadow on focus */
+}
+
+
+/* Custom styles for toastr notifications */
+.toast-success {
+	background-color: #4CAF50;
+	/* Background color for success notifications */
+	color: #fff;
+	/* Text color for success notifications */
+	border-radius: 10px;
+	/* Rounded corners */
+	font-size: 16px;
+	/* Font size */
+	/* Add any other custom styles you need */
+}
+
+.toast-error {
+	background-color: #F44336;
+	/* Background color for error notifications */
+	color: #fff;
+	/* Text color for error notifications */
+	border-radius: 10px;
+	/* Rounded corners */
+	font-size: 16px;
+	/* Font size */
+	/* Add any other custom styles you need */
+}
+
+
+.ultimakit_hide_settings {
+	display: none;
+}
+
+.ultimakit_modal .modal-dialog-centered {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: calc(100% - 1rem);
+	border-radius: 0px;
+}
+
+.ultimakit_modal .modal-dialog {
+	margin: 0 auto;
+}
+
+.ultimakit_modal .modal-header {
+	background-color: #6366f1;
+	padding: 10px;
+	letter-spacing: 0.5px;
+	border-radius: 0px;
+}
+
+.ultimakit_modal .modal-title {
+	color: #ffffff;
+	font-weight: 400;
+}
+
+.ultimakit_modal ul {
+	padding-left: 5px;
+	font-size: 0.9em;
+}
+
+.ultimakit_modal ul input[type="text"],
+.ultimakit_modal ul select {
+	width: 100%;
+	max-width: 350px;
+}
+
+.ultimakit_modal .modal-footer {
+	padding: 5px;
+}
+
+.ultimakit_modal .btn-secondary {
+	color: #6366f1;
+	text-decoration: none;
+	border: 2px solid #6366f1 !important;
+	padding: 5px 10px;
+	border-radius: 8px;
+	font-size: 0.9em;
+	background-color: #FFFFFF !important;
+	cursor: pointer;
+}
+
+.ultimakit_modal .btn-secondary:hover {
+	color: #FFFFFF;
+	background-color: #6366f1 !important;
+}
+
+.ultimakit_modal .btn-primary {
+	text-decoration: none;
+	padding: 5px 10px;
+	border-radius: 8px;
+	font-size: 0.9em;
+	cursor: pointer;
+}
+
+.ultimakit_modal .btn-primary:hover {
+	color: #6366f1;
+	border: 2px solid #6366f1 !important;
+	background-color: #FFFFFF !important;
+}
+
+.module_settings ul{
+	margin: 0px !important;
+	padding: 0px !important;
+}
+
+.module_settings input[type="text"],
+.module_settings input[type="password"],
+.module_settings input[type="email"]{
+	width: 100%;
+}
+
+.module_settings label{
+	font-weight: 500 !important;
+}
+.fs-notice.success{
+	color: #6366f1;
+}
+.notice-success, div.updated{
+	border-left-color: #6366f1;
+}
+
+.pro-plan{
+	background: #6366f10f;
+}
+
+.modal-body{
+    padding: 10px 20px;
+}
+
+.modal-body select{
+	width: 100%;
+	max-width: 100%;
+	padding: 5px;
+}
+
+.modal-body textarea{
+	width: 100%;
+	min-height: 300px;
+	padding: 15px;
+	font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'Courier New', monospace;
+	font-size: 13px;
+	line-height: 1.5;
+	color: #2c3e50;
+	background-color: #f8f9fa;
+	border: 2px solid #e9ecef;
+	border-radius: 8px;
+	resize: vertical;
+	transition: all 0.3s ease;
+	box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.modal-body textarea:focus {
+	outline: none;
+	border-color: #6366f1;
+	background-color: #ffffff;
+	box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1), inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.modal-body textarea:hover {
+	border-color: #adb5bd;
+	background-color: #ffffff;
+}
+
+/* Special styling for CSS textarea */
+.modal-body textarea[name="custom_css"] {
+	background-color: #1e1e1e;
+	color: #d4d4d4;
+	border-color: #404040;
+	font-size: 14px;
+	line-height: 1.6;
+}
+
+.modal-body textarea[name="custom_css"]:focus {
+	border-color: #6366f1;
+	background-color: #1e1e1e;
+	box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2), inset 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.modal-body textarea[name="custom_css"]:hover {
+	border-color: #555555;
+	background-color: #1e1e1e;
+}
+
+/* CSS syntax highlighting colors for better readability */
+.modal-body textarea[name="custom_css"]::placeholder {
+	color: #6c757d;
+	font-style: italic;
+}
+
+/* Add a subtle scrollbar styling for the textarea */
+.modal-body textarea::-webkit-scrollbar {
+	width: 8px;
+}
+
+.modal-body textarea::-webkit-scrollbar-track {
+	background: #f1f1f1;
+	border-radius: 4px;
+}
+
+.modal-body textarea::-webkit-scrollbar-thumb {
+	background: #c1c1c1;
+	border-radius: 4px;
+}
+
+.modal-body textarea::-webkit-scrollbar-thumb:hover {
+	background: #a8a8a8;
+}
+
+/* Dark theme scrollbar for CSS textarea */
+.modal-body textarea[name="custom_css"]::-webkit-scrollbar-track {
+	background: #2d2d2d;
+}
+
+.modal-body textarea[name="custom_css"]::-webkit-scrollbar-thumb {
+	background: #555555;
+}
+
+.modal-body textarea[name="custom_css"]::-webkit-scrollbar-thumb:hover {
+	background: #777777;
+}
+
+.module_settings .module-switch{
+	position: relative;
+	top: auto;
+    right: auto;
+    margin-left: -40px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.not_paying{
+	opacity: 0.5;
+}
+
+.wpuk-version-info{
+	font-size: 8px;
+    letter-spacing: 1px;
+    float: right;
+    position: absolute;
+    right: 70px;
+    margin-top: 5px;
+}
+
+.modal-footer .btn{
+	margin-right: 20px;
+}
+
+.ultimakit_view_mode a{
+	text-decoration: none;
+	margin-right: 15px;
+}
+
+.ultimakit_view_mode a span{
+	font-size: 28px;
+	color: #6366f1;
+}
+
+#ultimakit_search_module.typing {
+    animation: typing 0.3s ease-in-out;
+}
+
+@keyframes typing {
+    0% { background-color: #fff; }
+    50% { background-color: #e0f7fa; }
+    100% { background-color: #fff; }
+}
+
+#wpukTabs li a span{
+	padding: 4px 10px;
+    background-color: #6366f1;
+    border-radius: 100%;
+    color: #ffffff;
+    margin-left: 10px;
+}
+
+#toast-container > div {
+   opacity: 1;
+  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+  filter: alpha(opacity=100);
+}
+
+
+
+/* Style for the radio group container */
+.radio-group {
+    display: inline-flex;
+    gap: 15px; /* Space between each radio button */
+    align-items: center;
+}
+
+/* Style for the radio buttons */
+.radio-group input[type="radio"] {
+    appearance: none; /* Remove default browser styling */
+    width: 16px;
+    height: 16px;
+    border: 2px solid #ccc;
+    border-radius: 50%; /* Make it circular */
+    outline: none;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+    margin-right: 5px; /* Space between the radio button and its label */
+}
+
+/* Style for the checked state */
+.radio-group input[type="radio"]:checked {
+    background-color: #0073aa; /* Primary color for checked state */
+    border-color: #0073aa;
+}
+
+/* Add hover effect */
+.radio-group input[type="radio"]:hover {
+    border-color: #005f8d; /* Slightly darker shade for hover */
+}
+

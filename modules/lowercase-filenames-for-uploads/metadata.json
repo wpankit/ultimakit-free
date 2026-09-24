@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_lowercase_filenames_for_uploads",
+    "name": "Lowercase Filenames for Uploads",
+    "description": "Make all the filenames of new uploads to lowercase after you enable this module.",
+    "category": "Content Management",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "lowercase-filenames-for-uploads-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

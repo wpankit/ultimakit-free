@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_utm_builder",
+    "name": "UTM Builder",
+    "description": "Generate UTM tracking URLs easily.",
+    "category": "Utilities",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "utm-builder-in-wordpress",
+    "is_active": false,
+    "settings": "yes",
+    "settings_link": "#"
+}

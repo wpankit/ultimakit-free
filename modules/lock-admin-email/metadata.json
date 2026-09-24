@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_lock_admin_email",
+    "name": "Lock Admin Email",
+    "description": "Prevent changes to the admin email address.",
+    "category": "Security",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "lock-admin-email-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+} 

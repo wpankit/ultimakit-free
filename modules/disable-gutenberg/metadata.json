@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_disable_gutenberg",
+    "name": "Disable Gutenberg Editor",
+    "description": "Disable Gutenberg blocks editor and replace it with simple quicktags editor.",
+    "category": "Disable Components",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "disable-gutenberg-block-editor-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

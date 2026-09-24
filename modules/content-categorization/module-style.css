@@ -1,0 +1,41 @@
+#ultimakit-category-suggestions {
+    padding: 10px;
+}
+
+#ultimakit-category-suggestions .suggestion-input {
+    margin-bottom: 10px;
+}
+
+#ultimakit-category-suggestions .suggestion-results {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+#ultimakit-category-suggestions .suggestion-item {
+    padding: 8px;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+#ultimakit-category-suggestions .suggestion-item:hover {
+    background-color: #f8f9fa;
+}
+
+#ultimakit-category-suggestions .suggestion-loading,
+#ultimakit-category-suggestions .no-suggestions,
+#ultimakit-category-suggestions .suggestion-error {
+    padding: 8px;
+    text-align: center;
+    color: #666;
+}
+
+#ultimakit-category-suggestions .suggestion-error {
+    color: #dc3545;
+}
+
+#content-input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}

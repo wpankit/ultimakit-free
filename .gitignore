@@ -1,0 +1,22 @@
+# OS cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Dependencies (composer.json declares dev-only tooling; vendor/ is not runtime code)
+/vendor/
+node_modules/
+
+# Build output produced by .github/workflows/build-plugin-zip.yml
+/build/
+/dist/
+*.zip
+
+# Local noise
+*.log
+
+# Local editor/agent settings (machine-specific paths and permissions)
+/.claude/
+
+# Freemius caches the plugin icon here at runtime
+/src/freemius/assets/img/ultimakit-for-wp.png

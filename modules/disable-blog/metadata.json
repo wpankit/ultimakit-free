@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_disable_blog",
+    "name": "Disable Blog",
+    "description": "If you're not using the blog feature, turn it off completely in WordPress.",
+    "category": "Disable Components",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "disable-blog-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

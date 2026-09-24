@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_gf_date_time_field",
+    "name": "Date-Time Field",
+    "description": "The Date-Time Field Add-On enhances Gravity Forms with advanced date and time functionalities.",
+    "category": "Form",
+    "plan": "free",
+    "type": "Gravity Forms",
+    "link": "add-date-time-field-in-gravity-forms",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

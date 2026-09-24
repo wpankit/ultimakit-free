@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_enhance_list_table",
+    "name": "Enhance List Tables",
+    "description": "Boost functionality of listing pages by adding or removing columns and elements for posts, media, and users.",
+    "category": "Admin Interface",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "enhance-list-table-in-wordpress",
+    "is_active": false,
+    "settings": "yes",
+    "settings_link": "#"
+}

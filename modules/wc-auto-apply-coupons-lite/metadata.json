@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_wc_auto_apply_coupons_lite",
+    "name": "Woo - Auto Apply Coupons",
+    "description": "Automatically apply coupons based on the total cart value.",
+    "category": "WooCommerce",
+    "plan": "free",
+    "type": "WooCommerce",
+    "link": "auto-apply-coupons-lite-in-woocommerce",
+    "is_active": false,
+    "settings": "yes",
+    "settings_link": "#"
+}

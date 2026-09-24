@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_disable_user_numeration",
+    "name": "Disable User Enumeration",
+    "description": "Disabling User Enumeration is a security module designed to detect and prevent hackers scanning your site for user login names.",
+    "category": "Disable Components",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "disable-user-numeration-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

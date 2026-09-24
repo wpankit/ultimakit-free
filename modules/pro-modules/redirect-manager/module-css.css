@@ -1,0 +1,53 @@
+.wpuk-redirect-manager .wpuk-add-redirect-form {
+    background: #fff;
+    padding: 20px;
+    margin: 20px 0;
+    border: 1px solid #ccd0d4;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+}
+
+.wpuk-redirect-manager .form-table {
+    margin-top: 0;
+}
+
+.wpuk-redirect-manager .form-table input[type="text"] {
+    width: 100%;
+    max-width: 400px;
+}
+
+.wpuk-redirects-list {
+    margin-top: 30px;
+}
+
+.wpuk-redirects-list table {
+    margin-top: 10px;
+}
+
+.wpuk-redirects-list th {
+    font-weight: 600;
+}
+
+.wpuk-redirects-list td {
+    vertical-align: middle;
+}
+
+.wpuk-delete-redirect {
+    color: #dc3232;
+}
+
+.wpuk-delete-redirect:hover {
+    color: #dc3232;
+    border-color: #dc3232;
+}
+
+.notice {
+    margin: 20px 0;
+}
+
+.wpuk-edit-redirect {
+    margin-right: 5px !important;
+}
+
+#wpuk-redirect-cancel {
+    margin-left: 10px;
+}

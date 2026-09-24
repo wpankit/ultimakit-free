@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_hide_wordpress_version_number",
+    "name": "Hide WordPress Version Number",
+    "description": "It will help you to remove the WordPress version.",
+    "category": "Admin Interface",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "hide-wordpress-version-number-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

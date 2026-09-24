@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_enable_shortcodes_in_text_widgets",
+    "name": "Enable Shortcode In Text Widgets",
+    "description": "Extend the default Text Widget with shortcode execution.",
+    "category": "Content Management",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "enable-shortcodes-in-text-widgets-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

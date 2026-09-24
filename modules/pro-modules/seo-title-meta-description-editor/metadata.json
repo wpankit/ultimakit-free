@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_seo_title_meta_description_editor",
+    "name": "SEO Title and Meta Description Editor",
+    "description": "Allow users to easily manage their SEO titles and meta descriptions, improving their search engine visibility without needing a complex SEO plugin",
+    "category": "Content Management",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "seo-title-and-meta-description-editor-in-wordpress",
+    "is_active": false,
+    "settings": "yes",
+    "settings_link": "#"
+}

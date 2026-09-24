@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_open_links_in_new_tab",
+    "name": "Open All External Links in the New Tab",
+    "description": "This feature lets you link to external URLs from your posts or pages, directing visitors to another website.",
+    "category": "Content Management",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "open-all-links-on-your-page-post-in-a-new-tab-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_empty_admin_dashboard",
+    "name": "Empty Admin Dashboard",
+    "description": "Disable all dashboard widgets in the admin and the welcome panel.",
+    "category": "Admin Interface",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "empty-admin-dashboard-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_limit_login_attempts",
+    "name": "Login Attempts",
+    "description": "Add secured layer of security to your website by limiting login attempts.",
+    "category": "Log In/Out | Register",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "limit-login-attempts-in-wordpress",
+    "is_active": false,
+    "settings": "yes",
+    "settings_link": "#"
+}

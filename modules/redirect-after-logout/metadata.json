@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_redirect_after_logout",
+    "name": "Redirect After Logout",
+    "description": "Redirect users to specific pages upon logging out, enhancing user experience and engagement",
+    "category": "Security",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "redirect-after-logout-in-wordpress",
+    "is_active": false,
+    "settings": "yes",
+    "settings_link": "#"
+}

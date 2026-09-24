@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_wc_hide_qty_selector",
+    "name": "Woo - Hide Quantity Selector on Product Pages",
+    "description": "Hiding the quantity selector simplifies the interface for products that can only be purchased one at a time.",
+    "category": "WooCommerce",
+    "plan": "free",
+    "type": "WooCommerce",
+    "link": "hide-quantity-selector-product-pages-in-woocommerce",
+    "is_active": false,
+    "settings": "yes",
+    "settings_link": "#"
+}

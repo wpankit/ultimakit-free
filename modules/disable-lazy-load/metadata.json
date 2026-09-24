@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_disable_lazy_load",
+    "name": "Disable Lazy Load",
+    "description": "Prevent WordPress from adding the lazy-load attribute to all images and iframes.",
+    "category": "Disable Components",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "disable-lazy-load-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

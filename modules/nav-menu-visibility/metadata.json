@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_nav_menu_visibility",
+    "name": "Navigation Menu Visibility",
+    "description": "This module offers greater control over your navigation menu by enabling visibility controls to be applied to the menu.",
+    "category": "Optimizations",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "set-navigation-menu-visibility-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

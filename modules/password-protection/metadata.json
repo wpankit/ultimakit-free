@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_password_protection",
+    "name": "Password Protection",
+    "description": "Protect your website with a password.",
+    "category": "Security",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "password-protection-in-wordpress",
+    "is_active": false,
+    "settings": "yes",
+    "settings_link": "#"
+}

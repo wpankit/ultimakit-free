@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_add_id_column_in_admin_tables",
+    "name": "Add ID column in admin tables",
+    "description": "Display the post id in the admin in its own column for convenience.",
+    "category": "Admin Interface",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "add-id-column-in-admin-tables-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

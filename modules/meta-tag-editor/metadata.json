@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_meta_tag_editor",
+    "name": "Meta Tag Editor",
+    "description": "Edit the meta tags of your WordPress site.",
+    "category": "Optimizations",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "meta-tag-editor-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

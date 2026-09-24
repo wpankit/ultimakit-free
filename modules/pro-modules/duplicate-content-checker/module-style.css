@@ -1,0 +1,166 @@
+/* Scanner Section Styles */
+#duplicate-content-scanner .card {
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%; /* Full width */
+    display: contents;
+}
+
+#scan-progress {
+    height: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 100%; /* Full width */
+}
+
+#scan-progress .progress-bar {
+    transition: width 0.5s ease;
+    background-color: #007bff;
+}
+
+/* Results Section Styles */
+.duplicate-content-results {
+    margin-top: 20px;
+    width: 100%; /* Full width */
+    border: 2px solid #C0C0C0;
+}
+
+.duplicate-group {
+    margin-bottom: 20px;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    width: 100%; /* Full width */
+}
+
+.duplicate-group .card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    padding: 12px 15px;
+}
+
+.duplicate-group .card-header h6 {
+    color: #495057;
+    font-weight: 600;
+}
+
+.duplicate-group .card-body {
+    padding: 15px;
+}
+
+.duplicate-group table {
+    margin-bottom: 0;
+    width: 100%; /* Full width */
+}
+
+.duplicate-group .table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+}
+
+.duplicate-group .btn {
+    margin-right: 5px;
+}
+
+.duplicate-group .btn:last-child {
+    margin-right: 0;
+}
+
+/* Settings Section Styles */
+#scanner-settings .card {
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%; /* Full width */
+}
+
+#scanner-settings-form .form-label {
+    font-weight: 500;
+    color: #495057;
+}
+
+#scanner-settings-form .form-select {
+    border-radius: 4px;
+    border: 1px solid #ced4da;
+    width: 100%; /* Full width */
+}
+
+#scanner-settings-form .form-check {
+    margin-bottom: 8px;
+}
+
+#scanner-settings-form .btn {
+    margin-top: 10px;
+}
+
+/* Toast Notification Styles */
+.toast-success {
+    background-color: #28a745 !important;
+}
+
+.toast-error {
+    background-color: #dc3545 !important;
+}
+
+.toast-warning {
+    background-color: #ffc107 !important;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .duplicate-group .btn {
+        margin-bottom: 5px;
+        width: 100%;
+    }
+    
+    .table-responsive {
+        margin-bottom: 0;
+    }
+}
+
+/* Animation for Progress Bar */
+@keyframes progress-bar-stripes {
+    from { background-position: 1rem 0; }
+    to { background-position: 0 0; }
+}
+
+.progress-bar-animated {
+    animation: progress-bar-stripes 1s linear infinite;
+}
+
+/* Hover Effects */
+.btn:hover {
+    transform: translateY(-1px);
+    transition: transform 0.2s ease;
+}
+
+/* Tab Navigation Styles */
+.nav-tabs .nav-link {
+    color: #495057;
+    border: 1px solid transparent;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    padding: 10px 15px;
+}
+
+.nav-tabs .nav-link.active {
+    color: #007bff;
+    background-color: #fff;
+    border-color: #dee2e6 #dee2e6 #fff;
+}
+
+/* Form Control Focus States */
+.form-control:focus,
+.form-select:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Checkbox Custom Styling */
+.form-check-input:checked {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.form-check-input:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}

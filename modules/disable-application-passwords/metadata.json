@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_disable_application_passwords",
+    "name": "Disable Application Passwords",
+    "description": "Disable Application Passwords feature that was added in WP 5.6.",
+    "category": "Disable Components",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "disable-application-passwords-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

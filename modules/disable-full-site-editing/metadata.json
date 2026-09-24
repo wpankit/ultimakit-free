@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_disable_full_site_editing",
+    "name": "Disable Full Site Editing (FSE)",
+    "description": "Prevent any user from making changes to the site using the Full Site Editor.",
+    "category": "Disable Components",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "disable-full-site-editing-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

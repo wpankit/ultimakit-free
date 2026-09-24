@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_remove_query_strings_from_static_files",
+    "name": "Remove Query Strings From Static Files",
+    "description": "Use this module to remove query string from CSS & JS files and improve performance ratings.",
+    "category": "Optimizations",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "remove-query-strings-from-static-files-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

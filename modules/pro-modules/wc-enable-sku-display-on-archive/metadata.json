@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_wc_enable_sku_display_on_archive",
+    "name": "Woo - Enable SKU Display on Product Archive Pages",
+    "description": "Allows store owners to display the SKU (Stock Keeping Unit) of products on the archive pages.",
+    "category": "WooCommerce",
+    "plan": "free",
+    "type": "WooCommerce",
+    "link": "enable-sku-display-on-archive-pages-in-woocommerce",
+    "is_active": false,
+    "settings": "yes",
+    "settings_link": "#"
+}

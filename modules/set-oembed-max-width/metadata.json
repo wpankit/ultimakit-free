@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_set_oembed_max_width",
+    "name": "Set oEmbed Max Width",
+    "description": "Set a max width for the embeds using oEmbed in the content.",
+    "category": "Optimizations",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "set-oembed-max-width-in-wordpress",
+    "is_active": false,
+    "settings": "yes",
+    "settings_link": "#"
+}

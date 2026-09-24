@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_wc_custom_sale_badge_text",
+    "name": "Woo - Custom Sale Badge Text",
+    "description": "Set Custom Sale Badge Text on WooCommerce Shop Page.",
+    "category": "WooCommerce",
+    "plan": "free",
+    "type": "WooCommerce",
+    "link": "custom-sale-badget-text-in-woocommerce",
+    "is_active": false,
+    "settings": "yes",
+    "settings_link": "#"
+}

@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_change_outgoing_email_sender",
+    "name": "Change Outgoing Email Sender",
+    "description": "Change the outgoing sender name and email address.",
+    "category": "Utilities",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "change-outgoing-email-sender-in-wordpress",
+    "is_active": false,
+    "settings": "yes",
+    "settings_link": "#"
+}

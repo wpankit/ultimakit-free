@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 772 250" width="772" height="250" role="img" aria-label="UltimaKit for WP">
+  <defs>
+    <linearGradient id="bga" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#3b2fb8"/>
+      <stop offset="52%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+    <radialGradient id="glowa" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.30"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="sheena" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.04"/>
+    </linearGradient>
+    <symbol id="marka" viewBox="9.9 12.5 38.5 38.5">
+      <path fill="#ffffff" fill-rule="nonzero" d="M 31.761719 31.746094 L 48.316406 12.550781 L 21.925781 31.746094 L 26.722656 31.746094 L 9.925781 50.941406 L 36.320312 31.746094 Z M 21.445312 34.144531 L 14.484375 34.144531 L 20.484375 29.828125 L 38.480469 16.632812 L 29.121094 12.550781 L 12.328125 19.75 L 12.328125 26.949219 C 12.328125 31.746094 13.527344 36.304688 15.925781 40.382812 Z M 36.800781 29.347656 L 43.519531 29.347656 L 37.761719 33.667969 L 20.722656 46.144531 C 23.125 48.300781 26.003906 49.980469 29.121094 50.941406 C 39.199219 47.34375 46.15625 37.746094 45.917969 26.949219 L 45.917969 19.75 L 45.4375 19.511719 Z M 36.800781 29.347656"/>
+    </symbol>
+  </defs>
+  <rect width="772" height="250" fill="url(#bga)"/>
+  <ellipse cx="652" cy="20" rx="330" ry="200" fill="url(#glowa)"/>
+  <g opacity="0.9">
+    <g>
+      <rect x="530" y="30" width="196" height="62" rx="14"
+            fill="url(#sheena)" stroke="#ffffff" stroke-opacity="0.22" stroke-width="1.2"/>
+      <rect x="548" y="48" width="86" height="7" rx="3.5" fill="#ffffff" fill-opacity="0.72"/>
+      <rect x="548" y="64" width="129" height="5" rx="2.5" fill="#ffffff" fill-opacity="0.34"/>
+      <rect x="674" y="45" width="34" height="18" rx="9" fill="#ffffff" fill-opacity="0.55"/>
+      <circle cx="700" cy="54" r="6.5" fill="#ffffff" fill-opacity="1"/>
+    </g>
+    <g>
+      <rect x="530" y="102" width="196" height="62" rx="14"
+            fill="url(#sheena)" stroke="#ffffff" stroke-opacity="0.22" stroke-width="1.2"/>
+      <rect x="548" y="120" width="86" height="7" rx="3.5" fill="#ffffff" fill-opacity="0.72"/>
+      <rect x="548" y="136" width="129" height="5" rx="2.5" fill="#ffffff" fill-opacity="0.34"/>
+      <rect x="674" y="117" width="34" height="18" rx="9" fill="#ffffff" fill-opacity="0.55"/>
+      <circle cx="700" cy="126" r="6.5" fill="#ffffff" fill-opacity="1"/>
+    </g>
+    <g>
+      <rect x="530" y="174" width="196" height="62" rx="14"
+            fill="url(#sheena)" stroke="#ffffff" stroke-opacity="0.22" stroke-width="1.2"/>
+      <rect x="548" y="192" width="86" height="7" rx="3.5" fill="#ffffff" fill-opacity="0.72"/>
+      <rect x="548" y="208" width="129" height="5" rx="2.5" fill="#ffffff" fill-opacity="0.34"/>
+      <rect x="674" y="189" width="34" height="18" rx="9" fill="#ffffff" fill-opacity="0.22"/>
+      <circle cx="682" cy="198" r="6.5" fill="#ffffff" fill-opacity="0.75"/>
+    </g>
+  </g>
+  <use href="#marka" x="46" y="46" width="58" height="58"/>
+  <text x="124" y="86" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="40" font-weight="700"
+        fill="#ffffff" text-anchor="start" letter-spacing="-0.6">UltimaKit for WP</text>
+  <text x="124" y="127" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="16" font-weight="500"
+        fill="#ffffff" fill-opacity="0.86" text-anchor="start">Admin, speed &amp; security toolkit for WordPress.</text>
+
+    <g>
+      <rect x="46" y="176" width="112" height="27" rx="13.5" fill="#ffffff" fill-opacity="0.15"/>
+      <text x="102.0" y="194.5" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" font-weight="600"
+            fill="#ffffff" fill-opacity="0.95" text-anchor="middle">180 modules</text>
+    </g>
+    <g>
+      <rect x="168" y="176" width="78" height="27" rx="13.5" fill="#ffffff" fill-opacity="0.15"/>
+      <text x="207.0" y="194.5" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" font-weight="600"
+            fill="#ffffff" fill-opacity="0.95" text-anchor="middle">Admin</text>
+    </g>
+    <g>
+      <rect x="256" y="176" width="78" height="27" rx="13.5" fill="#ffffff" fill-opacity="0.15"/>
+      <text x="295.0" y="194.5" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" font-weight="600"
+            fill="#ffffff" fill-opacity="0.95" text-anchor="middle">Speed</text>
+    </g>
+    <g>
+      <rect x="344" y="176" width="92" height="27" rx="13.5" fill="#ffffff" fill-opacity="0.15"/>
+      <text x="390.0" y="194.5" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" font-weight="600"
+            fill="#ffffff" fill-opacity="0.95" text-anchor="middle">Security</text>
+    </g>
+</svg>

@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_change_excerpt_length",
+    "name": "Change Excerpt Length",
+    "description": "Update the length of the excerpts on your website.",
+    "category": "Content Management",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "change-excerpt-length-in-wordpress",
+    "is_active": false,
+    "settings": "yes",
+    "settings_link": "#"
+}

@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_multiple_user_roles",
+    "name": "Multiple User Roles",
+    "description": "Allow assigning multiple roles to a single user.",
+    "category": "User Management",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "assign-multiple-user-roles-in-wordpress",
+    "is_active": false,
+    "settings": "yes",
+    "settings_link": "#"
+} 

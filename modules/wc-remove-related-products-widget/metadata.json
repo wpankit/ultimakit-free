@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_wc_remove_related_products_widget",
+    "name": "Woo - Remove Related Products Widget",
+    "description": "Remove related products widget from product details page.",
+    "category": "WooCommerce",
+    "plan": "free",
+    "type": "WooCommerce",
+    "link": "remove-related-products-widget-in-woocommerce",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

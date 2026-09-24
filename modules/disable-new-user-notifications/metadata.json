@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_disable_new_user_notifications",
+    "name": "Disable New User Notifications",
+    "description": "Prevent the admin user from getting new user notification emails.",
+    "category": "Log In/Out | Register",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "disable-new-user-notifications-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

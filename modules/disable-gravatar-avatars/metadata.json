@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_disable_gravatar_avatars",
+    "name": "Disable Gravatar Avatars",
+    "description": "Prevent WordPress from loading gravatar avatars for users.",
+    "category": "Disable Components",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "disable-gravatar-avatars-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

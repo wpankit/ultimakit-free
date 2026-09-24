@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_gf_simple_range_slider",
+    "name": "Simple Range Slider",
+    "description": "This module introduces a customizable Range Slider field for Gravity Forms.",
+    "category": "Disable",
+    "plan": "free",
+    "type": "Gravity Forms",
+    "link": "add-simple-range-slider-field-in-gravity-forms",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

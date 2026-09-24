@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_redirect_404_to_homepage",
+    "name": "Redirect 404 to Homepage",
+    "description": "Redirects visitors to your homepage when they attempt to access a non-existent page, ensuring they remain on your site.",
+    "category": "Optimizations",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "redirect-404-to-homepage-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

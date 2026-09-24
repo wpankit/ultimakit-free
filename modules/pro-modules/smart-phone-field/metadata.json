@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_gf_smartphone_field",
+    "name": "Smart Phone Field",
+    "description": "The field includes a dropdown for selecting the country code and a phone number input field.",
+    "category": "Form",
+    "plan": "free",
+    "type": "Gravity Forms",
+    "link": "add-smart-phone-field-in-gravity-forms",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

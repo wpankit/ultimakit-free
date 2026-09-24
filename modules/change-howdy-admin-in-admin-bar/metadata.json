@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_change_howdy_admin_bar",
+    "name": "Change \u201cHowdy Admin\u201d in Admin Bar",
+    "description": "Customize the \"Howdy\" message in the admin bar.",
+    "category": "Admin Interface",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "change-howdy-message-in-admin-bar-in-wordpress",
+    "is_active": false,
+    "settings": "yes",
+    "settings_link": "#"
+}

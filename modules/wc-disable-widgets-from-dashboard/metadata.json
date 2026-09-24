@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_wc_disable_widgets_from_dashboard",
+    "name": "Woo - Disable WooCommerce Widgets",
+    "description": "Disable all WooCommerce widgets from Dashboard.",
+    "category": "WooCommerce",
+    "plan": "free",
+    "type": "WooCommerce",
+    "link": "disable-widgets-from-dashboard-in-woocommerce",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

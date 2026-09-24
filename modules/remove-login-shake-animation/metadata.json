@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_remove_login_shake_animation",
+    "name": "Remove Login Shake Animation",
+    "description": "Prevent the Login box from shaking when entering the wrong password or username.",
+    "category": "Admin Interface",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "remove-login-shake-animation-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

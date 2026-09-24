@@ -1,0 +1,181 @@
+
+.wpuk-readability-score {
+    padding: 10px;
+    max-width: 300px;
+}
+
+.wpuk-readability-score .score-display {
+    text-align: center;
+    margin-bottom: 15px;
+    min-height: 60px;
+    transition: all 0.3s ease;
+}
+
+.wpuk-readability-score .score-value {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    padding: 10px;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    line-height: 30px;
+    margin: 0 auto 10px;
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wpuk-readability-score .score-label {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+.wpuk-readability-score .score-updated {
+    font-size: 12px;
+    color: #888;
+    font-style: italic;
+}
+
+/* Score value colors based on Flesch Reading Ease Score (0-100) */
+.wpuk-readability-score .score-very-easy {
+    background-color: #4CAF50;
+}
+
+.wpuk-readability-score .score-easy {
+    background-color: #8BC34A;
+}
+
+.wpuk-readability-score .score-fairly-easy {
+    background-color: #CDDC39;
+}
+
+.wpuk-readability-score .score-fairly-difficult {
+    background-color: #FF9800;
+}
+
+.wpuk-readability-score .score-difficult {
+    background-color: #FF5722;
+}
+
+.wpuk-readability-score .score-very-difficult {
+    background-color: #F44336;
+}
+
+/* Button styles */
+.wpuk-readability-score .calculate-score {
+    width: 100%;
+    margin-top: 10px;
+    position: relative;
+    padding: 5px 15px;
+    background: #2271b1;
+    border-color: #2271b1;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 3px;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 25px;
+}
+
+.wpuk-readability-score .calculate-score:hover {
+    background: #135e96;
+    border-color: #135e96;
+    color: #fff;
+}
+
+.wpuk-readability-score .calculate-score.is-busy {
+    color: transparent;
+}
+
+.wpuk-readability-score .calculate-score.is-busy::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid rgba(255,255,255,0.2);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: wpuk-spin 0.6s linear infinite;
+}
+
+/* Messages */
+.wpuk-readability-score .error-message {
+    color: #dc3232;
+    padding: 10px;
+    background: #fbeaea;
+    border-left: 4px solid #dc3232;
+    margin-bottom: 10px;
+}
+
+.wpuk-readability-score .info-message {
+    color: #0073aa;
+    padding: 10px;
+    background: #f0f6fc;
+    border-left: 4px solid #0073aa;
+    margin-bottom: 10px;
+}
+
+/* Animations */
+@keyframes wpuk-spin {
+    to { transform: rotate(360deg); }
+}
+
+.wpuk-readability-score .updated {
+    animation: highlight 1s ease-out;
+}
+
+@keyframes highlight {
+    0% { background-color: #fff9c4; }
+    100% { background-color: transparent; }
+}
+
+/* Preview Elements */
+.demo-scores {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+/* Score value colors based on Flesch Reading Ease Score (0-100) */
+.wpuk-readability-score .score-very-easy {
+    background-color: #4CAF50; /* Green */
+    color: #fff;
+}
+
+.wpuk-readability-score .score-easy {
+    background-color: #8BC34A; /* Light Green */
+    color: #fff;
+}
+
+.wpuk-readability-score .score-fairly-easy {
+    background-color: #CDDC39; /* Lime */
+    color: #333; /* Darker text for better contrast */
+}
+
+.wpuk-readability-score .score-standard {
+    background-color: #FFC107; /* Amber */
+    color: #333; /* Darker text for better contrast */
+}
+
+.wpuk-readability-score .score-fairly-difficult {
+    background-color: #FF9800; /* Orange */
+    color: #fff;
+}
+
+.wpuk-readability-score .score-difficult {
+    background-color: #FF5722; /* Deep Orange */
+    color: #fff;
+}
+
+.wpuk-readability-score .score-very-difficult {
+    background-color: #F44336; /* Red */
+    color: #fff;
+}
+

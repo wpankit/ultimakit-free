@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_wc_show_stock_level_display",
+    "name": "Woo - Show Stock Level Display",
+    "description": "Display stock level on product details page.",
+    "category": "WooCommerce",
+    "plan": "free",
+    "type": "WooCommerce",
+    "link": "show-stock-level-display-on-product-page-in-woocommerce",
+    "is_active": false,
+    "settings": "yes",
+    "settings_link": "#"
+}

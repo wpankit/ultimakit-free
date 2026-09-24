@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_post_per_page",
+    "name": "Post Per Page",
+    "description": "Set the number of posts displayed per page for each post type.",
+    "category": "Content Management",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "post-per-page-in-wordpress",
+    "is_active": false,
+    "settings": "yes",
+    "settings_link": "#"
+} 

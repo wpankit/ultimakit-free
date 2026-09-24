@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_disable_automatic_trash_emptying",
+    "name": "Disable Automatic Trash Emptying",
+    "description": "Prevent WordPress from automatically deleting trashed posts after 30 days.",
+    "category": "Disable Components",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "disable-automatic-trash-emptying-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

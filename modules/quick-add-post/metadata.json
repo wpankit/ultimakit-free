@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_quick_add_post",
+    "name": "Quick Add Post",
+    "description": "A new button to quickly add new posts to speed up your workflow.",
+    "category": "Content Management",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "quick-add-post-in-wordpress",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_add_featured_image_column",
+    "name": "Add Featured Image Column",
+    "description": "Display the featured image in the list of posts in the admin.",
+    "category": "Content Management",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "add-featured-image-column-in-wordpress",
+    "is_active": false,
+    "settings": "yes",
+    "settings_link": "#"
+}

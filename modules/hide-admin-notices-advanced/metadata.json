@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_hide_admin_notices_advanced",
+    "name": "Hide Admin Notices - Advanced",
+    "description": "Stop annoying admin notices.",
+    "category": "Admin Interface",
+    "plan": "free",
+    "type": "WordPress",
+    "link": "hide-admin-notices-advanced-in-wordpress",
+    "is_active": false,
+    "settings": "yes",
+    "settings_link": "#"
+}

@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_gf_lock_submissions_after_a_deadline",
+    "name": "Lock Form Submissions After a Deadline",
+    "description": "Set a deadline after which submissions will be locked.",
+    "category": "Disable",
+    "plan": "free",
+    "type": "Gravity Forms",
+    "link": "lock-form-submissions-after-a-deadline-in-gravity-forms",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

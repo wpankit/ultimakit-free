@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_wc_show_free_shipping_only",
+    "name": "Woo - Show Free Shipping Only",
+    "description": "Hide Shipping Methods When Free Shipping is Available.",
+    "category": "WooCommerce",
+    "plan": "free",
+    "type": "WooCommerce",
+    "link": "show-free-shipping-method-only-in-woocommerce",
+    "is_active": false,
+    "settings": "no",
+    "settings_link": "#"
+}

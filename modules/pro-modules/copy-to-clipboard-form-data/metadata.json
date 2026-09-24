@@ -1,0 +1,12 @@
+{
+    "id": "ultimakit_module_gf_copy_to_clipboard",
+    "name": "Copy Form Data to Clipboard Button",
+    "description": "This module adds a button to Gravity Forms submissions that allows users to copy all form data to their clipboard with a single click.",
+    "category": "Disable",
+    "plan": "free",
+    "type": "Gravity Forms",
+    "link": "disable-defaults-styles-in-gravity-forms",
+    "is_active": false,
+    "settings": "yes",
+    "settings_link": "#"
+}
