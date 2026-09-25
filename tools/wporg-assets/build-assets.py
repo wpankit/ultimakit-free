@@ -11,10 +11,10 @@ Palette matches the plugin's admin UI (admin/css/main.css design tokens).
 import io
 import os
 
-OUT = os.path.dirname(os.path.abspath(__file__)) + '/wporg-assets'
-os.makedirs(OUT, exist_ok=True)
+# The SVG sources live next to this script; render.sh turns them into the PNGs in .wordpress-org/.
+OUT = os.path.dirname(os.path.abspath(__file__))
 
-MARK_PATH = io.open(os.path.dirname(os.path.abspath(__file__)) + '/mark-path.txt', encoding='utf-8').read().strip()
+MARK_PATH = io.open(OUT + '/mark-path.txt', encoding='utf-8').read().strip()
 
 # Brand tokens, aligned with :root in admin/css/main.css
 BRAND_DEEP = '#3b2fb8'
