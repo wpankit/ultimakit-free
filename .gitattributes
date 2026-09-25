@@ -1,0 +1,9 @@
+# Line endings: LF in the repository. The bundled Freemius SDK is kept byte-for-byte as
+# its authors ship it, with CRLF in some files.
+* text=auto eol=lf
+/src/freemius/** -text
+
+# Binary files.
+*.png binary
+*.webp binary
+*.mo binary

@@ -4,7 +4,9 @@
 set -euo pipefail
 
 CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-SRC="$(cd "$(dirname "$0")" && pwd)/wporg-assets"
+# SVG sources sit next to this script; the PNGs go to .wordpress-org/ at the repository root.
+SRC="$(cd "$(dirname "$0")" && pwd)"
+OUT="$(cd "$SRC/../../.wordpress-org" && pwd)"
 TMP="$SRC/.render"
 mkdir -p "$TMP"
 
@@ -25,9 +27,9 @@ HTML
   "$CHROME" --headless --disable-gpu --hide-scrollbars \
     --force-device-scale-factor=1 --window-size="${w},${h}" \
     --default-background-color=00000000 \
-    --screenshot="$SRC/$out" "file://$html" >/dev/null 2>&1
+    --screenshot="$OUT/$out" "file://$html" >/dev/null 2>&1
 
-  printf '  %-34s %s\n' "$out" "$(sips -g pixelWidth -g pixelHeight "$SRC/$out" 2>/dev/null | awk '/pixel/{printf "%s ", $2}')"
+  printf '  %-34s %s\n' "$out" "$(sips -g pixelWidth -g pixelHeight "$OUT/$out" 2>/dev/null | awk '/pixel/{printf "%s ", $2}')"
 }
 
 echo "Rendering banners..."

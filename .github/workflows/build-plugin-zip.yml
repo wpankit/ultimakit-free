@@ -2,17 +2,27 @@ name: Build plugin zip
 
 # Produces an installable plugin zip containing only the files WordPress needs.
 # What gets left out is defined in .distignore at the repo root.
+#
+# Publishing a GitHub release (tag v1.2.3 or 1.2.3) also deploys the zip's contents to
+# WordPress.org: trunk and tags/1.2.3 in SVN, plus the listing assets from .wordpress-org.
+# Running the workflow by hand (Actions > Build plugin zip > Run workflow) makes the same
+# deploy as a dry run, which prepares the SVN commit without committing anything.
+#
+# The deploy needs the repository secrets SVN_USERNAME and SVN_PASSWORD (the SVN password
+# from your wordpress.org profile, under Account & Security).
 on:
   push:
     branches:
       - main
+  pull_request:
   release:
     types: [published]
   workflow_dispatch:
 
 concurrency:
   group: build-zip-${{ github.ref }}
-  cancel-in-progress: true
+  # A newer push or pull request update replaces an older build; a release never does.
+  cancel-in-progress: ${{ github.event_name == 'push' || github.event_name == 'pull_request' }}
 
 permissions:
   contents: read
@@ -24,10 +34,14 @@ jobs:
     # Needed only by the final step, which uploads the zip to a published release.
     permissions:
       contents: write
+    outputs:
+      slug: ${{ steps.plugin.outputs.slug }}
+      version: ${{ steps.plugin.outputs.version }}
+      zip: ${{ steps.zip.outputs.name }}
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Read slug and version from the plugin header
         id: plugin
@@ -49,6 +63,27 @@ jobs:
           echo "slug=$SLUG"       >> "$GITHUB_OUTPUT"
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "Building $SLUG version $VERSION"
+
+      # Before a release or a deploy dry run: the plugin header, ULTIMAKIT_FOR_WP_VERSION and
+      # the readme's Stable tag must agree, and a release tag must match them.
+      - name: Check the version numbers match
+        if: github.event_name == 'release' || github.event_name == 'workflow_dispatch'
+        env:
+          VERSION: ${{ steps.plugin.outputs.version }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          set -euo pipefail
+          CONSTANT=$(sed -n "s/^[[:space:]]*define( 'ULTIMAKIT_FOR_WP_VERSION', '\([^']*\)' );/\1/p" wp-ultimakit.php | head -n 1)
+          STABLE=$(sed -n 's/^Stable tag:[[:space:]]*//p' README.txt | head -n 1 | tr -d '[:space:]')
+          echo "Plugin header: $VERSION, ULTIMAKIT_FOR_WP_VERSION: $CONSTANT, readme Stable tag: $STABLE"
+          if [ "$VERSION" != "$CONSTANT" ] || [ "$VERSION" != "$STABLE" ]; then
+            echo "::error::The plugin header Version, ULTIMAKIT_FOR_WP_VERSION and the readme Stable tag must all be the same."
+            exit 1
+          fi
+          if [ "$GITHUB_EVENT_NAME" = "release" ] && [ "${RELEASE_TAG#v}" != "$VERSION" ]; then
+            echo "::error::The release tag ($RELEASE_TAG) does not match the plugin version ($VERSION)."
+            exit 1
+          fi
 
       - name: Stage plugin files
         env:
@@ -112,6 +147,9 @@ jobs:
           refuse ".wordpress-org"
           refuse "vendor"
           refuse "composer.json"
+          refuse "phpcs.xml.dist"
+          refuse "tools"
+          refuse "CONTRIBUTING.md"
           refuse "admin/css/package-lock.json"
           refuse "admin/css/bootstrap.min.css"
 
@@ -154,7 +192,7 @@ jobs:
           echo "- Files: $(unzip -l "$NAME" | tail -1 | awk '{print $2}')" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload zip as workflow artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ steps.plugin.outputs.slug }}-${{ steps.plugin.outputs.version }}
           path: ${{ steps.zip.outputs.name }}
@@ -168,3 +206,43 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ZIP: ${{ steps.zip.outputs.name }}
         run: gh release upload "${{ github.event.release.tag_name }}" "$ZIP" --clobber
+
+  deploy:
+    name: Deploy to WordPress.org
+    needs: build
+    # A published release deploys; running the workflow by hand is a dry run.
+    if: github.event_name == 'release' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    # Never two SVN commits at once, also with the readme and assets workflow.
+    concurrency:
+      group: deploy-wordpress-org
+      cancel-in-progress: false
+
+    steps:
+      # For the listing assets in .wordpress-org.
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Download the plugin zip
+        uses: actions/download-artifact@v8
+        with:
+          name: ${{ needs.build.outputs.slug }}-${{ needs.build.outputs.version }}
+
+      - name: Unpack the plugin zip
+        env:
+          ZIP: ${{ needs.build.outputs.zip }}
+        run: unzip -q "$ZIP" -d build
+
+      - name: Deploy to WordPress.org
+        uses: 10up/action-wordpress-plugin-deploy@stable
+        with:
+          dry-run: ${{ github.event_name != 'release' }}
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SLUG: ${{ needs.build.outputs.slug }}
+          VERSION: ${{ needs.build.outputs.version }}
+          # SVN gets exactly the files in the zip, which .distignore already filtered.
+          BUILD_DIR: build/${{ needs.build.outputs.slug }}

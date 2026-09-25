@@ -1,0 +1,30 @@
+name: Feature request
+description: Suggest an improvement to a module or to the plugin.
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        UltimaKit is in maintenance mode: it gets fixes and stays compatible with new WordPress versions, and new modules are unlikely. Improvements to existing modules are welcome.
+  - type: input
+    id: module
+    attributes:
+      label: Module
+      description: The module this is about, if any.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem would this solve?
+      description: For example, "As a store owner, I can't ..." or "Editors still see ...".
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: What would you like to happen?
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives you have considered
