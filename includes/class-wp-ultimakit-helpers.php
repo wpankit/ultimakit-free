@@ -43,7 +43,7 @@ class UltimaKit_Helpers {
 			'autoload' => array(),
 		);
 
-		$rows = $wpdb->get_results( "SELECT module_name, setting_key, setting_value, autoload FROM {$table_name}", ARRAY_A ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+		$rows = $wpdb->get_results( "SELECT module_name, setting_key, setting_value, autoload FROM {$table_name}", ARRAY_A ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- The table name is $wpdb->prefix plus a fixed string.
 
 		if ( $rows ) {
 			foreach ( $rows as $row ) {
@@ -71,7 +71,8 @@ class UltimaKit_Helpers {
 	}
 
 	public function ultimakit_asset_condition() {
-		if ( isset( $_GET['page'] ) && in_array( $_GET['page'], ULTIMAKIT_FOR_WP_ALLOWED_PAGES ) ) {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Only checks which admin page is open.
+		if ( isset( $_GET['page'] ) && in_array( $_GET['page'], ULTIMAKIT_FOR_WP_ALLOWED_PAGES, true ) ) {
 			return true;
 		}
 
@@ -91,7 +92,7 @@ class UltimaKit_Helpers {
 		<div class="ultimakit-header">
 			<div class="header-brand">
 				<img src="<?php echo esc_url( ULTIMAKIT_FOR_WP_LOGO ); ?>" alt="UltimaKit Logo" class="logo">
-				<div class="version-info"><?php echo esc_html_e( 'Current version:', 'ultimakit-for-wp' ); ?> <?php echo esc_html_e( ULTIMAKIT_FOR_WP_VERSION ); ?></div>
+				<div class="version-info"><?php esc_html_e( 'Current version:', 'ultimakit-for-wp' ); ?> <?php echo esc_html( ULTIMAKIT_FOR_WP_VERSION ); ?></div>
 			</div>
 			
 			<div class="header-actions">
@@ -141,7 +142,7 @@ class UltimaKit_Helpers {
 		?>
 		<!-- Modal -->
 		<div class="wpuk_modal modal modal-lg fade" id="<?php echo esc_attr( $args['ID'] ); ?>_modal" tabindex="-1" aria-labelledby="<?php echo esc_attr( $this->ID ); ?>_modal" aria-hidden="true">
-			<div class="modal-dialog modal-dialog-centered <?php echo esc_html_e( $modal_type ); ?>">
+			<div class="modal-dialog modal-dialog-centered <?php echo esc_attr( $modal_type ); ?>">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h5 class="modal-title"><?php echo esc_html( $modal_title ); ?></h5>
@@ -173,11 +174,11 @@ class UltimaKit_Helpers {
 
 					case 'text':
 						echo '<label for="' . esc_attr( $key ) . '">' . esc_html( $value['label'] ) . '</label><br />';
-						$placeholder = isset( $value['placeholder'] ) ? esc_attr( $value['placeholder'] ) : '';
+						$placeholder = isset( $value['placeholder'] ) ? $value['placeholder'] : '';
 						$required    = isset( $value['required'] ) ? 'required' : '';
-						$valueAttr   = isset( $value['value'] ) ? esc_attr( $value['value'] ) : '';
+						$value_attr  = isset( $value['value'] ) ? $value['value'] : '';
 
-						echo '<input type="text" ' . $required . ' id="' . esc_attr( $key ) . '" name="' . esc_attr( $key ) . '" value="' . $valueAttr . '" placeholder="' . $placeholder . '">';
+						echo '<input type="text" ' . esc_attr( $required ) . ' id="' . esc_attr( $key ) . '" name="' . esc_attr( $key ) . '" value="' . esc_attr( $value_attr ) . '" placeholder="' . esc_attr( $placeholder ) . '">';
 
 						if ( ! empty( $value['desc'] ) ) {
 							echo '<br /><small>' . wp_kses_post( $value['desc'] ) . '</small>';
@@ -185,11 +186,11 @@ class UltimaKit_Helpers {
 						break;
 					case 'number':
 							echo '<label for="' . esc_attr( $key ) . '">' . esc_html( $value['label'] ) . '</label><br />';
-							$placeholder = isset( $value['placeholder'] ) ? esc_attr( $value['placeholder'] ) : '';
+							$placeholder = isset( $value['placeholder'] ) ? $value['placeholder'] : '';
 							$required    = isset( $value['required'] ) ? 'required' : '';
-							$valueAttr   = isset( $value['value'] ) ? esc_attr( $value['value'] ) : '';
+							$value_attr  = isset( $value['value'] ) ? $value['value'] : '';
 
-							echo '<input type="number" ' . $required . ' id="' . esc_attr( $key ) . '" name="' . esc_attr( $key ) . '" value="' . $valueAttr . '" placeholder="' . $placeholder . '">';
+							echo '<input type="number" ' . esc_attr( $required ) . ' id="' . esc_attr( $key ) . '" name="' . esc_attr( $key ) . '" value="' . esc_attr( $value_attr ) . '" placeholder="' . esc_attr( $placeholder ) . '">';
 
 						if ( ! empty( $value['desc'] ) ) {
 							echo '<br /><small>' . wp_kses_post( $value['desc'] ) . '</small>';
@@ -378,11 +379,11 @@ class UltimaKit_Helpers {
 	public function add_featured_image_column( $columns ) {
 		$new_columns = array();
 		foreach ( $columns as $key => $value ) {
-			if ( 'title' == $key ) {
+			if ( 'title' === $key ) {
 				// We add featured image column before the 'title' column
 				$new_columns['wpuk-featured-image'] = 'Featured Image';
 			}
-			if ( 'thumb' == $key ) {
+			if ( 'thumb' === $key ) {
 				// For WooCommerce products, we add featured image column before it's native thumbnail column
 				$new_columns['wpuk-featured-image'] = 'Product Image';
 			}
@@ -431,7 +432,7 @@ class UltimaKit_Helpers {
 		$new_columns = array();
 		foreach ( $columns as $key => $value ) {
 			$new_columns[ $key ] = $value;
-			if ( $key == 'title' ) {
+			if ( 'title' === $key ) {
 				$new_columns['wpuk-excerpt'] = 'Excerpt';
 			}
 		}
@@ -565,19 +566,19 @@ class UltimaKit_Helpers {
 		);
 	}
 
-	public function add_id_in_action_row( $actions, $object ) {
+	public function add_id_in_action_row( $actions, $item ) {
 		if ( current_user_can( 'edit_posts' ) ) {
 			// For pages, posts, custom post types, media/attachments, users
-			if ( property_exists( $object, 'ID' ) ) {
-				$id = $object->ID;
+			if ( property_exists( $item, 'ID' ) ) {
+				$id = $item->ID;
 			}
 			// For taxonomies
-			if ( property_exists( $object, 'term_id' ) ) {
-				$id = $object->term_id;
+			if ( property_exists( $item, 'term_id' ) ) {
+				$id = $item->term_id;
 			}
 			// For comments
-			if ( property_exists( $object, 'comment_ID' ) ) {
-				$id = $object->comment_ID;
+			if ( property_exists( $item, 'comment_ID' ) ) {
+				$id = $item->comment_ID;
 			}
 			$actions['wpuk-list-table-item-id'] = '<span class="wpuk-list-table-item-id">ID: ' . $id . '</span>';
 		}
@@ -587,7 +588,7 @@ class UltimaKit_Helpers {
 	public function show_custom_taxonomy_filters( $post_type ) {
 		$post_taxonomies = get_object_taxonomies( $post_type, 'objects' );
 		// Only show custom taxonomy filters for post types other than 'post'
-		if ( 'post' != $post_type ) {
+		if ( 'post' !== $post_type ) {
 			array_walk( $post_taxonomies, array( $this, 'output_taxonomy_filter' ) );
 		}
 	}
@@ -595,7 +596,8 @@ class UltimaKit_Helpers {
 	public function output_taxonomy_filter( $post_taxonomy ) {
 		// Only show taxonomy filter when the taxonomy is hierarchical
 		if ( true === $post_taxonomy->hierarchical ) {
-			$get = ( isset( $_GET[ $post_taxonomy->query_var ] ) ) ? $_GET[ $post_taxonomy->query_var ] : '';
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reads the list table's filter; nothing is changed.
+			$get = ( isset( $_GET[ $post_taxonomy->query_var ] ) ) ? sanitize_text_field( wp_unslash( $_GET[ $post_taxonomy->query_var ] ) ) : '';
 			wp_dropdown_categories(
 				array(
 					'show_option_all' => sprintf( 'All %s', $post_taxonomy->label ),
@@ -603,7 +605,7 @@ class UltimaKit_Helpers {
 					'order'           => 'ASC',
 					'hide_empty'      => false,
 					'hide_if_empty'   => true,
-					'selected'        => sanitize_text_field( $get ),
+					'selected'        => $get,
 					'hierarchical'    => true,
 					'name'            => $post_taxonomy->query_var,
 					'taxonomy'        => $post_taxonomy->name,
@@ -622,7 +624,7 @@ class UltimaKit_Helpers {
 		);
 		foreach ( $post_types as $post_type_key => $post_type_name ) {
 			if ( post_type_supports( $post_type_key, 'comments' ) ) {
-				if ( 'attachment' != $post_type_name ) {
+				if ( 'attachment' !== $post_type_name ) {
 					// For list tables of pages, posts and other post types
 					add_filter( "manage_{$post_type_name}_posts_columns", array( $this, 'remove_comment_column' ) );
 				} else {
@@ -646,7 +648,7 @@ class UltimaKit_Helpers {
 			'names'
 		);
 		foreach ( $post_types as $post_type_key => $post_type_name ) {
-			if ( $post_type_name == 'post' ) {
+			if ( 'post' === $post_type_name ) {
 				add_filter( 'manage_posts_columns', array( $this, 'remove_post_tags_column' ) );
 			}
 		}
@@ -659,11 +661,8 @@ class UltimaKit_Helpers {
 
 	public function is_table_exists( $table_name ) {
 		global $wpdb;
-		$query = $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $table_name ) );
-		if ( $wpdb->get_var( $query ) == $table_name ) {
-			return true;
-		}
-		return false;
+		$found = $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $table_name ) ) );
+		return $found === $table_name;
 	}
 
 	/**
@@ -704,15 +703,9 @@ class UltimaKit_Helpers {
 	}
 
 	public function get_all_user_roles() {
-		global $wp_roles;
-
 		$roles = array();
 
-		if ( ! isset( $wp_roles ) ) {
-			$wp_roles = new WP_Roles();
-		}
-
-		foreach ( $wp_roles->roles as $role => $details ) {
+		foreach ( wp_roles()->roles as $role => $details ) {
 			$roles[ $role ] = $details['name'];
 		}
 
@@ -739,7 +732,7 @@ class UltimaKit_Helpers {
 					? $this->string_to_slug( 'Gravity Forms' )
 					: $this->string_to_slug( $module['category'] );
 				?>
-				<div class="module-block <?php echo esc_attr( $this->add_non_paying_classes( $module['plan'] ) ); ?> <?php echo esc_attr( $module['category'] ); ?> <?php echo esc_attr( $module['type'] ); ?> <?php echo ( true === $module['is_active'] ) ? 'active' : 'inactive'; ?> <?php echo esc_attr( $module['plan'] ); ?>-plan" data-filter="<?php echo esc_attr( $filter_slug ); ?>" data-category="<?php echo esc_attr( $this->string_to_slug( $module['category'] ) ); ?>" data-type="<?php echo esc_attr( $this->string_to_slug( $module['type'] ) ); ?>" data-plan="<?php echo esc_attr( $module['plan'] ); ?>">
+				<div class="module-block <?php echo esc_attr( $this->add_non_paying_classes() ); ?> <?php echo esc_attr( $module['category'] ); ?> <?php echo esc_attr( $module['type'] ); ?> <?php echo ( true === $module['is_active'] ) ? 'active' : 'inactive'; ?> <?php echo esc_attr( $module['plan'] ); ?>-plan" data-filter="<?php echo esc_attr( $filter_slug ); ?>" data-category="<?php echo esc_attr( $this->string_to_slug( $module['category'] ) ); ?>" data-type="<?php echo esc_attr( $this->string_to_slug( $module['type'] ) ); ?>" data-plan="<?php echo esc_attr( $module['plan'] ); ?>">
 					<!-- Module Title -->
 					<h5 class="module-title"><?php echo esc_html( $module['name'] ); ?></h5>
 
@@ -759,7 +752,7 @@ class UltimaKit_Helpers {
 
 					<!-- Settings Link -->
 					<?php
-					if ( isset( $module['settings'] ) && 'yes' == $module['settings'] ) {
+					if ( isset( $module['settings'] ) && 'yes' === $module['settings'] ) {
 						?>
 							<a href="javascript:void()" class="
 							<?php
@@ -786,10 +779,9 @@ class UltimaKit_Helpers {
 	 * Nothing is locked since 3.0.0, when every former Pro module became free, so this
 	 * returns no classes. Kept because the module grid template still calls it.
 	 *
-	 * @param string $plan Module plan from metadata.json.
 	 * @return string
 	 */
-	public function add_non_paying_classes( $plan = 'free' ) {
+	public function add_non_paying_classes() {
 		return '';
 	}
 
@@ -811,7 +803,7 @@ class UltimaKit_Helpers {
 		}
 
 		// Create the custom table if it does not exist
-		if ( $wpdb->get_var( "SHOW TABLES LIKE '$table_name'" ) != $table_name ) {
+		if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $table_name ) ) ) !== $table_name ) {
 			$charset_collate = $wpdb->get_charset_collate();
 
 			$sql = "CREATE TABLE IF NOT EXISTS $table_name (
@@ -835,7 +827,7 @@ class UltimaKit_Helpers {
 			foreach ( $old_settings as $module_name => $settings ) {
 				foreach ( $settings as $setting_key => $setting_value ) {
 					// Insert each setting into the new custom settings table
-					$autoload = ( $setting_key === 'enabled' ); // Set autoload true for "enabled" settings only
+					$autoload = ( 'enabled' === $setting_key ); // Set autoload true for "enabled" settings only
 					$this->ultimakit_update_module_setting( $module_name, $setting_key, $setting_value, $autoload );
 				}
 			}
@@ -857,7 +849,7 @@ class UltimaKit_Helpers {
 
 		// Check if the setting already exists
 		$exists = $wpdb->get_var(
-			$wpdb->prepare( "SELECT COUNT(*) FROM $table_name WHERE module_name = %s AND setting_key = %s", $module_name, $setting_key )
+			$wpdb->prepare( "SELECT COUNT(*) FROM $table_name WHERE module_name = %s AND setting_key = %s", $module_name, $setting_key ) // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- The table name is $wpdb->prefix plus a fixed string.
 		);
 
 		if ( $exists ) {
@@ -1178,7 +1170,7 @@ class UltimaKit_Helpers {
 
 		$table_exists = get_transient( $transient_key );
 
-		if ( $table_exists === false ) {
+		if ( false === $table_exists ) {
 			$table_exists = $wpdb->get_var(
 				$wpdb->prepare(
 					'SHOW TABLES LIKE %s',
@@ -1194,19 +1186,19 @@ class UltimaKit_Helpers {
 		return (bool) $table_exists;
 	}
 
-	public function string_to_slug( $string ) {
+	public function string_to_slug( $text ) {
 		// Convert string to lowercase
-		$string = strtolower( $string );
+		$text = strtolower( $text );
 
 		// Remove special characters and replace with spaces
-		$string = preg_replace( '/[^a-z0-9\s-]/', '', $string );
+		$text = preg_replace( '/[^a-z0-9\s-]/', '', $text );
 
 		// Replace multiple spaces and hyphens with a single underscore
-		$string = preg_replace( '/[\s-]+/', '_', $string );
+		$text = preg_replace( '/[\s-]+/', '_', $text );
 
 		// Remove underscores from the beginning and end
-		$string = trim( $string, '_' );
+		$text = trim( $text, '_' );
 
-		return $string;
+		return $text;
 	}
 }

@@ -24,7 +24,7 @@
  * @subpackage UltimaKit/includes
  * @author     Ankit Panchal <developer@wpultimakit.com>
  */
-class UltimaKit_i18n {
+class UltimaKit_I18n {
 
 
 	/**

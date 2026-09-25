@@ -67,7 +67,7 @@ class UltimaKit_Module_Manager extends UltimaKit_Helpers {
 			$module_name   = $entry['name'];
 			$metadata      = $entry['metadata'];
 
-			if ( isset( $metadata['type'] ) && $metadata['type'] === 'Gravity Forms' && ! $gravity_forms_active ) {
+			if ( isset( $metadata['type'] ) && 'Gravity Forms' === $metadata['type'] && ! $gravity_forms_active ) {
 				// Skip Gravity Forms modules if Gravity Forms plugin is not active.
 				continue;
 			}
@@ -79,7 +79,7 @@ class UltimaKit_Module_Manager extends UltimaKit_Helpers {
 			 * do anything. Gating at discovery keeps the listing, the category counts and
 			 * the module loader consistent with each other.
 			 */
-			if ( isset( $metadata['type'] ) && $metadata['type'] === 'WooCommerce' && ! $woocommerce_active ) {
+			if ( isset( $metadata['type'] ) && 'WooCommerce' === $metadata['type'] && ! $woocommerce_active ) {
 				continue;
 			}
 
@@ -95,7 +95,6 @@ class UltimaKit_Module_Manager extends UltimaKit_Helpers {
 
 					if ( class_exists( $class_name ) ) {
 						$module_instance = new $class_name();
-						// echo "Module {$metadata['name']} loaded successfully.\n";
 					}
 				}
 			}
@@ -187,7 +186,7 @@ class UltimaKit_Module_Manager extends UltimaKit_Helpers {
 					continue;
 				}
 
-				$metadata = json_decode( file_get_contents( $metadata_file ), true );
+				$metadata = json_decode( file_get_contents( $metadata_file ), true ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Reads a module's metadata.json from the plugin folder.
 
 				if ( ! isset( $metadata['id'] ) ) {
 					continue;
@@ -278,7 +277,7 @@ class UltimaKit_Module_Manager extends UltimaKit_Helpers {
 
 		foreach ( $this->modules as $module ) {
 			$type = $module->getType();
-			if ( in_array( $type, array( 'WordPress', 'WooCommerce' ) ) ) {
+			if ( in_array( $type, array( 'WordPress', 'WooCommerce' ), true ) ) {
 				$all_categories_array[] = $module->getCategory();
 			}
 		}
@@ -296,7 +295,7 @@ class UltimaKit_Module_Manager extends UltimaKit_Helpers {
 
 		foreach ( $this->modules as $module ) {
 			$type = $module->getType();
-			if ( in_array( $type, array( 'WordPress', 'WooCommerce' ) ) ) {
+			if ( in_array( $type, array( 'WordPress', 'WooCommerce' ), true ) ) {
 				$all_categories_array[] = $module->getCategory();
 			}
 		}
@@ -359,13 +358,13 @@ class UltimaKit_Module_Manager extends UltimaKit_Helpers {
 		return $all_module_info;
 	}
 
-	public function isModuleActive( $moduleID ) {
+	public function isModuleActive( $module_id ) {
 		/*
 		 * This previously constructed a throwaway UltimaKit instance on every call purely
 		 * to test that it was truthy, which meant a full plugin bootstrap per module per
 		 * request. Nothing reads $this->module_settings, so only the lookups below matter.
 		 */
-		$settings = $this->get_module_settings( $moduleID );
+		$settings = $this->get_module_settings( $module_id );
 
 		if ( $settings ) {
 			$this->module_settings = $settings;
@@ -377,7 +376,7 @@ class UltimaKit_Module_Manager extends UltimaKit_Helpers {
 			}
 		}
 
-		return $this->is_module_enabled( $moduleID );
+		return $this->is_module_enabled( $module_id );
 	}
 
 	public function getID() {
@@ -416,7 +415,7 @@ class UltimaKit_Module_Manager extends UltimaKit_Helpers {
 		return ( $this->settings_link ) ? $this->settings_link : '#';
 	}
 
-	public function getModuleSettings( $module_id = '', $key = '', $default = false ) {
+	public function getModuleSettings( $module_id = '', $key = '', $default_value = false ) {
 		$all_settings    = self::ultimakit_get_all_settings();
 		$module_settings = isset( $all_settings['values'][ $module_id ] ) ? $all_settings['values'][ $module_id ] : array();
 
@@ -425,8 +424,8 @@ class UltimaKit_Module_Manager extends UltimaKit_Helpers {
 			$setting = isset( $module_settings['settings'] ) ? $module_settings['settings'] : null;
 
 			// Unserialize the settings array if it exists and return the specific key, or the default
-			$unserialized_settings = $setting ? maybe_unserialize( $setting ) : $default;
-			return isset( $unserialized_settings[ $key ] ) ? $unserialized_settings[ $key ] : $default;
+			$unserialized_settings = $setting ? maybe_unserialize( $setting ) : $default_value;
+			return isset( $unserialized_settings[ $key ] ) ? $unserialized_settings[ $key ] : $default_value;
 		}
 
 		// If no specific key is provided, fetch all settings for the module
@@ -435,7 +434,7 @@ class UltimaKit_Module_Manager extends UltimaKit_Helpers {
 			$settings[ $setting_key ] = maybe_unserialize( $setting_value );
 		}
 
-		return ! empty( $settings ) ? $settings : $default;
+		return ! empty( $settings ) ? $settings : $default_value;
 	}
 
 
@@ -464,10 +463,6 @@ class UltimaKit_Module_Manager extends UltimaKit_Helpers {
 
 	// Then, modify your settings processing code
 	public function process_module_settings( $raw_settings = null ) {
-		if ( null === $raw_settings ) {
-			$raw_settings = isset( $_POST['module_settings'] ) ? $_POST['module_settings'] : null;
-		}
-
 		if ( ! is_array( $raw_settings ) ) {
 			return false;
 		}
@@ -478,7 +473,7 @@ class UltimaKit_Module_Manager extends UltimaKit_Helpers {
 			// Sanitize value based on key type
 			$sanitized_value = $this->sanitize_setting_value( $key, $value );
 
-			if ( $sanitized_value !== null ) {
+			if ( null !== $sanitized_value ) {
 				$sanitized_settings[ $key ] = $sanitized_value;
 			}
 		}
@@ -556,7 +551,7 @@ class UltimaKit_Module_Manager extends UltimaKit_Helpers {
 		$save_mode = isset( $_POST['save_mode'] ) ? sanitize_text_field( $_POST['save_mode'] ) : '';
 		$response  = array();
 
-		if ( 'settings' == $save_mode ) {
+		if ( 'settings' === $save_mode ) {
 			if ( isset( $module_settings['custom_option'] ) && ( 1 === $module_settings['custom_option'] || true === $module_settings['custom_option'] ) ) {
 				// For Custom JS and CSS Module
 				if ( isset( $module_settings['css_js_snippets'] ) ) {
@@ -614,7 +609,9 @@ class UltimaKit_Module_Manager extends UltimaKit_Helpers {
 				$this->modules[ $module_id ] = $instance;
 				return $instance;
 			} catch ( Exception $e ) {
-				error_log( 'Failed to instantiate module ' . $module_id . ': ' . $e->getMessage() );
+				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+					error_log( 'UltimaKit: failed to instantiate module ' . $module_id . ': ' . $e->getMessage() ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- Logged only with WP_DEBUG on.
+				}
 			}
 		}
 
@@ -658,7 +655,6 @@ class UltimaKit_Module_Manager extends UltimaKit_Helpers {
 
 		// Validate against allowed values
 		if ( ! in_array( $status, array( 'on', 'off' ), true ) ) {
-			error_log( 'Invalid status detected: ' . $status );
 			return 'off'; // default value
 		}
 
@@ -699,7 +695,7 @@ class UltimaKit_Module_Manager extends UltimaKit_Helpers {
 		}
 
 		// Query all rows from the settings table
-		$results = $wpdb->get_results( "SELECT * FROM $table_name", ARRAY_A );
+		$results = $wpdb->get_results( "SELECT * FROM $table_name", ARRAY_A ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- The table name is $wpdb->prefix plus a fixed string.
 
 		if ( empty( $results ) ) {
 			wp_send_json_error( 'No settings found to export.' );
@@ -737,7 +733,7 @@ class UltimaKit_Module_Manager extends UltimaKit_Helpers {
 		}
 
 		// Handle the uploaded JSON file
-		if ( isset( $_FILES['json_file'] ) && $_FILES['json_file']['error'] === 0 ) {
+		if ( isset( $_FILES['json_file'] ) && 0 === $_FILES['json_file']['error'] ) {
 			$file = $_FILES['json_file'];
 
 			/*
@@ -754,8 +750,8 @@ class UltimaKit_Module_Manager extends UltimaKit_Helpers {
 			}
 
 			// Read and decode JSON file contents
-			$file_contents = file_get_contents( $file['tmp_name'] );
-			if ( $file_contents === false ) {
+			$file_contents = file_get_contents( $file['tmp_name'] ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Reads the uploaded file from PHP's temporary folder.
+			if ( false === $file_contents ) {
 				wp_send_json_error( 'Failed to read file' );
 				return;
 			}

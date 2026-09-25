@@ -85,7 +85,7 @@ class UltimaKit_Activator {
 		foreach ( $old_settings as $module_name => $settings ) {
 			foreach ( $settings as $setting_key => $setting_value ) {
 				// Insert each setting into the new custom settings table
-				$autoload = ( $setting_key === 'enabled' ); // Set autoload true for "enabled" settings only
+				$autoload = ( 'enabled' === $setting_key ); // Set autoload true for "enabled" settings only
 				self::ultimakit_update_module_setting( $module_name, $setting_key, $setting_value, $autoload );
 			}
 		}
