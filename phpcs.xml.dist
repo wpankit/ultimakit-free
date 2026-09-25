@@ -54,4 +54,13 @@
 	<rule ref="WordPress-Extra">
 		<exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
 	</rule>
+
+	<!--
+	UltimaKit_Module_Base stands in for modules that are switched off, so it has the same
+	methods as UltimaKit_Module_Manager (getID(), getName(), isActive() ...), which the
+	dashboard calls on every module.
+	-->
+	<rule ref="WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid">
+		<exclude-pattern>/includes/class-wp-ultimakit-module-base.php</exclude-pattern>
+	</rule>
 </ruleset>

@@ -71,8 +71,6 @@ class UltimaKit_Public {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-
-		// wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/wp-ultimakit-public.css', array(), $this->version, 'all' );
 	}
 
 	/**
@@ -94,7 +92,6 @@ class UltimaKit_Public {
 		 * class.
 		 */
 
-		// wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/wp-ultimakit-public.js', array( 'jquery' ), $this->version, false );
 		do_action( 'ultimakit_public_enqueue_scripts' );
 	}
 
@@ -104,10 +101,10 @@ class UltimaKit_Public {
 	}
 
 	public function ultimakit_check_for_update( $upgrader_object, $options ) {
-		if ( $options['action'] === 'update' && $options['type'] === 'plugin' ) {
+		if ( 'update' === $options['action'] && 'plugin' === $options['type'] ) {
 			$plugin_basename = plugin_basename( __FILE__ );
 			$helper          = new UltimaKit_Helpers();
-			if ( isset( $options['plugins'] ) && in_array( $plugin_basename, $options['plugins'] ) ) {
+			if ( isset( $options['plugins'] ) && in_array( $plugin_basename, $options['plugins'], true ) ) {
 				// Run the migration function if this plugin is being updated.
 				$helper->ultimakit_check_and_migrate_settings();
 			}

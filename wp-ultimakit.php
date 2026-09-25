@@ -56,11 +56,13 @@ if ( function_exists( 'ufw_fs' ) ) {
 	define( 'ULTIMAKIT_FOR_WP_DASHBOARD', 'wp-ultimakit-dashboard' );
 	define( 'ULTIMAKIT_WEB_URL', 'https://wordpress.org/plugins/ultimakit-for-wp/' );
 
+	// phpcs:disable WordPress.Security.NonceVerification.Recommended -- Only reads which admin page is open.
 	if ( isset( $_GET['page'] ) && ! empty( sanitize_text_field( wp_unslash( $_GET['page'] ) ) ) ) {
 		define( 'ULTIMAKIT_FOR_WP_CURRENT_PAGE', sanitize_text_field( wp_unslash( $_GET['page'] ) ) );
 	} else {
 		define( 'ULTIMAKIT_FOR_WP_CURRENT_PAGE', '/' );
 	}
+	// phpcs:enable WordPress.Security.NonceVerification.Recommended
 	define( 'ULTIMAKIT_FOR_WP_ALLOWED_PAGES', apply_filters( 'ultimakit_pages_for_assets', array( 'wp-ultimakit-dashboard', 'wp-ultimakit-settings', 'wp-ultimakit-dashboard-account' ) ) );
 
 	// No module reads or writes WooCommerce orders, so High-Performance Order Storage is supported.
@@ -188,7 +190,9 @@ if ( function_exists( 'ufw_fs' ) ) {
 				$freemius_link
 			) {
 				return sprintf(
-					__( 'Hey %1$s' ) . ',<br>' .
+					/* translators: %1$s: the user's first name. */
+					__( 'Hey %1$s', 'ultimakit-for-wp' ) . ',<br>' .
+					/* translators: %2$s: the plugin name. %5$s: a link to Freemius. */
 					__( 'Please help us improve %2$s! If you opt-in, some data about your usage of %2$s will be sent to %5$s. If you skip this, that\'s okay! %2$s will still work just fine.', 'ultimakit-for-wp' ),
 					$user_first_name,
 					'<b>' . $plugin_title . '</b>',

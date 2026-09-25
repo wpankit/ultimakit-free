@@ -159,10 +159,9 @@ class UltimaKit_Admin extends UltimaKit_Module_Manager {
 		}
 		$migration_completed = get_option( 'ultimakit_migration_completed' );
 		if ( ! $migration_completed ) {
-			$style = 'style="background: #fff; border: 5px solid #6610F2;max-width: 98%;"';
 			?>
 			<div class="container-fluid p-0">
-				<div class="alert alert-info alert-dismissible fade show mt-3" <?php echo $style; ?> role="alert">
+				<div class="alert alert-info alert-dismissible fade show mt-3" style="background: #fff; border: 5px solid #6610F2;max-width: 98%;" role="alert">
 					<h5 class="alert-heading">
 						<strong>Ultimakit Plugin Notice:</strong>
 					</h5>
@@ -202,16 +201,6 @@ class UltimaKit_Admin extends UltimaKit_Module_Manager {
 			'dashicons-superhero',
 			100                          // Position in menu. Adjust if needed.
 		);
-
-		// Add submenu page
-		// add_submenu_page(
-		//  'wp-ultimakit-dashboard',                        // Parent slug
-		//  __( 'Settings', 'ultimakit-for-wp' ),              // Page title
-		//  __( 'Settings', 'ultimakit-for-wp' ),              // Menu title
-		//  'manage_options',                                // Capability
-		//  'wp-ultimakit-settings',                         // Menu slug
-		//  array( $this, 'ultimakit_render_settings_page' )   // Function to display the page
-		// );
 	}
 
 	public function ultimakit_render_settings_page() {
@@ -293,8 +282,8 @@ class UltimaKit_Admin extends UltimaKit_Module_Manager {
 		$admin  = UltimaKit_Module_Manager::get_instance();
 		$helper = new UltimaKit_Helpers();
 
-		$moduleCount     = $helper->get_modules_count( $admin );
-		$catList         = $admin->getAllCategoriesList();
+		$module_count    = $helper->get_modules_count( $admin );
+		$cat_list        = $admin->getAllCategoriesList();
 		$category_types  = array( 'WordPress', 'WooCommerce' );
 		$gravity_modules = $admin->getAllModules( 'Gravity Forms' );
 		$gravity_slug    = $helper->string_to_slug( 'Gravity Forms' );
@@ -344,7 +333,7 @@ class UltimaKit_Admin extends UltimaKit_Module_Manager {
 						<ul class="category-list">
 							<li class="category-item active" data-category="all">
 								<span class="category-name"><?php echo esc_html_e( 'All Categories', 'ultimakit-for-wp' ); ?></span>
-								<span class="category-count"><?php echo esc_html( $moduleCount ); ?></span>
+								<span class="category-count"><?php echo esc_html( $module_count ); ?></span>
 							</li>
 							<?php if ( ! empty( $gravity_modules ) ) : ?>
 								<li class="category-item" data-category="<?php echo esc_attr( $gravity_slug ); ?>">
@@ -353,17 +342,17 @@ class UltimaKit_Admin extends UltimaKit_Module_Manager {
 								</li>
 							<?php endif; ?>
 							<?php
-							if ( ! empty( $catList ) ) {
-								foreach ( $catList as $category ) {
+							if ( ! empty( $cat_list ) ) {
+								foreach ( $cat_list as $category ) {
 									if ( 'WooCommerce' === $category && ! $this->helpers->is_woocommerce_active() ) {
 										continue;
 									}
-									$moduleCount   = $helper->get_modules_count_by_category( $admin, $category, $category_types );
+									$module_count  = $helper->get_modules_count_by_category( $admin, $category, $category_types );
 									$category_slug = $helper->string_to_slug( $category );
 									?>
 									<li class="category-item" data-category="<?php echo esc_attr( $category_slug ); ?>">
-										<span class="category-name"><?php echo esc_html( $category === 'Content Management' ? 'Content Management & SEO' : $category ); ?></span>
-										<span class="category-count"><?php echo esc_html( $moduleCount ); ?></span>
+										<span class="category-name"><?php echo esc_html( 'Content Management' === $category ? 'Content Management & SEO' : $category ); ?></span>
+										<span class="category-count"><?php echo esc_html( $module_count ); ?></span>
 									</li>
 									<?php
 								}

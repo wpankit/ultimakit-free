@@ -33,7 +33,8 @@ class UltimaKit_WP_Config {
 			return ABSPATH . 'wp-config.php';
 		}
 
-		if ( @file_exists( dirname( ABSPATH ) . '/wp-config.php' ) && ! @file_exists( dirname( ABSPATH ) . '/wp-settings.php' ) ) {
+		// The @ stops the warnings file_exists() raises when open_basedir leaves out the folder above WordPress.
+		if ( @file_exists( dirname( ABSPATH ) . '/wp-config.php' ) && ! @file_exists( dirname( ABSPATH ) . '/wp-settings.php' ) ) { // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
 			return dirname( ABSPATH ) . '/wp-config.php';
 		}
 
@@ -52,7 +53,7 @@ class UltimaKit_WP_Config {
 			return '';
 		}
 
-		$wp_config_content = file_get_contents( $wp_config_path );
+		$wp_config_content = file_get_contents( $wp_config_path ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Reads the site's own wp-config.php.
 		return ( false === $wp_config_content ) ? '' : $wp_config_content;
 	}
 
@@ -69,7 +70,8 @@ class UltimaKit_WP_Config {
 	private static function write_wp_config( $wp_config_content ) {
 		$wp_config_path = self::get_wp_config_path();
 
-		if ( '' === $wp_config_path || ! is_writable( $wp_config_path ) ) {
+		// WP_Filesystem could ask for FTP details mid-request; wp-config.php is only written when PHP can write it directly.
+		if ( '' === $wp_config_path || ! is_writable( $wp_config_path ) ) { // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_is_writable
 			return false;
 		}
 
@@ -81,7 +83,7 @@ class UltimaKit_WP_Config {
 			return false;
 		}
 
-		return file_put_contents( $wp_config_path, $wp_config_content, LOCK_EX );
+		return file_put_contents( $wp_config_path, $wp_config_content, LOCK_EX ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
 	}
 
 	/**
@@ -165,7 +167,7 @@ class UltimaKit_WP_Config {
 			return false;
 		}
 
-		if ( $type == 'string' ) {
+		if ( 'string' === $type ) {
 			$pattern_single_quote = '/define\s*\(\s*[\'"]' . preg_quote( $constant_name, '/' ) . '[\']/';
 			if ( preg_match( $pattern_single_quote, $wp_config_content ) ) {
 				$pattern = '/define\s*\(\s*[\'"]' . preg_quote( $constant_name, '/' ) . '[\'"]\s*,\s*[\'][\s\S]*?[\']\s*\);/';

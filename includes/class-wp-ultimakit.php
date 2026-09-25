@@ -91,7 +91,7 @@ class UltimaKit {
 	 * Include the following files that make up the plugin:
 	 *
 	 * - UltimaKit_Loader. Orchestrates the hooks of the plugin.
-	 * - UltimaKit_i18n. Defines internationalization functionality.
+	 * - UltimaKit_I18n. Defines internationalization functionality.
 	 * - UltimaKit_Admin. Defines all hooks for the admin area.
 	 * - UltimaKit_Public. Defines all hooks for the public side of the site.
 	 *
@@ -142,7 +142,7 @@ class UltimaKit {
 	/**
 	 * Define the locale for this plugin for internationalization.
 	 *
-	 * Uses the UltimaKit_i18n class in order to set the domain and to register the hook
+	 * Uses the UltimaKit_I18n class in order to set the domain and to register the hook
 	 * with WordPress.
 	 *
 	 * @since    1.0.0
