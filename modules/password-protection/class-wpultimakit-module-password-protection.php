@@ -223,8 +223,30 @@ class UltimaKit_Module_Password_Protection extends UltimaKit_Module_Manager {
 
 		$current_url = isset( $_SERVER['REQUEST_URI'] ) ? wp_unslash( $_SERVER['REQUEST_URI'] ) : '';
 
+		/*
+		 * Compare paths, not raw strings: stripping every slash and prefix-matching what
+		 * was left let any exclusion (including the default "wp-admin/") match unrelated
+		 * URLs that merely started with the same characters, e.g. "wp-admin/" also excluded
+		 * "/wp-admin-fake-page", and a site-configured exclusion like "/members" also
+		 * excluded "/members-only-secret". A trailing slash marks a directory exclusion
+		 * (its whole subtree); without one, only that exact path is excluded.
+		 */
+		$request_path = '/' . ltrim( (string) wp_parse_url( $current_url, PHP_URL_PATH ), '/' );
+
+		// Exclusions like "wp-login.php" are relative to the site, so match them the same way on subdirectory installs.
+		$site_path = '/' . trim( (string) wp_parse_url( home_url(), PHP_URL_PATH ), '/' );
+		if ( '/' !== $site_path && 0 === strpos( $request_path, $site_path . '/' ) ) {
+			$request_path = substr( $request_path, strlen( $site_path ) );
+		}
+
 		foreach ( $excluded_urls as $url ) {
-			if ( strpos( str_replace( '/', '', $current_url ), str_replace( '/', '', $url ) ) === 0 ) {
+			$excluded_path = '/' . ltrim( $url, '/' );
+
+			if ( $request_path === $excluded_path ) {
+				return;
+			}
+
+			if ( '/' === substr( $excluded_path, -1 ) && 0 === strpos( $request_path, $excluded_path ) ) {
 				return;
 			}
 		}
