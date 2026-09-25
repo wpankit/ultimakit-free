@@ -30,6 +30,27 @@ class UltimaKit_Activator {
 	 * @since    1.0.0
 	 */
 	public static function activate() {
+		global $wpdb;
+		$table_name      = $wpdb->prefix . 'ultimakit_module_settings';
+		$charset_collate = $wpdb->get_charset_collate();
+
+		/*
+		 * Create the settings table first: building the default options below constructs
+		 * the module manager, which reads this table. On a fresh site it did not exist yet,
+		 * so every first activation logged a "table doesn't exist" database error.
+		 */
+		$sql = "CREATE TABLE IF NOT EXISTS $table_name (
+			id BIGINT(20) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+			module_name VARCHAR(255) NOT NULL,
+			setting_key VARCHAR(255) NOT NULL,
+			setting_value LONGTEXT,
+			autoload BOOLEAN DEFAULT FALSE,
+			UNIQUE KEY module_setting (module_name, setting_key)
+		) $charset_collate;";
+
+		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+		dbDelta( $sql );
+
 		// Check if the options array already exists
 		if ( false === get_option( 'ultimakit_options', false ) ) {
 
@@ -46,22 +67,6 @@ class UltimaKit_Activator {
 			update_option( 'ultimakit_options', $default_module_options, 'no' );
 			update_option( 'ultimakit_uninstall_settings', 'off', 'no' );
 		}
-
-		global $wpdb;
-		$table_name      = $wpdb->prefix . 'ultimakit_module_settings';
-		$charset_collate = $wpdb->get_charset_collate();
-
-		$sql = "CREATE TABLE IF NOT EXISTS $table_name (
-			id BIGINT(20) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-			module_name VARCHAR(255) NOT NULL,
-			setting_key VARCHAR(255) NOT NULL,
-			setting_value LONGTEXT,
-			autoload BOOLEAN DEFAULT FALSE,
-			UNIQUE KEY module_setting (module_name, setting_key)
-		) $charset_collate;";
-
-		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-		dbDelta( $sql );
 
 		// Check if migration has already been performed
 		$migration_completed = get_option( 'ultimakit_migration_completed' );
