@@ -293,58 +293,61 @@ class UltimaKit_Helpers {
 						 * input and label, and button ids, so those screens rendered as bare text
 						 * with dead upload buttons. kses still drops every attribute not listed.
 						 */
-						echo wp_kses($value['value'], array(
-							'a' => array(
-								'href' => array(),
-								'title' => array(),
-								'target' => array(),
-								'class' => array()
-							),
-							'b' => array(),
-							'strong' => array(),
-							'i' => array(),
-							'em' => array(),
-							'h6' => array(),
-							'span' => array(
-								'class' => array()
-							),
-							'br' => array(),
-							'div' => array(
-								'class' => array(),
-								'id' => array(),
-								'data-role' => array(),
-							),
-							'img' => array(
-								'src' => array(),
-								'id' => array(),
-								'class' => array(),
-								'width' => array(),
-								'height' => array(),
-								'alt' => array(),
-							),
-							'input' => array(
-								'type' => array(),
-								'id' => array(),
-								'class' => array(),
-								'name' => array(),
-								'value' => array(),
-								'style' => array(),
-								'placeholder' => array(),
-								'checked' => array(),
-							),
-							'label' => array(
-								'for' => array(),
-								'class' => array(),
-							),
-							'button' => array(
-								'href' => array(),
-								'title' => array(),
-								'target' => array(),
-								'class' => array(),
-								'id' => array(),
-								'type' => array(),
+						echo wp_kses(
+							$value['value'],
+							array(
+								'a'      => array(
+									'href'   => array(),
+									'title'  => array(),
+									'target' => array(),
+									'class'  => array(),
+								),
+								'b'      => array(),
+								'strong' => array(),
+								'i'      => array(),
+								'em'     => array(),
+								'h6'     => array(),
+								'span'   => array(
+									'class' => array(),
+								),
+								'br'     => array(),
+								'div'    => array(
+									'class'     => array(),
+									'id'        => array(),
+									'data-role' => array(),
+								),
+								'img'    => array(
+									'src'    => array(),
+									'id'     => array(),
+									'class'  => array(),
+									'width'  => array(),
+									'height' => array(),
+									'alt'    => array(),
+								),
+								'input'  => array(
+									'type'        => array(),
+									'id'          => array(),
+									'class'       => array(),
+									'name'        => array(),
+									'value'       => array(),
+									'style'       => array(),
+									'placeholder' => array(),
+									'checked'     => array(),
+								),
+								'label'  => array(
+									'for'   => array(),
+									'class' => array(),
+								),
+								'button' => array(
+									'href'   => array(),
+									'title'  => array(),
+									'target' => array(),
+									'class'  => array(),
+									'id'     => array(),
+									'type'   => array(),
+								),
 							)
-						));
+						);
 						break;
 				}
 				echo '</li>';
@@ -1166,45 +1169,44 @@ class UltimaKit_Helpers {
 	}
 
 	/**
-     * Check if table exists
-     *
-     * @return bool
-     */
-    public function table_exists($transient_key, $table_name) {
-        global $wpdb;
+	 * Check if table exists
+	 *
+	 * @return bool
+	 */
+	public function table_exists( $transient_key, $table_name ) {
+		global $wpdb;
 
-        $table_exists = get_transient($transient_key);
-        
-        if ($table_exists === false) {
-            $table_exists = $wpdb->get_var(
-                $wpdb->prepare(
-                    "SHOW TABLES LIKE %s",
-                    $table_name
-                )
-            ) !== null;
+		$table_exists = get_transient( $transient_key );
 
-            if ($table_exists) {
-                set_transient($transient_key, true, DAY_IN_SECONDS);
-            }
-        }
+		if ( $table_exists === false ) {
+			$table_exists = $wpdb->get_var(
+				$wpdb->prepare(
+					'SHOW TABLES LIKE %s',
+					$table_name
+				)
+			) !== null;
 
-        return (bool) $table_exists;
-    }
+			if ( $table_exists ) {
+				set_transient( $transient_key, true, DAY_IN_SECONDS );
+			}
+		}
 
-	public function string_to_slug($string) {
+		return (bool) $table_exists;
+	}
+
+	public function string_to_slug( $string ) {
 		// Convert string to lowercase
-		$string = strtolower($string);
-		
+		$string = strtolower( $string );
+
 		// Remove special characters and replace with spaces
-		$string = preg_replace('/[^a-z0-9\s-]/', '', $string);
-		
+		$string = preg_replace( '/[^a-z0-9\s-]/', '', $string );
+
 		// Replace multiple spaces and hyphens with a single underscore
-		$string = preg_replace('/[\s-]+/', '_', $string);
-		
+		$string = preg_replace( '/[\s-]+/', '_', $string );
+
 		// Remove underscores from the beginning and end
-		$string = trim($string, '_');
-		
+		$string = trim( $string, '_' );
+
 		return $string;
 	}
-	
 }

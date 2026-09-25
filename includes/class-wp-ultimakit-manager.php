@@ -34,11 +34,11 @@ class UltimaKit_Module_Manager extends UltimaKit_Helpers {
 	}
 
 	public static function get_instance() {
-        if ( is_null( self::$instance ) ) {
-            self::$instance = new self();
-        }
-        return self::$instance;
-    }
+		if ( is_null( self::$instance ) ) {
+			self::$instance = new self();
+		}
+		return self::$instance;
+	}
 
 	/**
 	 * Directories scanned for modules: the plugin's own plus any registered by add-ons.
@@ -47,13 +47,13 @@ class UltimaKit_Module_Manager extends UltimaKit_Helpers {
 	 * @return array
 	 */
 	protected function ultimakit_module_paths( $additional_paths = array() ) {
-		$base_paths = [
+		$base_paths = array(
 			ULTIMAKIT_FOR_WP_PATH . 'modules/',
-			ULTIMAKIT_FOR_WP_PATH . 'modules/pro-modules/'
-		];
+			ULTIMAKIT_FOR_WP_PATH . 'modules/pro-modules/',
+		);
 
 		// Allow addon modules to hook into this.
-		return array_merge( $base_paths, apply_filters( 'wpuk_module_paths', [] ), $additional_paths );
+		return array_merge( $base_paths, apply_filters( 'wpuk_module_paths', array() ), $additional_paths );
 	}
 
 	public function ultimakit_initializeModules( $additional_paths = array() ) {
@@ -67,7 +67,7 @@ class UltimaKit_Module_Manager extends UltimaKit_Helpers {
 			$module_name   = $entry['name'];
 			$metadata      = $entry['metadata'];
 
-			if ( isset($metadata['type']) && $metadata['type'] === 'Gravity Forms' && ! $gravity_forms_active ) {
+			if ( isset( $metadata['type'] ) && $metadata['type'] === 'Gravity Forms' && ! $gravity_forms_active ) {
 				// Skip Gravity Forms modules if Gravity Forms plugin is not active.
 				continue;
 			}
@@ -79,21 +79,21 @@ class UltimaKit_Module_Manager extends UltimaKit_Helpers {
 			 * do anything. Gating at discovery keeps the listing, the category counts and
 			 * the module loader consistent with each other.
 			 */
-			if ( isset($metadata['type']) && $metadata['type'] === 'WooCommerce' && ! $woocommerce_active ) {
+			if ( isset( $metadata['type'] ) && $metadata['type'] === 'WooCommerce' && ! $woocommerce_active ) {
 				continue;
 			}
 
-			$is_active = $this->isModuleActive($metadata['id']);
+			$is_active       = $this->isModuleActive( $metadata['id'] );
 			$module_instance = null;
 
-			if ($is_active) {
+			if ( $is_active ) {
 				$module_file = $module_folder . '/class-wpultimakit-module-' . $module_name . '.php';
 
-				if (file_exists($module_file)) {
+				if ( file_exists( $module_file ) ) {
 					require_once $module_file;
-					$class_name = 'UltimaKit_Module_' . ucfirst(str_replace('-', '_', $module_name));
+					$class_name = 'UltimaKit_Module_' . ucfirst( str_replace( '-', '_', $module_name ) );
 
-					if (class_exists($class_name)) {
+					if ( class_exists( $class_name ) ) {
 						$module_instance = new $class_name();
 						// echo "Module {$metadata['name']} loaded successfully.\n";
 					}
@@ -101,18 +101,20 @@ class UltimaKit_Module_Manager extends UltimaKit_Helpers {
 			}
 
 			// Use the real class for active modules or UltimaKit_Module_Base for inactive ones
-			$module_info = $module_instance ?? new UltimaKit_Module_Base([
-				'id'            => $metadata['id'],
-				'name'          => $metadata['name'] ?? ucwords(str_replace('-', ' ', $module_name)),
-				'description'   => $metadata['description'] ?? 'No description available.',
-				'category'      => $metadata['category'] ?? 'General',
-				'plan'          => $metadata['plan'] ?? 'free',
-				'type'          => $metadata['type'] ?? 'WordPress',
-				'link'          => $metadata['link'] ?? '',
-				'is_active'     => $is_active,
-				'settings'      => $module_instance ? $module_instance->getSettings() : null,
-				'settings_link' => $module_instance ? $module_instance->getSettingsLink() : null
-			]);
+			$module_info = $module_instance ?? new UltimaKit_Module_Base(
+				array(
+					'id'            => $metadata['id'],
+					'name'          => $metadata['name'] ?? ucwords( str_replace( '-', ' ', $module_name ) ),
+					'description'   => $metadata['description'] ?? 'No description available.',
+					'category'      => $metadata['category'] ?? 'General',
+					'plan'          => $metadata['plan'] ?? 'free',
+					'type'          => $metadata['type'] ?? 'WordPress',
+					'link'          => $metadata['link'] ?? '',
+					'is_active'     => $is_active,
+					'settings'      => $module_instance ? $module_instance->getSettings() : null,
+					'settings_link' => $module_instance ? $module_instance->getSettingsLink() : null,
+				)
+			);
 
 			$this->modules[] = $module_info;
 		}
@@ -124,19 +126,19 @@ class UltimaKit_Module_Manager extends UltimaKit_Helpers {
 		 */
 
 		// Apply filters and ensure modules are unique by ID
-		$filtered_modules = apply_filters('ultimakit_modules', $this->modules);
-		
+		$filtered_modules = apply_filters( 'ultimakit_modules', $this->modules );
+
 		// Create a temporary array to track unique module IDs
-		$unique_modules = [];
-		$module_ids = [];
+		$unique_modules = array();
+		$module_ids     = array();
 
 		// Only keep modules with unique IDs (first occurrence wins)
-		foreach ($filtered_modules as $module) {
+		foreach ( $filtered_modules as $module ) {
 			$module_id = $module->getID();
 			// Keyed lookup rather than in_array() so this stays linear over ~380 entries.
-			if (!isset($module_ids[$module_id])) {
-				$module_ids[$module_id] = true;
-				$unique_modules[] = $module;
+			if ( ! isset( $module_ids[ $module_id ] ) ) {
+				$module_ids[ $module_id ] = true;
+				$unique_modules[]         = $module;
 			}
 		}
 
@@ -272,46 +274,46 @@ class UltimaKit_Module_Manager extends UltimaKit_Helpers {
 	}
 
 	public function getAllCategories() {
-		$all_categories_array = [];
-		
-		foreach ($this->modules as $module) {
+		$all_categories_array = array();
+
+		foreach ( $this->modules as $module ) {
 			$type = $module->getType();
-			if( in_array($type,['WordPress','WooCommerce']) ){
+			if ( in_array( $type, array( 'WordPress', 'WooCommerce' ) ) ) {
 				$all_categories_array[] = $module->getCategory();
 			}
 		}
-	
-		$all_categories_array = array_unique($all_categories_array);
-		sort($all_categories_array);
-	
-		foreach ($all_categories_array as $category) {
-			echo '<option value="' . esc_html($category) . '">' . esc_html($category) . '</option>';
+
+		$all_categories_array = array_unique( $all_categories_array );
+		sort( $all_categories_array );
+
+		foreach ( $all_categories_array as $category ) {
+			echo '<option value="' . esc_html( $category ) . '">' . esc_html( $category ) . '</option>';
 		}
 	}
 
 	public function getAllCategoriesList() {
-		$all_categories_array = [];
-		
-		foreach ($this->modules as $module) {
+		$all_categories_array = array();
+
+		foreach ( $this->modules as $module ) {
 			$type = $module->getType();
-			if( in_array($type,['WordPress','WooCommerce']) ){
+			if ( in_array( $type, array( 'WordPress', 'WooCommerce' ) ) ) {
 				$all_categories_array[] = $module->getCategory();
 			}
 		}
-	
-		$all_categories_array = array_unique($all_categories_array);
-		sort($all_categories_array);
-	
+
+		$all_categories_array = array_unique( $all_categories_array );
+		sort( $all_categories_array );
+
 		return $all_categories_array;
 	}
-	
 
-	public function getAllModules($type = '', $plan = '') {
-		$all_module_info = [];
-	
-		foreach ($this->modules as $module) {
-			if ((empty($type) || $type === $module->getType()) && (empty($plan) || $plan === $module->getPlan())) {
-				$all_module_info[] = [
+
+	public function getAllModules( $type = '', $plan = '' ) {
+		$all_module_info = array();
+
+		foreach ( $this->modules as $module ) {
+			if ( ( empty( $type ) || $type === $module->getType() ) && ( empty( $plan ) || $plan === $module->getPlan() ) ) {
+				$all_module_info[] = array(
 					'id'            => $module->getID(),
 					'name'          => $module->getName(),
 					'description'   => $module->getDescription(),
@@ -322,24 +324,24 @@ class UltimaKit_Module_Manager extends UltimaKit_Helpers {
 					'is_active'     => $this->isModuleActive( $module->getID() ),
 					'settings'      => $module->getSettings(),
 					'settings_link' => $module->getSettingsLink(),
-				];
+				);
 			}
 		}
-	
+
 		return $all_module_info;
 	}
 
-	public function getAllModulesByCategory($category = '', $types = array()) {
-		$all_module_info = [];
-	
-		foreach ($this->modules as $module) {
+	public function getAllModulesByCategory( $category = '', $types = array() ) {
+		$all_module_info = array();
+
+		foreach ( $this->modules as $module ) {
 			$type = $module->getType();
 			if ( ! empty( $types ) && ! in_array( $type, $types, true ) ) {
 				continue;
 			}
 
-			if ( !empty($category) && $category === $module->getCategory() ) {
-				$all_module_info[] = [
+			if ( ! empty( $category ) && $category === $module->getCategory() ) {
+				$all_module_info[] = array(
 					'id'            => $module->getID(),
 					'name'          => $module->getName(),
 					'description'   => $module->getDescription(),
@@ -350,10 +352,10 @@ class UltimaKit_Module_Manager extends UltimaKit_Helpers {
 					'is_active'     => $this->isModuleActive( $module->getID() ),
 					'settings'      => $module->getSettings(),
 					'settings_link' => $module->getSettingsLink(),
-				];
+				);
 			}
 		}
-	
+
 		return $all_module_info;
 	}
 
@@ -456,7 +458,7 @@ class UltimaKit_Module_Manager extends UltimaKit_Helpers {
 	// First, define an array of allowed keys (whitelist)
 	private function get_allowed_settings_keys() {
 		return array(
-			'noti_bar_text_area'
+			'noti_bar_text_area',
 		);
 	}
 
@@ -474,10 +476,10 @@ class UltimaKit_Module_Manager extends UltimaKit_Helpers {
 
 		foreach ( $raw_settings as $key => $value ) {
 			// Sanitize value based on key type
-			$sanitized_value = $this->sanitize_setting_value($key, $value);
+			$sanitized_value = $this->sanitize_setting_value( $key, $value );
 
-			if ($sanitized_value !== null) {
-				$sanitized_settings[$key] = $sanitized_value;
+			if ( $sanitized_value !== null ) {
+				$sanitized_settings[ $key ] = $sanitized_value;
 			}
 		}
 
@@ -485,7 +487,7 @@ class UltimaKit_Module_Manager extends UltimaKit_Helpers {
 	}
 
 	// Add a method to handle different types of sanitization based on the key
-	private function sanitize_setting_value($key, $value) {
+	private function sanitize_setting_value( $key, $value ) {
 		/*
 		 * Multi-select fields (type "select2") post an array of values, so recurse rather
 		 * than passing the array to trim(), which is a fatal TypeError on PHP 8.
@@ -503,13 +505,13 @@ class UltimaKit_Module_Manager extends UltimaKit_Helpers {
 		}
 
 		// Remove slashes and trim
-		$value = stripslashes(trim((string) $value));
+		$value = stripslashes( trim( (string) $value ) );
 
 		// Sanitize based on key type
-		switch ($key) {
+		switch ( $key ) {
 			// HTML content
 			case 'noti_bar_text_area':
-				return wp_kses_post($value);
+				return wp_kses_post( $value );
 
 			// Default fallback
 			default:
@@ -536,24 +538,24 @@ class UltimaKit_Module_Manager extends UltimaKit_Helpers {
 			$helper->ultimakit_check_and_migrate_settings();
 		}
 
-		$module_id     = isset($_POST['module_id']) ? sanitize_text_field( wp_unslash($_POST['module_id']) ) : '';
-		$module_status = isset($_POST['module_status']) ? sanitize_text_field( wp_unslash($_POST['module_status']) ) : '';
+		$module_id     = isset( $_POST['module_id'] ) ? sanitize_text_field( wp_unslash( $_POST['module_id'] ) ) : '';
+		$module_status = isset( $_POST['module_status'] ) ? sanitize_text_field( wp_unslash( $_POST['module_status'] ) ) : '';
 
 		// When getting the status from POST
-		$module_status = isset($_POST['module_status']) 
-		? $this->validate_and_sanitize_status(wp_unslash($_POST['module_status']))
+		$module_status = isset( $_POST['module_status'] )
+		? $this->validate_and_sanitize_status( wp_unslash( $_POST['module_status'] ) )
 		: 'off';
 
-		if ( isset($_POST['module_settings']) && ( $_POST['module_settings'] ) ) {
-			$module_settings = $this->process_module_settings($_POST['module_settings']);
+		if ( isset( $_POST['module_settings'] ) && ( $_POST['module_settings'] ) ) {
+			$module_settings = $this->process_module_settings( $_POST['module_settings'] );
 		} else {
-			$module_settings = isset($_POST['module_settings']) ? sanitize_text_field($_POST['module_settings']) : '';
+			$module_settings = isset( $_POST['module_settings'] ) ? sanitize_text_field( $_POST['module_settings'] ) : '';
 		}
 
 		// Sanitize save mode and initialize response array
-		$save_mode = isset($_POST['save_mode']) ? sanitize_text_field($_POST['save_mode']) : '';
+		$save_mode = isset( $_POST['save_mode'] ) ? sanitize_text_field( $_POST['save_mode'] ) : '';
 		$response  = array();
-		
+
 		if ( 'settings' == $save_mode ) {
 			if ( isset( $module_settings['custom_option'] ) && ( 1 === $module_settings['custom_option'] || true === $module_settings['custom_option'] ) ) {
 				// For Custom JS and CSS Module
@@ -566,26 +568,26 @@ class UltimaKit_Module_Manager extends UltimaKit_Helpers {
 			$response = array( 'message' => __( 'Module Settings Saved Successfully', 'ultimakit-for-wp' ) );
 		} elseif ( 'on' === $module_status ) {
 			$this->setModuleStatus( $module_id, $module_status );
-			$response = array(
+			$response        = array(
 				'message' => __( 'Module Enabled Successfully', 'ultimakit-for-wp' ),
 				'status'  => 'on',
 			);
-			$module_instance = $this->getModuleInstance($module_id);
-			if ($module_instance) {
-				if (method_exists($module_instance, 'activate')) {
+			$module_instance = $this->getModuleInstance( $module_id );
+			if ( $module_instance ) {
+				if ( method_exists( $module_instance, 'activate' ) ) {
 					$module_instance->activate();
 				}
 			}
 			$helper->ultimakit_update_module_setting( $module_id, 'enabled', 'on', true );
 		} elseif ( 'off' === $module_status ) {
 			$this->setModuleStatus( $module_id, $module_status );
-			$response = array(
+			$response        = array(
 				'message' => __( 'Module Disabled Successfully', 'ultimakit-for-wp' ),
 				'status'  => 'off',
 			);
-			$module_instance = $this->getModuleInstance($module_id);
-			if ($module_instance) {
-				if (method_exists($module_instance, 'deactivate')) {
+			$module_instance = $this->getModuleInstance( $module_id );
+			if ( $module_instance ) {
+				if ( method_exists( $module_instance, 'deactivate' ) ) {
 					$module_instance->deactivate();
 				}
 			}
@@ -600,38 +602,38 @@ class UltimaKit_Module_Manager extends UltimaKit_Helpers {
 	 * @param string $module_id The ID of the module to retrieve.
 	 * @return object|null The module instance if found, null otherwise.
 	 */
-	public function getModuleInstance($module_id) {
+	public function getModuleInstance( $module_id ) {
 		// Sanitize the module ID
-		$module_id = sanitize_key($module_id);
-		
+		$module_id = sanitize_key( $module_id );
+
 		// If the module isn't already loaded, try to load it
-		$module_class = $this->getModuleClass($module_id);
-		if ($module_class && class_exists($module_class)) {
+		$module_class = $this->getModuleClass( $module_id );
+		if ( $module_class && class_exists( $module_class ) ) {
 			try {
-				$instance = new $module_class();
-				$this->modules[$module_id] = $instance;
+				$instance                    = new $module_class();
+				$this->modules[ $module_id ] = $instance;
 				return $instance;
-			} catch (Exception $e) {
-				error_log('Failed to instantiate module ' . $module_id . ': ' . $e->getMessage());
+			} catch ( Exception $e ) {
+				error_log( 'Failed to instantiate module ' . $module_id . ': ' . $e->getMessage() );
 			}
 		}
-		
+
 		return null;
 	}
-	
+
 	/**
 	 * Get the class name for a module by its ID.
 	 *
 	 * @param string $module_id The ID of the module.
 	 * @return string|null The class name if found, null otherwise.
 	 */
-	private function getModuleClass($module_id) {
+	private function getModuleClass( $module_id ) {
 		// Map module IDs to their class names
 		// This could be enhanced to use a more dynamic approach
 		$module_classes = $this->getModuleClassMap();
-		return isset($module_classes[$module_id]) ? $module_classes[$module_id] : null;
+		return isset( $module_classes[ $module_id ] ) ? $module_classes[ $module_id ] : null;
 	}
-	
+
 	/**
 	 * Get a mapping of module IDs to their class names.
 	 *
@@ -639,21 +641,24 @@ class UltimaKit_Module_Manager extends UltimaKit_Helpers {
 	 */
 	private function getModuleClassMap() {
 		// For now, we'll use a static mapping
-		return apply_filters('ultimakit_module_class_map', [
-			'custom_css_js' => 'WP_Ultimakit_Custom_CSS_JS',
-			'admin_bar' => 'WP_Ultimakit_Admin_Bar',
-		]);
+		return apply_filters(
+			'ultimakit_module_class_map',
+			array(
+				'custom_css_js' => 'WP_Ultimakit_Custom_CSS_JS',
+				'admin_bar'     => 'WP_Ultimakit_Admin_Bar',
+			)
+		);
 	}
 
 
 	// Add this before the switch statements
-	private function validate_and_sanitize_status($status) {
+	private function validate_and_sanitize_status( $status ) {
 		// Clean the input
-		$status = trim(strtolower(strval($status)));
+		$status = trim( strtolower( strval( $status ) ) );
 
 		// Validate against allowed values
-		if (!in_array($status, ['on', 'off'], true)) {
-			error_log('Invalid status detected: ' . $status);
+		if ( ! in_array( $status, array( 'on', 'off' ), true ) ) {
+			error_log( 'Invalid status detected: ' . $status );
 			return 'off'; // default value
 		}
 

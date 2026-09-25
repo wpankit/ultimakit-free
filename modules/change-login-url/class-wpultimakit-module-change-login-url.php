@@ -147,43 +147,43 @@ class UltimaKit_Module_Change_Login_Url extends UltimaKit_Module_Manager {
 
 		// Check if we're accessing wp-login.php directly
 		$current_file = basename( $_SERVER['SCRIPT_NAME'] );
-		$request_uri = $_SERVER['REQUEST_URI'];
-		$php_self = $_SERVER['PHP_SELF'];
-		
+		$request_uri  = $_SERVER['REQUEST_URI'];
+		$php_self     = $_SERVER['PHP_SELF'];
+
 		// Also check if we're on the login page through WordPress's internal detection
 		$is_login_page = false;
-		
+
 		// Check various ways WordPress might indicate we're on the login page
-		if ( $current_file === 'wp-login.php' || 
-			 strpos( $request_uri, '/wp-login.php' ) !== false ||
-			 strpos( $php_self, '/wp-login.php' ) !== false ||
-			 ( function_exists( 'is_admin' ) && ! is_admin() && strpos( $request_uri, 'wp-login' ) !== false ) ) {
+		if ( $current_file === 'wp-login.php' ||
+			strpos( $request_uri, '/wp-login.php' ) !== false ||
+			strpos( $php_self, '/wp-login.php' ) !== false ||
+			( function_exists( 'is_admin' ) && ! is_admin() && strpos( $request_uri, 'wp-login' ) !== false ) ) {
 			$is_login_page = true;
 		}
-		
+
 		// Block access to default login URL if custom URL is set
 		if ( $is_login_page ) {
-			
+
 			// Don't redirect if this is an AJAX request
 			if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 				return;
 			}
-			
+
 			// Don't redirect if this is a cron job
 			if ( defined( 'DOING_CRON' ) && DOING_CRON ) {
 				return;
 			}
-			
+
 			// Don't redirect if this is an XML-RPC request
 			if ( defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST ) {
 				return;
 			}
-			
+
 			// Don't redirect if this is a REST API request
 			if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
 				return;
 			}
-			
+
 			// Redirect to homepage
 			wp_redirect( home_url( '/' ) );
 			exit;
@@ -222,12 +222,12 @@ class UltimaKit_Module_Change_Login_Url extends UltimaKit_Module_Manager {
 
 			// Set up the login page properly
 			global $error, $user_login, $redirect_to;
-			
+
 			// Initialize variables that wp-login.php expects
-			$error = '';
-			$user_login = '';
+			$error       = '';
+			$user_login  = '';
 			$redirect_to = '';
-			
+
 			// Get any query parameters
 			if ( isset( $_GET['redirect_to'] ) ) {
 				$redirect_to = $_GET['redirect_to'];
@@ -235,12 +235,12 @@ class UltimaKit_Module_Change_Login_Url extends UltimaKit_Module_Manager {
 			if ( isset( $_GET['user_login'] ) ) {
 				$user_login = $_GET['user_login'];
 			}
-			
+
 			// Load the WordPress login page
 			if ( ! defined( 'WP_USE_THEMES' ) ) {
 				define( 'WP_USE_THEMES', false );
 			}
-			require_once( ABSPATH . 'wp-login.php' );
+			require_once ABSPATH . 'wp-login.php';
 			exit;
 		}
 	}
@@ -266,12 +266,12 @@ class UltimaKit_Module_Change_Login_Url extends UltimaKit_Module_Manager {
 
 		// Build the custom login URL
 		$custom_login_url = home_url( '/' . $custom_slug . '/' );
-		
+
 		// Add redirect parameter if provided
 		if ( ! empty( $redirect ) ) {
 			$custom_login_url = add_query_arg( 'redirect_to', urlencode( $redirect ), $custom_login_url );
 		}
-		
+
 		// Add force re-authentication parameter if needed
 		if ( $force_reauth ) {
 			$custom_login_url = add_query_arg( 'reauth', '1', $custom_login_url );
@@ -328,8 +328,8 @@ class UltimaKit_Module_Change_Login_Url extends UltimaKit_Module_Manager {
 
 		// Replace default login URL with custom URL in redirects
 		$default_login_url = wp_login_url();
-		$custom_login_url = home_url( '/' . $custom_slug . '/' );
-		
+		$custom_login_url  = home_url( '/' . $custom_slug . '/' );
+
 		return str_replace( $default_login_url, $custom_login_url, $location );
 	}
 
@@ -356,7 +356,7 @@ class UltimaKit_Module_Change_Login_Url extends UltimaKit_Module_Manager {
 				'value' => $this->getModuleSettings( $this->ID, 'enable_custom_login_url' ),
 				'desc'  => __( 'Enable this to change your default login URL.', 'ultimakit-for-wp' ),
 			),
-			'custom_login_slug' => array(
+			'custom_login_slug'       => array(
 				'type'        => 'text',
 				'label'       => __( 'Custom Login URL Slug', 'ultimakit-for-wp' ),
 				'value'       => $this->getModuleSettings( $this->ID, 'custom_login_slug' ),
@@ -400,4 +400,4 @@ class UltimaKit_Module_Change_Login_Url extends UltimaKit_Module_Manager {
 			)
 		);
 	}
-} 
+}

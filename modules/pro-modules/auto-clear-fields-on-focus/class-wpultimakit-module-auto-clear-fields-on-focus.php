@@ -108,12 +108,12 @@ class UltimaKit_Module_Auto_Clear_Fields_On_Focus extends UltimaKit_Module_Manag
 			add_action( 'admin_footer', array( $this, 'add_modal' ) );
 
 			// Add a form-specific setting to Gravity Forms.
-			add_filter('gform_form_settings_fields', array( $this, 'wpuk_auto_clear_settings_fields' ), 10, 2);
+			add_filter( 'gform_form_settings_fields', array( $this, 'wpuk_auto_clear_settings_fields' ), 10, 2 );
 
 			// Save the form-specific setting.
-			add_action('gform_pre_form_settings_save', array( $this, 'wpuk_auto_clear_save_settings' ) );
+			add_action( 'gform_pre_form_settings_save', array( $this, 'wpuk_auto_clear_save_settings' ) );
 
-			add_action('gform_enqueue_scripts', array( $this, 'wpuk_enqueue_auto_clear_scripts' ) );
+			add_action( 'gform_enqueue_scripts', array( $this, 'wpuk_enqueue_auto_clear_scripts' ) );
 
 		}
 	}
@@ -130,13 +130,13 @@ class UltimaKit_Module_Auto_Clear_Fields_On_Focus extends UltimaKit_Module_Manag
 	 * @return void
 	 */
 	public function add_modal() {
-		
+
 		$arguments          = array();
 		$arguments['ID']    = $this->ID;
 		$arguments['title'] = __( 'Auto-Clear Form Field on Focus', 'ultimakit-for-wp' );
 
 		$arguments['fields'] = array(
-			'wpuk_auto_clear_global'         => array(
+			'wpuk_auto_clear_global' => array(
 				'type'  => 'switch',
 				'label' => __( 'Enable Auto-Clear Globally', 'ultimakit-for-wp' ),
 				'value' => $this->getModuleSettings( $this->ID, 'wpuk_auto_clear_global' ),
@@ -170,44 +170,53 @@ class UltimaKit_Module_Auto_Clear_Fields_On_Focus extends UltimaKit_Module_Manag
 		);
 	}
 
-	public function wpuk_auto_clear_settings_fields($fields, $form) {
+	public function wpuk_auto_clear_settings_fields( $fields, $form ) {
 		// Retrieve settings from the JSON field or fallback to individual values
-		$settings = json_decode(rgar($form, 'wpuk_auto_clear_settings'), true);
-		if (empty($settings)) {
+		$settings = json_decode( rgar( $form, 'wpuk_auto_clear_settings' ), true );
+		if ( empty( $settings ) ) {
 			// Default fallback values
 			$settings = array(
 				'enabled' => 'inherit', // Options: inherit, enabled, disabled
 			);
 		}
-	
+
 		// Extract settings
 		$enabled = $settings['enabled'];
-	
+
 		// Add settings fields to the form editor
 		$fields['wpuk_auto_clear_settings'] = array(
-			'title' => esc_html__('Auto-Clear on Focus', 'ultimakit-for-wp'),
+			'title'  => esc_html__( 'Auto-Clear on Focus', 'ultimakit-for-wp' ),
 			'fields' => array(
 				array(
-					'id' => 'wpuk_auto_clear_enabled',
-					'name' => 'wpuk_auto_clear_enabled',
-					'type' => 'select',
-					'label' => esc_html__('Enable Auto-Clear on Focus', 'ultimakit-for-wp'),
-					'description' => esc_html__('Enable or disable the auto-clear functionality when a field gains focus.', 'ultimakit-for-wp'),
-					'class' => 'medium merge-right',
-					'choices' => array(
-						array('label' => esc_html__('Inherit Global Setting', 'ultimakit-for-wp'), 'value' => 'inherit'),
-						array('label' => esc_html__('Enabled', 'ultimakit-for-wp'), 'value' => 'enabled'),
-						array('label' => esc_html__('Disabled', 'ultimakit-for-wp'), 'value' => 'disabled'),
+					'id'          => 'wpuk_auto_clear_enabled',
+					'name'        => 'wpuk_auto_clear_enabled',
+					'type'        => 'select',
+					'label'       => esc_html__( 'Enable Auto-Clear on Focus', 'ultimakit-for-wp' ),
+					'description' => esc_html__( 'Enable or disable the auto-clear functionality when a field gains focus.', 'ultimakit-for-wp' ),
+					'class'       => 'medium merge-right',
+					'choices'     => array(
+						array(
+							'label' => esc_html__( 'Inherit Global Setting', 'ultimakit-for-wp' ),
+							'value' => 'inherit',
+						),
+						array(
+							'label' => esc_html__( 'Enabled', 'ultimakit-for-wp' ),
+							'value' => 'enabled',
+						),
+						array(
+							'label' => esc_html__( 'Disabled', 'ultimakit-for-wp' ),
+							'value' => 'disabled',
+						),
 					),
-					'value' => $enabled,
+					'value'       => $enabled,
 				),
 			),
 		);
-	
+
 		return $fields;
 	}
-	
-	public function wpuk_auto_clear_save_settings($form) {
+
+	public function wpuk_auto_clear_save_settings( $form ) {
 		/*
 		 * Gravity Forms posts settings under _gform_setting_*, so the un-prefixed read
 		 * always returned '' and this stored {"enabled":""} on every save. The value that
@@ -221,14 +230,14 @@ class UltimaKit_Module_Auto_Clear_Fields_On_Focus extends UltimaKit_Module_Manag
 		return $form;
 	}
 
-	public function wpuk_enqueue_auto_clear_scripts($form) {
+	public function wpuk_enqueue_auto_clear_scripts( $form ) {
 		$global_setting = ( 'on' === $this->getModuleSettings( $this->ID, 'wpuk_auto_clear_global' ) ) ? 'enabled' : 'disabled';
 		$form_setting   = $form['wpuk_auto_clear_enabled'] ?? 'inherit';
 
 		// Determine if the feature should be enabled for this form.
-		$enabled = ($form_setting === 'enabled') || ($form_setting === 'inherit' && $global_setting === 'enabled');
+		$enabled = ( $form_setting === 'enabled' ) || ( $form_setting === 'inherit' && $global_setting === 'enabled' );
 
-		if ($enabled) {
+		if ( $enabled ) {
 			$form_id = absint( rgar( $form, 'id' ) );
 
 			/*
@@ -245,9 +254,11 @@ class UltimaKit_Module_Auto_Clear_Fields_On_Focus extends UltimaKit_Module_Manag
 			 * works for AJAX forms and after a validation re-render, where DOMContentLoaded
 			 * has already fired.
 			 */
-			wp_add_inline_script('jquery', "
-				( function ( \$ ) {
-					var wpukFormId = " . $form_id . ";
+			wp_add_inline_script(
+				'jquery',
+				'
+				( function ( $ ) {
+					var wpukFormId = ' . $form_id . ";
 					var wpukSelector = 'input[type=\"text\"], input[type=\"email\"], input[type=\"tel\"], input[type=\"url\"], input[type=\"number\"], input[type=\"password\"], input[type=\"search\"], textarea';
 
 					function wpukBindAutoClear( formId ) {
@@ -281,9 +292,8 @@ class UltimaKit_Module_Auto_Clear_Fields_On_Focus extends UltimaKit_Module_Manag
 						wpukBindAutoClear( wpukFormId );
 					} );
 				} )( jQuery );
-			");
+			"
+			);
 		}
 	}
-	
-
 }

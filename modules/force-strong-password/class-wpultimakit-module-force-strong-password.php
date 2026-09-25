@@ -110,20 +110,20 @@ class UltimaKit_Module_Force_Strong_Password extends UltimaKit_Module_Manager {
 		if ( $this->is_active ) {
 			// Add password strength validation to user registration
 			add_action( 'user_register', array( $this, 'validate_password_strength' ), 10, 1 );
-			
+
 			// Add password strength validation to profile updates
 			add_action( 'profile_update', array( $this, 'validate_password_strength' ), 10, 1 );
-			
+
 			// Add password strength validation to password reset
 			add_action( 'validate_password_reset', array( $this, 'validate_password_reset' ), 10, 2 );
-			
+
 			// Add password strength validation to admin user creation
 			add_action( 'edit_user_created_user', array( $this, 'validate_password_strength' ), 10, 1 );
-			
+
 			// Add JavaScript to password fields for real-time validation
 			add_action( 'admin_footer', array( $this, 'add_password_strength_script' ) );
 			add_action( 'wp_footer', array( $this, 'add_password_strength_script' ) );
-			
+
 			// Add CSS for password strength indicator
 			add_action( 'admin_head', array( $this, 'add_password_strength_styles' ) );
 			add_action( 'wp_head', array( $this, 'add_password_strength_styles' ) );
@@ -139,7 +139,7 @@ class UltimaKit_Module_Force_Strong_Password extends UltimaKit_Module_Manager {
 	public function validate_password_strength( $user_id ) {
 		// Get the password from POST data
 		$password = isset( $_POST['pass1'] ) ? $_POST['pass1'] : '';
-		
+
 		// If no password is being set, skip validation
 		if ( empty( $password ) ) {
 			return;
@@ -147,18 +147,18 @@ class UltimaKit_Module_Force_Strong_Password extends UltimaKit_Module_Manager {
 
 		// Validate password strength
 		$validation_result = $this->check_password_strength( $password );
-		
+
 		if ( ! $validation_result['valid'] ) {
 			// Remove the user if it was just created
 			if ( did_action( 'user_register' ) ) {
 				wp_delete_user( $user_id );
 			}
-			
+
 			// Set error message
-			wp_die( 
-				esc_html( $validation_result['message'] ), 
-				__( 'Password Strength Error', 'ultimakit-for-wp' ), 
-				array( 'back_link' => true ) 
+			wp_die(
+				esc_html( $validation_result['message'] ),
+				__( 'Password Strength Error', 'ultimakit-for-wp' ),
+				array( 'back_link' => true )
 			);
 		}
 	}
@@ -172,10 +172,10 @@ class UltimaKit_Module_Force_Strong_Password extends UltimaKit_Module_Manager {
 	 */
 	public function validate_password_reset( $errors, $user ) {
 		$password = isset( $_POST['pass1'] ) ? $_POST['pass1'] : '';
-		
+
 		if ( ! empty( $password ) ) {
 			$validation_result = $this->check_password_strength( $password );
-			
+
 			if ( ! $validation_result['valid'] ) {
 				$errors->add( 'password_strength', $validation_result['message'] );
 			}
@@ -190,81 +190,157 @@ class UltimaKit_Module_Force_Strong_Password extends UltimaKit_Module_Manager {
 	 */
 	private function check_password_strength( $password ) {
 		$errors = array();
-		
+
 		// Check minimum length (8 characters)
 		if ( strlen( $password ) < 8 ) {
 			$errors[] = __( 'Password must be at least 8 characters long.', 'ultimakit-for-wp' );
 		}
-		
+
 		// Check for uppercase letters
 		if ( ! preg_match( '/[A-Z]/', $password ) ) {
 			$errors[] = __( 'Password must contain at least one uppercase letter.', 'ultimakit-for-wp' );
 		}
-		
+
 		// Check for lowercase letters
 		if ( ! preg_match( '/[a-z]/', $password ) ) {
 			$errors[] = __( 'Password must contain at least one lowercase letter.', 'ultimakit-for-wp' );
 		}
-		
+
 		// Check for numbers
 		if ( ! preg_match( '/[0-9]/', $password ) ) {
 			$errors[] = __( 'Password must contain at least one number.', 'ultimakit-for-wp' );
 		}
-		
+
 		// Check for special characters
 		if ( ! preg_match( '/[^A-Za-z0-9]/', $password ) ) {
 			$errors[] = __( 'Password must contain at least one special character.', 'ultimakit-for-wp' );
 		}
-		
+
 		// Check for common passwords
 		$common_passwords = array(
-			'password', '123456', '123456789', 'qwerty', 'abc123', 'password123',
-			'admin', 'letmein', 'welcome', 'monkey', 'dragon', 'master', 'hello',
-			'freedom', 'whatever', 'qazwsx', 'trustno1', 'jordan', 'harley',
-			'ranger', 'iwantu', 'jennifer', 'hunter', 'buster', 'soccer',
-			'batman', 'andrew', 'tigger', 'sunshine', 'iloveyou', 'fuckme',
-			'2000', 'charlie', 'robert', 'thomas', 'hockey', 'ranger',
-			'daniel', 'starwars', 'klaster', '112233', 'george', 'computer',
-			'michele', 'jessica', 'pepper', '1111', 'zxcvbn', '555555',
-			'11111111', '131313', 'freedom', '7777777', 'pass', 'maggie',
-			'159753', 'aaaaaa', 'ginger', 'princess', 'joshua', 'cheese',
-			'amanda', 'summer', 'love', 'ashley', 'nicole', 'chelsea',
-			'biteme', 'matthew', 'access', 'yankees', '987654321', 'dallas',
-			'austin', 'thunder', 'taylor', 'matrix', 'mobilemail', 'mom',
-			'monitor', 'monitoring', 'montana', 'moon', 'moscow'
+			'password',
+			'123456',
+			'123456789',
+			'qwerty',
+			'abc123',
+			'password123',
+			'admin',
+			'letmein',
+			'welcome',
+			'monkey',
+			'dragon',
+			'master',
+			'hello',
+			'freedom',
+			'whatever',
+			'qazwsx',
+			'trustno1',
+			'jordan',
+			'harley',
+			'ranger',
+			'iwantu',
+			'jennifer',
+			'hunter',
+			'buster',
+			'soccer',
+			'batman',
+			'andrew',
+			'tigger',
+			'sunshine',
+			'iloveyou',
+			'fuckme',
+			'2000',
+			'charlie',
+			'robert',
+			'thomas',
+			'hockey',
+			'ranger',
+			'daniel',
+			'starwars',
+			'klaster',
+			'112233',
+			'george',
+			'computer',
+			'michele',
+			'jessica',
+			'pepper',
+			'1111',
+			'zxcvbn',
+			'555555',
+			'11111111',
+			'131313',
+			'freedom',
+			'7777777',
+			'pass',
+			'maggie',
+			'159753',
+			'aaaaaa',
+			'ginger',
+			'princess',
+			'joshua',
+			'cheese',
+			'amanda',
+			'summer',
+			'love',
+			'ashley',
+			'nicole',
+			'chelsea',
+			'biteme',
+			'matthew',
+			'access',
+			'yankees',
+			'987654321',
+			'dallas',
+			'austin',
+			'thunder',
+			'taylor',
+			'matrix',
+			'mobilemail',
+			'mom',
+			'monitor',
+			'monitoring',
+			'montana',
+			'moon',
+			'moscow',
 		);
-		
+
 		if ( in_array( strtolower( $password ), $common_passwords ) ) {
 			$errors[] = __( 'Password is too common. Please choose a more unique password.', 'ultimakit-for-wp' );
 		}
-		
+
 		// Check for sequential characters
 		if ( preg_match( '/(.)\1{2,}/', $password ) ) {
 			$errors[] = __( 'Password cannot contain more than 2 consecutive identical characters.', 'ultimakit-for-wp' );
 		}
-		
+
 		// Check for keyboard sequences
 		$keyboard_sequences = array(
-			'qwerty', 'asdfgh', 'zxcvbn', '123456', '654321',
-			'qwertyuiop', 'asdfghjkl', 'zxcvbnm'
+			'qwerty',
+			'asdfgh',
+			'zxcvbn',
+			'123456',
+			'654321',
+			'qwertyuiop',
+			'asdfghjkl',
+			'zxcvbnm',
 		);
-		
+
 		foreach ( $keyboard_sequences as $sequence ) {
 			if ( stripos( $password, $sequence ) !== false ) {
 				$errors[] = __( 'Password contains keyboard sequences which are not allowed.', 'ultimakit-for-wp' );
 				break;
 			}
 		}
-		
+
 		if ( empty( $errors ) ) {
 			return array(
 				'valid'   => true,
-				'message' => __( 'Password meets strength requirements.', 'ultimakit-for-wp' )
+				'message' => __( 'Password meets strength requirements.', 'ultimakit-for-wp' ),
 			);
 		} else {
 			return array(
 				'valid'   => false,
-				'message' => implode( ' ', $errors )
+				'message' => implode( ' ', $errors ),
 			);
 		}
 	}
@@ -359,4 +435,4 @@ class UltimaKit_Module_Force_Strong_Password extends UltimaKit_Module_Manager {
 		</style>
 		<?php
 	}
-} 
+}

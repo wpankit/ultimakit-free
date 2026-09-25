@@ -107,9 +107,9 @@ class UltimaKit_Module_Email_Blacklist extends UltimaKit_Module_Manager {
 			add_action( 'admin_enqueue_scripts', array( $this, 'add_scripts' ) );
 			add_action( 'admin_footer', array( $this, 'add_modal' ) );
 
-			add_action('gform_validation', array( $this, 'gf_email_blacklist_check' ) );
-			add_filter('gform_form_settings_fields', array( $this, 'gf_email_blacklist_settings_fields' ), 10, 2);
-			add_action('gform_pre_form_settings_save', array( $this, 'gf_email_blacklist_save_settings' ) );
+			add_action( 'gform_validation', array( $this, 'gf_email_blacklist_check' ) );
+			add_filter( 'gform_form_settings_fields', array( $this, 'gf_email_blacklist_settings_fields' ), 10, 2 );
+			add_action( 'gform_pre_form_settings_save', array( $this, 'gf_email_blacklist_save_settings' ) );
 
 		}
 	}
@@ -131,34 +131,34 @@ class UltimaKit_Module_Email_Blacklist extends UltimaKit_Module_Manager {
 		$arguments['title'] = __( 'Email Blacklist (Gravity Forms)', 'ultimakit-for-wp' );
 
 		$arguments['fields'] = array(
-			'enable_global_settings'         => array(
+			'enable_global_settings' => array(
 				'type'  => 'switch',
 				'label' => __( 'Enable Global Settings', 'ultimakit-for-wp' ),
 				'value' => $this->getModuleSettings( $this->ID, 'enable_global_settings' ),
 			),
-			'emails'     => array(
+			'emails'                 => array(
 				'type'  => 'textarea',
 				'label' => __( 'Blacklisted Emails (one per line)', 'ultimakit-for-wp' ),
-				'desc' => __( 'Enter blacklisted email addresses, one per line.', 'ultimakit-for-wp' ),
+				'desc'  => __( 'Enter blacklisted email addresses, one per line.', 'ultimakit-for-wp' ),
 				'value' => $this->getModuleSettings( $this->ID, 'emails' ),
 			),
-			'domains'    => array(
+			'domains'                => array(
 				'type'  => 'textarea',
 				'label' => __( 'Blacklisted Domains (one per line)', 'ultimakit-for-wp' ),
-				'desc' => __( 'Enter blacklisted domains (e.g., gmail.com), one per line.', 'ultimakit-for-wp' ),
+				'desc'  => __( 'Enter blacklisted domains (e.g., gmail.com), one per line.', 'ultimakit-for-wp' ),
 				'value' => $this->getModuleSettings( $this->ID, 'domains' ),
 			),
-			'patterns'         => array(
+			'patterns'               => array(
 				'type'  => 'textarea',
 				'label' => __( 'Blacklist Regex Patterns (one per line)', 'ultimakit-for-wp' ),
-				'desc' => __( 'Enter blacklisted regex patterns (e.g., /.ru$/), one per line.', 'ultimakit-for-wp' ),
+				'desc'  => __( 'Enter blacklisted regex patterns (e.g., /.ru$/), one per line.', 'ultimakit-for-wp' ),
 				'value' => $this->getModuleSettings( $this->ID, 'patterns' ),
 			),
-			'message'         => array(
+			'message'                => array(
 				'type'  => 'text',
 				'label' => __( 'Error Message', 'ultimakit-for-wp' ),
-				'desc' => __( 'Custom error message to display.', 'ultimakit-for-wp' ),
-				'value' => $this->getModuleSettings( $this->ID, 'message', __('This email address is not allowed.','ultimakit-for-wp') ),
+				'desc'  => __( 'Custom error message to display.', 'ultimakit-for-wp' ),
+				'value' => $this->getModuleSettings( $this->ID, 'message', __( 'This email address is not allowed.', 'ultimakit-for-wp' ) ),
 			),
 		);
 
@@ -209,9 +209,9 @@ class UltimaKit_Module_Email_Blacklist extends UltimaKit_Module_Manager {
 		return $message;
 	}
 
-	public function gf_email_blacklist_check($validation_result) {
+	public function gf_email_blacklist_check( $validation_result ) {
 		$form = $validation_result['form'];
-	
+
 		// Use global settings if enabled
 		if ( 'on' === $this->getModuleSettings( $this->ID, 'enable_global_settings' ) ) {
 			/*
@@ -228,171 +228,171 @@ class UltimaKit_Module_Email_Blacklist extends UltimaKit_Module_Manager {
 			);
 		} else {
 			// Retrieve blacklist settings from gf_email_blacklist JSON field
-			$form_settings_json = rgar($form, 'gf_email_blacklist_emails');
-			$form_settings = !empty($form_settings_json) ? json_decode($form_settings_json, true) : array();
-			
+			$form_settings_json = rgar( $form, 'gf_email_blacklist_emails' );
+			$form_settings      = ! empty( $form_settings_json ) ? json_decode( $form_settings_json, true ) : array();
+
 			// Set default settings if no blacklist exists
-			$settings = wp_parse_args($form_settings, array(
-				'emails' => array_filter(array_map('trim', explode("\n", rgar($form, 'gf_email_blacklist_emails', '')))),
-				'domains' => array_filter(array_map('trim', explode("\n", rgar($form, 'gf_email_blacklist_domains', '')))),
-				'patterns' => array_filter(array_map('trim', explode("\n", rgar($form, 'gf_email_blacklist_patterns', '')))),
-				'error_message' => rgar($form, 'gf_email_blacklist_error_message', 'This email address is not allowed.'),
-			));
+			$settings = wp_parse_args(
+				$form_settings,
+				array(
+					'emails'        => array_filter( array_map( 'trim', explode( "\n", rgar( $form, 'gf_email_blacklist_emails', '' ) ) ) ),
+					'domains'       => array_filter( array_map( 'trim', explode( "\n", rgar( $form, 'gf_email_blacklist_domains', '' ) ) ) ),
+					'patterns'      => array_filter( array_map( 'trim', explode( "\n", rgar( $form, 'gf_email_blacklist_patterns', '' ) ) ) ),
+					'error_message' => rgar( $form, 'gf_email_blacklist_error_message', 'This email address is not allowed.' ),
+				)
+			);
 		}
-		
+
 		// Iterate over fields to find email fields
-		foreach ($form['fields'] as &$field) {
-			if ($field->type == 'email') {
+		foreach ( $form['fields'] as &$field ) {
+			if ( $field->type == 'email' ) {
 				$email_field_id = $field->id;
-				$email = rgpost("input_" . $email_field_id);
-	
+				$email          = rgpost( 'input_' . $email_field_id );
+
 				/*
 				 * Gravity Forms trims the value before validating and saving it (and validates
 				 * only the first value of an array), so match against that same value. Comparing
 				 * the raw POST let " bad@competitor.com" through with a leading space.
 				 */
-				$email = is_array($email) ? rgar($email, 0) : $email;
-				$email = is_string($email) ? trim($email) : '';
+				$email = is_array( $email ) ? rgar( $email, 0 ) : $email;
+				$email = is_string( $email ) ? trim( $email ) : '';
 
-				if (empty($email)) {
+				if ( empty( $email ) ) {
 					continue; // Skip validation if the field is empty
 				}
-				
+
 				// Check blacklist emails (address and entries trimmed and lower-cased)
-				$blocked_emails = array_map('strtolower', array_map('trim', (array) $settings['emails']));
-				if (in_array(strtolower($email), $blocked_emails, true)) {
+				$blocked_emails = array_map( 'strtolower', array_map( 'trim', (array) $settings['emails'] ) );
+				if ( in_array( strtolower( $email ), $blocked_emails, true ) ) {
 					$validation_result['is_valid'] = false;
-					$field['failed_validation'] = true;
-					$field['validation_message'] = $settings['error_message'];
+					$field['failed_validation']    = true;
+					$field['validation_message']   = $settings['error_message'];
 					continue;
 				}
-	
+
 				// Check blacklist domains; a blocked domain also blocks its subdomains
-				$domain = strtolower(ltrim(strstr($email, '@'), '@'));
+				$domain            = strtolower( ltrim( strstr( $email, '@' ), '@' ) );
 				$is_blocked_domain = false;
-				foreach ((array) $settings['domains'] as $blocked_domain) {
-					$blocked_domain = ltrim(strtolower(trim($blocked_domain)), '@.');
-					if ('' !== $blocked_domain && ($domain === $blocked_domain || substr($domain, -strlen('.' . $blocked_domain)) === '.' . $blocked_domain)) {
+				foreach ( (array) $settings['domains'] as $blocked_domain ) {
+					$blocked_domain = ltrim( strtolower( trim( $blocked_domain ) ), '@.' );
+					if ( '' !== $blocked_domain && ( $domain === $blocked_domain || substr( $domain, -strlen( '.' . $blocked_domain ) ) === '.' . $blocked_domain ) ) {
 						$is_blocked_domain = true;
 						break;
 					}
 				}
-				if ($is_blocked_domain) {
+				if ( $is_blocked_domain ) {
 					$validation_result['is_valid'] = false;
-					$field['failed_validation'] = true;
-					$field['validation_message'] = $settings['error_message'];
+					$field['failed_validation']    = true;
+					$field['validation_message']   = $settings['error_message'];
 					continue;
 				}
-	
-				
+
 				// Check blacklist patterns (regex)
-				foreach ($settings['patterns'] as $pattern) {
+				foreach ( $settings['patterns'] as $pattern ) {
 					// Ensure the pattern is wrapped with delimiters if missing
 					$wrapped_pattern = $pattern;
-					if (@preg_match($pattern, '') === false) {
-						$wrapped_pattern = '/' . trim($pattern, '/') . '/';
+					if ( @preg_match( $pattern, '' ) === false ) {
+						$wrapped_pattern = '/' . trim( $pattern, '/' ) . '/';
 					}
-	
+
 					// Check if the email matches the regex
-					if (@preg_match($wrapped_pattern, $email)) {
+					if ( @preg_match( $wrapped_pattern, $email ) ) {
 						$validation_result['is_valid'] = false;
-						$field['failed_validation'] = true;
-						$field['validation_message'] = $settings['error_message'];
+						$field['failed_validation']    = true;
+						$field['validation_message']   = $settings['error_message'];
 						continue;
 					}
 				}
-	
 			}
 		}
-	
+
 		$validation_result['form'] = $form;
 		return $validation_result;
 	}
 
-	public function gf_email_blacklist_settings_fields($fields, $form) {
+	public function gf_email_blacklist_settings_fields( $fields, $form ) {
 		// Retrieve settings from gf_email_blacklist JSON field
-		$settings = json_decode(rgar($form, 'gf_email_blacklist'), true);
-		if (empty($settings)) {
+		$settings = json_decode( rgar( $form, 'gf_email_blacklist' ), true );
+		if ( empty( $settings ) ) {
 			// Fall back to individual fields if JSON is empty
 			$settings = array(
-				'emails' => array_filter(array_map('trim', explode("\n", rgar($form, 'gf_email_blacklist_emails', '')))),
-				'domains' => array_filter(array_map('trim', explode("\n", rgar($form, 'gf_email_blacklist_domains', '')))),
-				'patterns' => array_filter(array_map('trim', explode("\n", rgar($form, 'gf_email_blacklist_patterns', '')))),
-				'error_message' => rgar($form, 'gf_email_blacklist_error_message', 'This email address is not allowed.'),
+				'emails'        => array_filter( array_map( 'trim', explode( "\n", rgar( $form, 'gf_email_blacklist_emails', '' ) ) ) ),
+				'domains'       => array_filter( array_map( 'trim', explode( "\n", rgar( $form, 'gf_email_blacklist_domains', '' ) ) ) ),
+				'patterns'      => array_filter( array_map( 'trim', explode( "\n", rgar( $form, 'gf_email_blacklist_patterns', '' ) ) ) ),
+				'error_message' => rgar( $form, 'gf_email_blacklist_error_message', 'This email address is not allowed.' ),
 			);
 		}
-	
+
 		// Convert arrays back to newline-separated strings for display in the editor
-		$emails_text = implode("\n", $settings['emails']);
-		$domains_text = implode("\n", $settings['domains']);
-		$patterns_text = implode("\n", $settings['patterns']);
+		$emails_text   = implode( "\n", $settings['emails'] );
+		$domains_text  = implode( "\n", $settings['domains'] );
+		$patterns_text = implode( "\n", $settings['patterns'] );
 		$error_message = $settings['error_message'];
-	
+
 		// Add settings fields to the form editor
 		$fields['gf_email_blacklist_settings'] = array(
-			'title' => esc_html__('Email Blacklist', 'ultimakit-for-wp'),
+			'title'  => esc_html__( 'Email Blacklist', 'ultimakit-for-wp' ),
 			'fields' => array(
 				array(
-					'id' => 'gf_email_blacklist_emails',
-					'name' => 'gf_email_blacklist_emails',
-					'type' => 'textarea',
-					'label' => esc_html__('Blacklisted Emails (one per line)', 'ultimakit-for-wp'),
-					'description' => esc_html__('Enter blacklisted email addresses, one per line.', 'ultimakit-for-wp'),
-					'class' => 'medium merge-right',
-					'value' => $emails_text,
+					'id'          => 'gf_email_blacklist_emails',
+					'name'        => 'gf_email_blacklist_emails',
+					'type'        => 'textarea',
+					'label'       => esc_html__( 'Blacklisted Emails (one per line)', 'ultimakit-for-wp' ),
+					'description' => esc_html__( 'Enter blacklisted email addresses, one per line.', 'ultimakit-for-wp' ),
+					'class'       => 'medium merge-right',
+					'value'       => $emails_text,
 				),
 				array(
-					'id' => 'gf_email_blacklist_domains',
-					'name' => 'gf_email_blacklist_domains',
-					'type' => 'textarea',
-					'label' => esc_html__('Blacklisted Domains (one per line)', 'ultimakit-for-wp'),
-					'description' => esc_html__('Enter blacklisted domains (e.g., gmail.com), one per line.', 'ultimakit-for-wp'),
-					'class' => 'medium merge-right',
-					'value' => $domains_text,
+					'id'          => 'gf_email_blacklist_domains',
+					'name'        => 'gf_email_blacklist_domains',
+					'type'        => 'textarea',
+					'label'       => esc_html__( 'Blacklisted Domains (one per line)', 'ultimakit-for-wp' ),
+					'description' => esc_html__( 'Enter blacklisted domains (e.g., gmail.com), one per line.', 'ultimakit-for-wp' ),
+					'class'       => 'medium merge-right',
+					'value'       => $domains_text,
 				),
 				array(
-					'id' => 'gf_email_blacklist_patterns',
-					'name' => 'gf_email_blacklist_patterns',
-					'type' => 'textarea',
-					'label' => esc_html__('Blacklist Regex Patterns (one per line)', 'ultimakit-for-wp'),
-					'description' => esc_html__('Enter blacklisted regex patterns (e.g., /.ru$/), one per line.', 'ultimakit-for-wp'),
-					'class' => 'medium merge-right',
-					'value' => $patterns_text,
+					'id'          => 'gf_email_blacklist_patterns',
+					'name'        => 'gf_email_blacklist_patterns',
+					'type'        => 'textarea',
+					'label'       => esc_html__( 'Blacklist Regex Patterns (one per line)', 'ultimakit-for-wp' ),
+					'description' => esc_html__( 'Enter blacklisted regex patterns (e.g., /.ru$/), one per line.', 'ultimakit-for-wp' ),
+					'class'       => 'medium merge-right',
+					'value'       => $patterns_text,
 				),
 				array(
-					'id' => 'gf_email_blacklist_error_message',
-					'name' => 'gf_email_blacklist_error_message',
-					'type' => 'text',
-					'label' => esc_html__('Error Message', 'ultimakit-for-wp'),
-					'description' => esc_html__('Custom error message to display.', 'ultimakit-for-wp'),
-					'class' => 'medium merge-right',
-					'value' => $error_message,
+					'id'          => 'gf_email_blacklist_error_message',
+					'name'        => 'gf_email_blacklist_error_message',
+					'type'        => 'text',
+					'label'       => esc_html__( 'Error Message', 'ultimakit-for-wp' ),
+					'description' => esc_html__( 'Custom error message to display.', 'ultimakit-for-wp' ),
+					'class'       => 'medium merge-right',
+					'value'       => $error_message,
 				),
 			),
 		);
-	
+
 		return $fields;
 	}
 
-	public function gf_email_blacklist_save_settings($form) {
+	public function gf_email_blacklist_save_settings( $form ) {
 		// Retrieve individual settings from the form submission
-		$emails = array_filter(array_map('trim', explode("\n", rgpost('gf_email_blacklist_emails'))));
-		$domains = array_filter(array_map('trim', explode("\n", rgpost('gf_email_blacklist_domains'))));
-		$patterns = array_filter(array_map('trim', explode("\n", rgpost('gf_email_blacklist_patterns'))));
-		$error_message = sanitize_text_field(rgpost('gf_email_blacklist_error_message'));
-	
+		$emails        = array_filter( array_map( 'trim', explode( "\n", rgpost( 'gf_email_blacklist_emails' ) ) ) );
+		$domains       = array_filter( array_map( 'trim', explode( "\n", rgpost( 'gf_email_blacklist_domains' ) ) ) );
+		$patterns      = array_filter( array_map( 'trim', explode( "\n", rgpost( 'gf_email_blacklist_patterns' ) ) ) );
+		$error_message = sanitize_text_field( rgpost( 'gf_email_blacklist_error_message' ) );
+
 		// Combine settings into a single JSON field
 		$settings = array(
-			'emails' => $emails,
-			'domains' => $domains,
-			'patterns' => $patterns,
+			'emails'        => $emails,
+			'domains'       => $domains,
+			'patterns'      => $patterns,
 			'error_message' => $error_message,
 		);
-	
+
 		// Save the serialized settings into the gf_email_blacklist field
-		$form['gf_email_blacklist'] = json_encode($settings);
-	
+		$form['gf_email_blacklist'] = json_encode( $settings );
+
 		return $form;
 	}
-
 }

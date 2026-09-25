@@ -92,10 +92,13 @@ class UltimaKit_Module_Disallow_Wp_File_Edit extends UltimaKit_Module_Manager {
 		$this->settings    = 'no';
 		$this->initializeModule();
 
-        add_filter('ultimakit_module_class_map', function($map) {
-			$map['ultimakit_module_disallow_wp_file_edit'] = 'UltimaKit_Module_Disallow_Wp_File_Edit';
-			return $map;
-		});
+		add_filter(
+			'ultimakit_module_class_map',
+			function ( $map ) {
+				$map['ultimakit_module_disallow_wp_file_edit'] = 'UltimaKit_Module_Disallow_Wp_File_Edit';
+				return $map;
+			}
+		);
 	}
 
 	/**
@@ -113,35 +116,36 @@ class UltimaKit_Module_Disallow_Wp_File_Edit extends UltimaKit_Module_Manager {
 	 */
 	protected function initializeModule() {
 		if ( $this->is_active ) {
-            if (!defined('DISALLOW_FILE_EDIT')) {
-				UltimaKit_WP_Config::replace_or_add_constant('DISALLOW_FILE_EDIT', true);
+			if ( ! defined( 'DISALLOW_FILE_EDIT' ) ) {
+				UltimaKit_WP_Config::replace_or_add_constant( 'DISALLOW_FILE_EDIT', true );
 			} else {
 				// If DISALLOW_FILE_EDIT is already defined but with a different value, update it
-				if (DISALLOW_FILE_EDIT !== true) {
-					UltimaKit_WP_Config::replace_or_add_constant('DISALLOW_FILE_EDIT', true);
+				if ( DISALLOW_FILE_EDIT !== true ) {
+					UltimaKit_WP_Config::replace_or_add_constant( 'DISALLOW_FILE_EDIT', true );
 				}
 			}
 
-            add_action( 'admin_init', array( $this, 'disable_wp_file_edit' ) );
+			add_action( 'admin_init', array( $this, 'disable_wp_file_edit' ) );
 		}
 	}
 
-    /**
-     * deactivate
-     *
-     * @return void
-     */
-    public static function deactivate(){
-        UltimaKit_WP_Config::remove_constant('DISALLOW_FILE_EDIT');
-    }
+	/**
+	 * deactivate
+	 *
+	 * @return void
+	 */
+	public static function deactivate() {
+		UltimaKit_WP_Config::remove_constant( 'DISALLOW_FILE_EDIT' );
+	}
 
-    /**
-     * Disable the wp file edit
-     *
-     * @return void
-     */
-    public function disable_wp_file_edit() {
-        if( !defined('DISALLOW_FILE_EDIT') ) define( 'DISALLOW_FILE_EDIT', true );
-    }
-
+	/**
+	 * Disable the wp file edit
+	 *
+	 * @return void
+	 */
+	public function disable_wp_file_edit() {
+		if ( ! defined( 'DISALLOW_FILE_EDIT' ) ) {
+			define( 'DISALLOW_FILE_EDIT', true );
+		}
+	}
 }

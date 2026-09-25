@@ -91,7 +91,6 @@ class UltimaKit_Module_Lock_Site_Url extends UltimaKit_Module_Manager {
 		$this->is_active   = $this->isModuleActive( $this->ID );
 		$this->settings    = 'no';
 		$this->initializeModule();
-       
 	}
 
 	/**
@@ -110,96 +109,94 @@ class UltimaKit_Module_Lock_Site_Url extends UltimaKit_Module_Manager {
 	protected function initializeModule() {
 		if ( $this->is_active ) {
 			// Disable site URL fields in General Settings
-			add_filter('pre_update_option_siteurl', [$this, 'prevent_url_change'], 10, 2);
-			add_filter('pre_update_option_home', [$this, 'prevent_url_change'], 10, 2);
-			
+			add_filter( 'pre_update_option_siteurl', array( $this, 'prevent_url_change' ), 10, 2 );
+			add_filter( 'pre_update_option_home', array( $this, 'prevent_url_change' ), 10, 2 );
+
 			// Add notice to General Settings page
-			add_action('admin_notices', [$this, 'display_lock_notice']);
-			
+			add_action( 'admin_notices', array( $this, 'display_lock_notice' ) );
+
 			// Disable the fields in the General Settings
-			add_action('admin_head', [$this, 'disable_url_fields']);
+			add_action( 'admin_head', array( $this, 'disable_url_fields' ) );
 		}
 	}
 
 	/**
-     * Prevent URL from being changed
-     */
-    public function prevent_url_change($new_value, $old_value) {
-        return $old_value;
-    }
+	 * Prevent URL from being changed
+	 */
+	public function prevent_url_change( $new_value, $old_value ) {
+		return $old_value;
+	}
 
-    /**
-     * Display notice about locked URLs
-     */
-    public function display_lock_notice() {
-        $screen = get_current_screen();
-        if ($screen->id === 'options-general') {
-            echo '<div class="notice notice-warning">
+	/**
+	 * Display notice about locked URLs
+	 */
+	public function display_lock_notice() {
+		$screen = get_current_screen();
+		if ( $screen->id === 'options-general' ) {
+			echo '<div class="notice notice-warning">
                     <p><strong>Notice:</strong> Site URL and WordPress Address (URL) are locked and cannot be modified for security reasons.</p>
                   </div>';
-        }
-    }
+		}
+	}
 
-    /**
-     * Disable URL fields and add the badge
-     */
-    public function disable_url_fields() {
-        $screen = get_current_screen();
-        if ($screen->id === 'options-general') {
-            ?>
-            <style>
-                /* Style for the locked badge */
-                .security-badge {
-                    display: inline-flex;
-                    align-items: center;
-                    padding: 4px 8px;
-                    background-color: #f0ffe6; /* Light green background */
-                    border: 1px solid #4caf50; /* Green border */
-                    border-radius: 12px; /* Rounded corners */
-                    color: #4caf50; /* Green text */
-                    font-size: 12px;
-                    font-weight: bold;
-                    font-family: Arial, sans-serif;
-                    margin-left: 10px; /* Space between field and badge */
-                }
+	/**
+	 * Disable URL fields and add the badge
+	 */
+	public function disable_url_fields() {
+		$screen = get_current_screen();
+		if ( $screen->id === 'options-general' ) {
+			?>
+			<style>
+				/* Style for the locked badge */
+				.security-badge {
+					display: inline-flex;
+					align-items: center;
+					padding: 4px 8px;
+					background-color: #f0ffe6; /* Light green background */
+					border: 1px solid #4caf50; /* Green border */
+					border-radius: 12px; /* Rounded corners */
+					color: #4caf50; /* Green text */
+					font-size: 12px;
+					font-weight: bold;
+					font-family: Arial, sans-serif;
+					margin-left: 10px; /* Space between field and badge */
+				}
 
-                .security-badge .icon {
-                    margin-right: 4px; /* Space between icon and text */
-                }
+				.security-badge .icon {
+					margin-right: 4px; /* Space between icon and text */
+				}
 
-                .security-badge .icon svg {
-                    width: 14px;
-                    height: 14px;
-                    fill: #4caf50; /* Green icon color */
-                }
+				.security-badge .icon svg {
+					width: 14px;
+					height: 14px;
+					fill: #4caf50; /* Green icon color */
+				}
 
-                /* Disable the input fields */
-                #siteurl, #home {
-                    background-color: #f0f0f1;
-                    pointer-events: none;
-                    opacity: 0.7;
-                }
-            </style>
-            <script type="text/javascript">
-                jQuery(document).ready(function($) {
-                    // Add the locked badge next to the fields
-                    $('#siteurl, #home').each(function() {
-                        $(this).after(`
-                            <span class="security-badge">
-                                <span class="icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                        <path d="M12 2a4 4 0 0 0-4 4v4H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-2V6a4 4 0 0 0-4-4zm0 2a2 2 0 0 1 2 2v4h-4V6a2 2 0 0 1 2-2zm-6 8h12v8H6v-8z"/>
-                                    </svg>
-                                </span>
-                                Locked for better security
-                            </span>
-                        `);
-                    });
-                });
-            </script>
-            <?php
-        }
-    }
-
-
+				/* Disable the input fields */
+				#siteurl, #home {
+					background-color: #f0f0f1;
+					pointer-events: none;
+					opacity: 0.7;
+				}
+			</style>
+			<script type="text/javascript">
+				jQuery(document).ready(function($) {
+					// Add the locked badge next to the fields
+					$('#siteurl, #home').each(function() {
+						$(this).after(`
+							<span class="security-badge">
+								<span class="icon">
+									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+										<path d="M12 2a4 4 0 0 0-4 4v4H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-2V6a4 4 0 0 0-4-4zm0 2a2 2 0 0 1 2 2v4h-4V6a2 2 0 0 1 2-2zm-6 8h12v8H6v-8z"/>
+									</svg>
+								</span>
+								Locked for better security
+							</span>
+						`);
+					});
+				});
+			</script>
+			<?php
+		}
+	}
 }

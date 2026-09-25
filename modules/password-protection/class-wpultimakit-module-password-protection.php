@@ -110,16 +110,16 @@ class UltimaKit_Module_Password_Protection extends UltimaKit_Module_Manager {
 	 * @return void
 	 */
 	protected function initializeModule() {
-		if ( $this->is_active  ) {
+		if ( $this->is_active ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'add_scripts' ) );
 			add_action( 'admin_footer', array( $this, 'add_modal' ) );
 
 			// Initialize the protection
-			add_action('init', [$this, 'initialize_protection']);
-        
+			add_action( 'init', array( $this, 'initialize_protection' ) );
+
 			// Add admin bar information
-			add_action('admin_bar_menu', [$this, 'add_admin_bar_info'], 100);
-			
+			add_action( 'admin_bar_menu', array( $this, 'add_admin_bar_info' ), 100 );
+
 		}
 	}
 
@@ -141,26 +141,26 @@ class UltimaKit_Module_Password_Protection extends UltimaKit_Module_Manager {
 		$arguments['title'] = __( 'Password Protection Settings', 'ultimakit-for-wp' );
 
 		$arguments['fields'] = array(
-			'enable_protection' => array(
+			'enable_protection'  => array(
 				'type'  => 'checkbox',
 				'label' => __( 'Enable password protection for the entire website', 'ultimakit-for-wp' ),
 				'value' => $this->getModuleSettings( $this->ID, 'enable_protection' ),
 			),
-			'password' => array(
+			'password'           => array(
 				'type'  => 'text',
 				'label' => __( 'Password', 'ultimakit-for-wp' ),
 				'value' => $this->getModuleSettings( $this->ID, 'password' ),
 			),
-			'whitelist_ips' => array(
-				'type'  => 'textarea',
-				'label' => __( 'Whitelist IPs', 'ultimakit-for-wp' ),
-				'value' => $this->getModuleSettings( $this->ID, 'whitelist_ips' ),
+			'whitelist_ips'      => array(
+				'type'        => 'textarea',
+				'label'       => __( 'Whitelist IPs', 'ultimakit-for-wp' ),
+				'value'       => $this->getModuleSettings( $this->ID, 'whitelist_ips' ),
 				'description' => __( 'Enter IP addresses separated by commas', 'ultimakit-for-wp' ),
 			),
-			'excluded_urls' => array(
-				'type'  => 'textarea',
-				'label' => __( 'Excluded URLs', 'ultimakit-for-wp' ),
-				'value' => $this->getModuleSettings( $this->ID, 'excluded_urls', 'wp-login.php,/wp-admin/' ),
+			'excluded_urls'      => array(
+				'type'        => 'textarea',
+				'label'       => __( 'Excluded URLs', 'ultimakit-for-wp' ),
+				'value'       => $this->getModuleSettings( $this->ID, 'excluded_urls', 'wp-login.php,/wp-admin/' ),
 				'description' => __( 'Enter URLs to exclude from protection, separated by commas', 'ultimakit-for-wp' ),
 			),
 			'protection_message' => array(
@@ -205,194 +205,194 @@ class UltimaKit_Module_Password_Protection extends UltimaKit_Module_Manager {
 	}
 
 	/**
-     * Initialize the protection
-     */
-    public function initialize_protection() {
+	 * Initialize the protection
+	 */
+	public function initialize_protection() {
 
-        /*
-         * Empty entries must be discarded. explode(',', '') yields array(''), and in PHP 8
-         * strpos($haystack, '') returns 0, so a blank or trailing-comma exclusion list
-         * matched every URL and silently switched protection off for the whole site.
-         */
-        $excluded_setting = (string) $this->getModuleSettings( $this->ID, 'excluded_urls', 'wp-login.php,wp-admin/' );
-        $excluded_urls    = array_filter( array_map( 'trim', explode( ',', $excluded_setting ) ), 'strlen' );
+		/*
+		 * Empty entries must be discarded. explode(',', '') yields array(''), and in PHP 8
+		 * strpos($haystack, '') returns 0, so a blank or trailing-comma exclusion list
+		 * matched every URL and silently switched protection off for the whole site.
+		 */
+		$excluded_setting = (string) $this->getModuleSettings( $this->ID, 'excluded_urls', 'wp-login.php,wp-admin/' );
+		$excluded_urls    = array_filter( array_map( 'trim', explode( ',', $excluded_setting ) ), 'strlen' );
 
-        if ( empty( $excluded_urls ) ) {
-            $excluded_urls = array( 'wp-login.php', 'wp-admin/' );
-        }
+		if ( empty( $excluded_urls ) ) {
+			$excluded_urls = array( 'wp-login.php', 'wp-admin/' );
+		}
 
-        $current_url = isset( $_SERVER['REQUEST_URI'] ) ? wp_unslash( $_SERVER['REQUEST_URI'] ) : '';
+		$current_url = isset( $_SERVER['REQUEST_URI'] ) ? wp_unslash( $_SERVER['REQUEST_URI'] ) : '';
 
-        foreach ($excluded_urls as $url) {
-            if (strpos(str_replace('/', '', $current_url), str_replace('/', '', $url)) === 0) {
-                return;
-            }
-        }
+		foreach ( $excluded_urls as $url ) {
+			if ( strpos( str_replace( '/', '', $current_url ), str_replace( '/', '', $url ) ) === 0 ) {
+				return;
+			}
+		}
 
-        // Skip protection for whitelisted IPs
-        $whitelist_setting = (string) $this->getModuleSettings( $this->ID, 'whitelist_ips' );
-        $whitelist_ips     = array_filter( array_map( 'trim', explode( ',', $whitelist_setting ) ), 'strlen' );
-        $current_ip        = isset( $_SERVER['REMOTE_ADDR'] ) ? wp_unslash( $_SERVER['REMOTE_ADDR'] ) : '';
+		// Skip protection for whitelisted IPs
+		$whitelist_setting = (string) $this->getModuleSettings( $this->ID, 'whitelist_ips' );
+		$whitelist_ips     = array_filter( array_map( 'trim', explode( ',', $whitelist_setting ) ), 'strlen' );
+		$current_ip        = isset( $_SERVER['REMOTE_ADDR'] ) ? wp_unslash( $_SERVER['REMOTE_ADDR'] ) : '';
 
-        if ( $whitelist_ips && in_array( $current_ip, $whitelist_ips, true ) ) {
-            return;
-        }
+		if ( $whitelist_ips && in_array( $current_ip, $whitelist_ips, true ) ) {
+			return;
+		}
 
 		// Check if user is already authenticated
-        if (!$this->is_authenticated() && !is_user_logged_in()) {
-            $this->show_password_form();
-        }
-    }
+		if ( ! $this->is_authenticated() && ! is_user_logged_in() ) {
+			$this->show_password_form();
+		}
+	}
 
 	/**
-     * Check if user is authenticated
-     */
-    private function is_authenticated() {
-        if (isset($_COOKIE[$this->session_name])) {
-            $cookie_value = $_COOKIE[$this->session_name];
-            $hash = hash('sha256', $this->getModuleSettings( $this->ID, 'password' ) . AUTH_SALT);
-            return hash_equals($hash, $cookie_value);
-        }
-        return false;
-    }
+	 * Check if user is authenticated
+	 */
+	private function is_authenticated() {
+		if ( isset( $_COOKIE[ $this->session_name ] ) ) {
+			$cookie_value = $_COOKIE[ $this->session_name ];
+			$hash         = hash( 'sha256', $this->getModuleSettings( $this->ID, 'password' ) . AUTH_SALT );
+			return hash_equals( $hash, $cookie_value );
+		}
+		return false;
+	}
 
 	/**
-     * Set authentication cookie
-     */
-    private function set_auth_cookie() {
-        $hash = hash('sha256', $this->getModuleSettings( $this->ID, 'password' ) . AUTH_SALT);
-        setcookie(
-            $this->session_name,
-            $hash,
-            [
-                'expires' => time() + (30 * DAY_IN_SECONDS),
-                'path' => '/',
-                'domain' => $_SERVER['HTTP_HOST'],
-                'secure' => is_ssl(),
-                'httponly' => true,
-                'samesite' => 'Strict'
-            ]
-        );
-    }
-
-	 /**
-     * Add admin bar information
-     */
-    public function add_admin_bar_info($wp_admin_bar) {
-        $status = $this->getModuleSettings( $this->ID, 'enable_protection' ) ? 'Active' : 'Inactive';
-        $color = $this->getModuleSettings( $this->ID, 'enable_protection' ) ? '#4caf50' : '#dc3545';
-
-        $wp_admin_bar->add_node([
-            'id' => 'site-protection-status',
-            'title' => '<span class="ab-icon"></span>' . 
-                      '<span style="color: ' . $color . '">' . __( 'Protection', 'ultimakit-for-wp' ) . ': ' . $status . '</span>',
-            'href' => "#",
-            'meta' => [
-                'title' => __( 'Site Protection Settings', 'ultimakit-for-wp' )
-            ]
-        ]);
-    }
+	 * Set authentication cookie
+	 */
+	private function set_auth_cookie() {
+		$hash = hash( 'sha256', $this->getModuleSettings( $this->ID, 'password' ) . AUTH_SALT );
+		setcookie(
+			$this->session_name,
+			$hash,
+			array(
+				'expires'  => time() + ( 30 * DAY_IN_SECONDS ),
+				'path'     => '/',
+				'domain'   => $_SERVER['HTTP_HOST'],
+				'secure'   => is_ssl(),
+				'httponly' => true,
+				'samesite' => 'Strict',
+			)
+		);
+	}
 
 	/**
-     * Show password protection form
-     */
-    private function show_password_form() {
-        $error = false;
+	 * Add admin bar information
+	 */
+	public function add_admin_bar_info( $wp_admin_bar ) {
+		$status = $this->getModuleSettings( $this->ID, 'enable_protection' ) ? 'Active' : 'Inactive';
+		$color  = $this->getModuleSettings( $this->ID, 'enable_protection' ) ? '#4caf50' : '#dc3545';
 
-        if ( isset( $_SERVER['REQUEST_METHOD'] ) && 'POST' === $_SERVER['REQUEST_METHOD'] && isset( $_POST['site_password'] ) ) {
-            $submitted = (string) wp_unslash( $_POST['site_password'] );
-            $expected  = (string) $this->getModuleSettings( $this->ID, 'password' );
+		$wp_admin_bar->add_node(
+			array(
+				'id'    => 'site-protection-status',
+				'title' => '<span class="ab-icon"></span>' .
+						'<span style="color: ' . $color . '">' . __( 'Protection', 'ultimakit-for-wp' ) . ': ' . $status . '</span>',
+				'href'  => '#',
+				'meta'  => array(
+					'title' => __( 'Site Protection Settings', 'ultimakit-for-wp' ),
+				),
+			)
+		);
+	}
 
-            // hash_equals avoids leaking the password through comparison timing.
-            if ( '' !== $expected && hash_equals( $expected, $submitted ) ) {
-                $this->set_auth_cookie();
-                // wp_safe_redirect: REQUEST_URI is attacker-controlled and was an open redirect.
-                wp_safe_redirect( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) );
-                exit;
-            } else {
-                $error = true;
-            }
-        }
+	/**
+	 * Show password protection form
+	 */
+	private function show_password_form() {
+		$error = false;
 
-        // Display the password form
-        ?>
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title><?php echo get_bloginfo('name'); ?> <?php _e('Protected', 'ultimakit-for-wp'); ?></title>
-            <style>
-                body {
-                    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-                    background: #f0f2f5;
-                    margin: 0;
-                    padding: 0;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    min-height: 100vh;
-                }
-                .protection-form {
-                    background: #fff;
-                    padding: 30px;
-                    border-radius: 8px;
-                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                    width: 100%;
-                    max-width: 400px;
-                    text-align: center;
-                }
-                .protection-form h2 {
-                    color: #1d2327;
-                    margin-bottom: 20px;
-                }
-                .protection-form input[type="password"] {
-                    width: 100%;
-                    padding: 10px;
-                    margin: 10px 0;
-                    border: 1px solid #dcdcde;
-                    border-radius: 4px;
-                    box-sizing: border-box;
-                }
-                .protection-form input[type="submit"] {
-                    background: #2271b1;
-                    border: none;
-                    color: #fff;
-                    padding: 10px 20px;
-                    border-radius: 4px;
-                    cursor: pointer;
-                    font-size: 14px;
-                }
-                .protection-form input[type="submit"]:hover {
-                    background: #135e96;
-                }
-                .message {
-                    margin-bottom: 20px;
-                    color: #50575e;
-                }
-                .error-message {
-                    color: #dc3232;
-                    margin-bottom: 15px;
-                }
-            </style>
-        </head>
-        <body>
-            <div class="protection-form">
-                <h2><?php echo get_bloginfo('name'); ?></h2>
-                <div class="message"><?php echo esc_html($this->getModuleSettings( $this->ID, 'protection_message' )); ?></div>
-				<?php if ($error): ?>
-                    <div class="error-message"><?php _e('Invalid password. Please try again.', 'ultimakit-for-wp'); ?></div>
-                <?php endif; ?>
-                <form method="post">
-                    <input type="password" name="site_password" placeholder="<?php _e('Enter password', 'ultimakit-for-wp'); ?>" required>
-                    <input type="submit" value="<?php _e('Access Site', 'ultimakit-for-wp'); ?>">
-                </form>
-            </div>
-        </body>
-        </html>
-        <?php
-        exit;
-    }
+		if ( isset( $_SERVER['REQUEST_METHOD'] ) && 'POST' === $_SERVER['REQUEST_METHOD'] && isset( $_POST['site_password'] ) ) {
+			$submitted = (string) wp_unslash( $_POST['site_password'] );
+			$expected  = (string) $this->getModuleSettings( $this->ID, 'password' );
 
+			// hash_equals avoids leaking the password through comparison timing.
+			if ( '' !== $expected && hash_equals( $expected, $submitted ) ) {
+				$this->set_auth_cookie();
+				// wp_safe_redirect: REQUEST_URI is attacker-controlled and was an open redirect.
+				wp_safe_redirect( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) );
+				exit;
+			} else {
+				$error = true;
+			}
+		}
 
+		// Display the password form
+		?>
+		<!DOCTYPE html>
+		<html lang="en">
+		<head>
+			<meta charset="UTF-8">
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+			<title><?php echo get_bloginfo( 'name' ); ?> <?php _e( 'Protected', 'ultimakit-for-wp' ); ?></title>
+			<style>
+				body {
+					font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+					background: #f0f2f5;
+					margin: 0;
+					padding: 0;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					min-height: 100vh;
+				}
+				.protection-form {
+					background: #fff;
+					padding: 30px;
+					border-radius: 8px;
+					box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+					width: 100%;
+					max-width: 400px;
+					text-align: center;
+				}
+				.protection-form h2 {
+					color: #1d2327;
+					margin-bottom: 20px;
+				}
+				.protection-form input[type="password"] {
+					width: 100%;
+					padding: 10px;
+					margin: 10px 0;
+					border: 1px solid #dcdcde;
+					border-radius: 4px;
+					box-sizing: border-box;
+				}
+				.protection-form input[type="submit"] {
+					background: #2271b1;
+					border: none;
+					color: #fff;
+					padding: 10px 20px;
+					border-radius: 4px;
+					cursor: pointer;
+					font-size: 14px;
+				}
+				.protection-form input[type="submit"]:hover {
+					background: #135e96;
+				}
+				.message {
+					margin-bottom: 20px;
+					color: #50575e;
+				}
+				.error-message {
+					color: #dc3232;
+					margin-bottom: 15px;
+				}
+			</style>
+		</head>
+		<body>
+			<div class="protection-form">
+				<h2><?php echo get_bloginfo( 'name' ); ?></h2>
+				<div class="message"><?php echo esc_html( $this->getModuleSettings( $this->ID, 'protection_message' ) ); ?></div>
+				<?php if ( $error ) : ?>
+					<div class="error-message"><?php _e( 'Invalid password. Please try again.', 'ultimakit-for-wp' ); ?></div>
+				<?php endif; ?>
+				<form method="post">
+					<input type="password" name="site_password" placeholder="<?php _e( 'Enter password', 'ultimakit-for-wp' ); ?>" required>
+					<input type="submit" value="<?php _e( 'Access Site', 'ultimakit-for-wp' ); ?>">
+				</form>
+			</div>
+		</body>
+		</html>
+		<?php
+		exit;
+	}
 }

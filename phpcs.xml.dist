@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<ruleset name="UltimaKit for WP">
+	<description>WordPress coding standards and PHP 7.4+ compatibility for UltimaKit for WP.</description>
+
+	<!-- What to check. -->
+	<file>.</file>
+	<exclude-pattern>/.git/*</exclude-pattern>
+	<exclude-pattern>/vendor/*</exclude-pattern>
+	<exclude-pattern>/node_modules/*</exclude-pattern>
+	<!-- The plugin zip staged by the build workflow. -->
+	<exclude-pattern>/build/*</exclude-pattern>
+	<!-- The bundled Freemius SDK follows its own standards. -->
+	<exclude-pattern>/src/freemius/*</exclude-pattern>
+	<!-- Scripts that build the wordpress.org listing assets; not part of the plugin. -->
+	<exclude-pattern>/tools/*</exclude-pattern>
+
+	<arg name="extensions" value="php"/>
+	<arg name="parallel" value="8"/>
+	<arg name="colors"/>
+	<arg value="sp"/>
+
+	<!-- Match README.txt: WordPress 5.6+ and PHP 7.4+. -->
+	<config name="minimum_wp_version" value="5.6"/>
+	<config name="testVersion" value="7.4-"/>
+
+	<rule ref="WordPress-Extra"/>
+	<rule ref="PHPCompatibilityWP"/>
+
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="ultimakit-for-wp"/>
+			</property>
+		</properties>
+	</rule>
+
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array">
+				<element value="ultimakit"/>
+				<element value="wpuk"/>
+				<!-- The Freemius SDK helper, ufw_fs(), and its hooks. -->
+				<element value="ufw_fs"/>
+			</property>
+		</properties>
+	</rule>
+
+	<!--
+	The module loader finds each module by its file name,
+	modules/<name>/class-wpultimakit-module-<name>.php, and builds the class name
+	UltimaKit_Module_<Name> from it. The file names can't follow the class names
+	without breaking every module and the add-ons that register their own.
+	-->
+	<rule ref="WordPress-Extra">
+		<exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
+	</rule>
+</ruleset>

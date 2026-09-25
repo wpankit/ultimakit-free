@@ -112,7 +112,7 @@ class UltimaKit_Module_Force_Send_All_Email_To extends UltimaKit_Module_Manager 
 
 			// Hook into WordPress email function to redirect emails
 			add_filter( 'wp_mail', array( $this, 'redirect_emails' ), 999 );
-			
+
 			// Add admin notice for warning
 			add_action( 'admin_notices', array( $this, 'display_warning_notice' ) );
 		}
@@ -126,29 +126,29 @@ class UltimaKit_Module_Force_Send_All_Email_To extends UltimaKit_Module_Manager 
 	 */
 	public function redirect_emails( $args ) {
 		$target_email = $this->getModuleSettings( $this->ID, 'target_email' );
-		
+
 		if ( empty( $target_email ) || ! is_email( $target_email ) ) {
 			return $args;
 		}
 
 		// Store original recipients for logging
-		$original_to = $args['to'];
+		$original_to      = $args['to'];
 		$original_subject = $args['subject'];
 
 		// Modify the email to redirect to target email
 		$args['to'] = $target_email;
-		
+
 		// Add original recipient information to subject
 		$args['subject'] = '[REDIRECTED] ' . $original_subject;
-		
+
 		// Add original recipient information to message
-		$redirect_info = "\n\n--- Email Redirection Info ---\n";
-		$redirect_info .= "Original Recipient(s): " . ( is_array( $original_to ) ? implode( ', ', $original_to ) : $original_to ) . "\n";
-		$redirect_info .= "Original Subject: " . $original_subject . "\n";
+		$redirect_info  = "\n\n--- Email Redirection Info ---\n";
+		$redirect_info .= 'Original Recipient(s): ' . ( is_array( $original_to ) ? implode( ', ', $original_to ) : $original_to ) . "\n";
+		$redirect_info .= 'Original Subject: ' . $original_subject . "\n";
 		$redirect_info .= "Redirected by: UltimaKit Force Send All Email To Module\n";
-		$redirect_info .= "Time: " . current_time( 'Y-m-d H:i:s' ) . "\n";
+		$redirect_info .= 'Time: ' . current_time( 'Y-m-d H:i:s' ) . "\n";
 		$redirect_info .= "--- End Redirection Info ---\n\n";
-		
+
 		$args['message'] = $redirect_info . $args['message'];
 
 		// Log the redirection if logging is enabled
@@ -168,23 +168,23 @@ class UltimaKit_Module_Force_Send_All_Email_To extends UltimaKit_Module_Manager 
 	 */
 	private function log_email_redirection( $original_to, $original_subject, $target_email ) {
 		$log_entry = array(
-			'timestamp' => current_time( 'Y-m-d H:i:s' ),
-			'original_to' => is_array( $original_to ) ? implode( ', ', $original_to ) : $original_to,
+			'timestamp'        => current_time( 'Y-m-d H:i:s' ),
+			'original_to'      => is_array( $original_to ) ? implode( ', ', $original_to ) : $original_to,
 			'original_subject' => $original_subject,
-			'target_email' => $target_email,
+			'target_email'     => $target_email,
 		);
 
 		// Get existing logs
 		$logs = get_option( 'ultimakit_email_redirect_logs', array() );
-		
+
 		// Add new log entry
 		$logs[] = $log_entry;
-		
+
 		// Keep only last 100 entries to prevent database bloat
 		if ( count( $logs ) > 100 ) {
 			$logs = array_slice( $logs, -100 );
 		}
-		
+
 		update_option( 'ultimakit_email_redirect_logs', $logs );
 	}
 
@@ -205,23 +205,23 @@ class UltimaKit_Module_Force_Send_All_Email_To extends UltimaKit_Module_Manager 
 		$arguments['title'] = __( 'Force Send All Email To', 'ultimakit-for-wp' );
 
 		$arguments['fields'] = array(
-			'target_email' => array(
+			'target_email'   => array(
 				'type'  => 'text',
 				'label' => __( 'Target Email Address', 'ultimakit-for-wp' ),
 				'value' => $this->getModuleSettings( $this->ID, 'target_email' ),
 				'desc'  => __( 'All outgoing emails will be redirected to this email address.', 'ultimakit-for-wp' ),
 			),
 			'enable_logging' => array(
-				'type'    => 'checkbox',
-				'label'   => __( 'Enable Logging', 'ultimakit-for-wp' ),
-				'value'   => $this->getModuleSettings( $this->ID, 'enable_logging' ),
-				'desc'    => __( 'Log email redirections for debugging purposes (stored in database).', 'ultimakit-for-wp' ),
+				'type'  => 'checkbox',
+				'label' => __( 'Enable Logging', 'ultimakit-for-wp' ),
+				'value' => $this->getModuleSettings( $this->ID, 'enable_logging' ),
+				'desc'  => __( 'Log email redirections for debugging purposes (stored in database).', 'ultimakit-for-wp' ),
 			),
-			'show_warning' => array(
-				'type'    => 'checkbox',
-				'label'   => __( 'Show Warning Notice', 'ultimakit-for-wp' ),
-				'value'   => $this->getModuleSettings( $this->ID, 'show_warning' ),
-				'desc'    => __( 'Display a warning notice in admin when this module is active.', 'ultimakit-for-wp' ),
+			'show_warning'   => array(
+				'type'  => 'checkbox',
+				'label' => __( 'Show Warning Notice', 'ultimakit-for-wp' ),
+				'value' => $this->getModuleSettings( $this->ID, 'show_warning' ),
+				'desc'  => __( 'Display a warning notice in admin when this module is active.', 'ultimakit-for-wp' ),
 			),
 		);
 
@@ -274,4 +274,4 @@ class UltimaKit_Module_Force_Send_All_Email_To extends UltimaKit_Module_Manager 
 		echo '<p>' . $message . '</p>';
 		echo '</div>';
 	}
-} 
+}

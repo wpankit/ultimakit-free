@@ -91,7 +91,7 @@ class UltimaKit_Admin extends UltimaKit_Module_Manager {
 
 			wp_enqueue_style(
 				'freemius-addon-custom-css', // Handle
-				plugin_dir_url(__FILE__) . 'css/addons-style.css', // Path to your CSS file
+				plugin_dir_url( __FILE__ ) . 'css/addons-style.css', // Path to your CSS file
 				array(), // Dependencies
 				'1.0.0' // Version
 			);
@@ -205,12 +205,12 @@ class UltimaKit_Admin extends UltimaKit_Module_Manager {
 
 		// Add submenu page
 		// add_submenu_page(
-		// 	'wp-ultimakit-dashboard',                        // Parent slug
-		// 	__( 'Settings', 'ultimakit-for-wp' ),              // Page title
-		// 	__( 'Settings', 'ultimakit-for-wp' ),              // Menu title
-		// 	'manage_options',                                // Capability
-		// 	'wp-ultimakit-settings',                         // Menu slug
-		// 	array( $this, 'ultimakit_render_settings_page' )   // Function to display the page
+		//  'wp-ultimakit-dashboard',                        // Parent slug
+		//  __( 'Settings', 'ultimakit-for-wp' ),              // Page title
+		//  __( 'Settings', 'ultimakit-for-wp' ),              // Menu title
+		//  'manage_options',                                // Capability
+		//  'wp-ultimakit-settings',                         // Menu slug
+		//  array( $this, 'ultimakit_render_settings_page' )   // Function to display the page
 		// );
 	}
 
@@ -292,13 +292,13 @@ class UltimaKit_Admin extends UltimaKit_Module_Manager {
 		// Reuse the instance built on plugins_loaded rather than re-running discovery.
 		$admin  = UltimaKit_Module_Manager::get_instance();
 		$helper = new UltimaKit_Helpers();
-		
-		$moduleCount = $helper->get_modules_count( $admin );
-		$catList = $admin->getAllCategoriesList();
-		$category_types = array( 'WordPress', 'WooCommerce' );
+
+		$moduleCount     = $helper->get_modules_count( $admin );
+		$catList         = $admin->getAllCategoriesList();
+		$category_types  = array( 'WordPress', 'WooCommerce' );
 		$gravity_modules = $admin->getAllModules( 'Gravity Forms' );
-		$gravity_slug = $helper->string_to_slug( 'Gravity Forms' );
-		
+		$gravity_slug    = $helper->string_to_slug( 'Gravity Forms' );
+
 		// Render the stored density immediately so the grid does not reflow once JS runs.
 		$view_mode     = get_option( 'ultimakit_modules_list_view', 'full' );
 		$density_class = ( 'small' === $view_mode ) ? ' compact-view' : '';
@@ -344,7 +344,7 @@ class UltimaKit_Admin extends UltimaKit_Module_Manager {
 						<ul class="category-list">
 							<li class="category-item active" data-category="all">
 								<span class="category-name"><?php echo esc_html_e( 'All Categories', 'ultimakit-for-wp' ); ?></span>
-								<span class="category-count"><?php echo esc_html($moduleCount); ?></span>
+								<span class="category-count"><?php echo esc_html( $moduleCount ); ?></span>
 							</li>
 							<?php if ( ! empty( $gravity_modules ) ) : ?>
 								<li class="category-item" data-category="<?php echo esc_attr( $gravity_slug ); ?>">
@@ -352,18 +352,18 @@ class UltimaKit_Admin extends UltimaKit_Module_Manager {
 									<span class="category-count"><?php echo esc_html( count( $gravity_modules ) ); ?></span>
 								</li>
 							<?php endif; ?>
-							<?php 
-							if( !empty( $catList ) ){
-								foreach( $catList as $category ){
-									if( 'WooCommerce' === $category && !$this->helpers->is_woocommerce_active() ) {
+							<?php
+							if ( ! empty( $catList ) ) {
+								foreach ( $catList as $category ) {
+									if ( 'WooCommerce' === $category && ! $this->helpers->is_woocommerce_active() ) {
 										continue;
 									}
-									$moduleCount = $helper->get_modules_count_by_category( $admin, $category, $category_types );
-									$category_slug = $helper->string_to_slug($category);
+									$moduleCount   = $helper->get_modules_count_by_category( $admin, $category, $category_types );
+									$category_slug = $helper->string_to_slug( $category );
 									?>
-									<li class="category-item" data-category="<?php echo esc_attr($category_slug); ?>">
-										<span class="category-name"><?php echo esc_html($category === 'Content Management' ? 'Content Management & SEO' : $category); ?></span>
-										<span class="category-count"><?php echo esc_html($moduleCount); ?></span>
+									<li class="category-item" data-category="<?php echo esc_attr( $category_slug ); ?>">
+										<span class="category-name"><?php echo esc_html( $category === 'Content Management' ? 'Content Management & SEO' : $category ); ?></span>
+										<span class="category-count"><?php echo esc_html( $moduleCount ); ?></span>
 									</li>
 									<?php
 								}

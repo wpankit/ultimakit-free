@@ -77,7 +77,7 @@ class UltimaKit_Module_Custom_Post_Type_Taxonomy extends UltimaKit_Module_Manage
 
 	protected $ctx_table;
 	private $db_version = '1.0.0';
-    private $db_version_key; // Increase this whenever you change the schema
+	private $db_version_key; // Increase this whenever you change the schema
 
 	/**
 	 * Initializes the module with default values for properties and prepares
@@ -98,33 +98,33 @@ class UltimaKit_Module_Custom_Post_Type_Taxonomy extends UltimaKit_Module_Manage
 
 		$this->db_version_key = 'ultimakit_cpt_ctx_db_version';
 
-        // Check and setup database when module is loaded
-        add_action('init', [$this, 'check_db_setup'], 1);
+		// Check and setup database when module is loaded
+		add_action( 'init', array( $this, 'check_db_setup' ), 1 );
 	}
 
 	/**
-     * Check and setup database
-     */
-    public function check_db_setup() {
-        if (!$this->is_active) {
-            return;
-        }
+	 * Check and setup database
+	 */
+	public function check_db_setup() {
+		if ( ! $this->is_active ) {
+			return;
+		}
 
-        $installed_version = get_option($this->db_version_key, '0');
-        if (! $this->is_table_exists($this->cpt_table) || version_compare($installed_version, $this->db_version, '<')) {
-            $this->create_cpt_table();
-        }
+		$installed_version = get_option( $this->db_version_key, '0' );
+		if ( ! $this->is_table_exists( $this->cpt_table ) || version_compare( $installed_version, $this->db_version, '<' ) ) {
+			$this->create_cpt_table();
+		}
 
-        if (! $this->is_table_exists($this->ctx_table) || version_compare($installed_version, $this->db_version, '<')) {
-            $this->create_ctx_table();
-        }
+		if ( ! $this->is_table_exists( $this->ctx_table ) || version_compare( $installed_version, $this->db_version, '<' ) ) {
+			$this->create_ctx_table();
+		}
 
 		// Run version-specific migrations
-        $this->run_migrations(get_option($this->db_version_key, '0'));
+		$this->run_migrations( get_option( $this->db_version_key, '0' ) );
 
-        // Update version in database
-        update_option($this->db_version_key, $this->db_version);
-    }
+		// Update version in database
+		update_option( $this->db_version_key, $this->db_version );
+	}
 	/**
 	 * Initializes the specific module within the application.
 	 *
@@ -161,10 +161,10 @@ class UltimaKit_Module_Custom_Post_Type_Taxonomy extends UltimaKit_Module_Manage
 		}
 	}
 
-	public function run_migrations($from_version) {
+	public function run_migrations( $from_version ) {
 		global $wpdb;
 
-		if (version_compare($from_version, '1.0.1', '<')) {
+		if ( version_compare( $from_version, '1.0.1', '<' ) ) {
 			// Add new columns or modify existing ones
 			// $wpdb->query("ALTER TABLE {$this->table_name} ADD COLUMN new_column varchar(100)");
 		}
@@ -189,7 +189,6 @@ class UltimaKit_Module_Custom_Post_Type_Taxonomy extends UltimaKit_Module_Manage
 
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		$wpdb->query( $cpt_sql );
-
 	}
 
 	public function create_ctx_table() {
@@ -210,7 +209,6 @@ class UltimaKit_Module_Custom_Post_Type_Taxonomy extends UltimaKit_Module_Manage
 
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		$wpdb->query( $cpt_sql );
-
 	}
 
 

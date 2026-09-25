@@ -114,7 +114,7 @@ class UltimaKit_Module_Copy_To_Clipboard_Form_Data extends UltimaKit_Module_Mana
 			add_action( 'admin_footer', array( $this, 'add_modal' ) );
 
 			// Add a custom menu item to the Form Settings page menu
-			add_filter('gform_form_settings_menu', array( $this, 'wpuk_custom_form_settings_menu_item' ) );
+			add_filter( 'gform_form_settings_menu', array( $this, 'wpuk_custom_form_settings_menu_item' ) );
 
 			/*
 			 * The save handler must run BEFORE the render handler. Both were registered on
@@ -122,14 +122,14 @@ class UltimaKit_Module_Copy_To_Clipboard_Form_Data extends UltimaKit_Module_Mana
 			 * render first — and the settings page kept showing the previous values until
 			 * the admin reloaded manually.
 			 */
-			add_action('gform_form_settings_page_wpuk_button_settings', array( $this, 'wpuk_save_custom_form_settings' ), 9, 1);
+			add_action( 'gform_form_settings_page_wpuk_button_settings', array( $this, 'wpuk_save_custom_form_settings' ), 9, 1 );
 
 			// Handle displaying content for our custom menu when selected
-			add_action('gform_form_settings_page_wpuk_button_settings', array( $this, 'wpuk_custom_form_settings_page' ), 10 );
+			add_action( 'gform_form_settings_page_wpuk_button_settings', array( $this, 'wpuk_custom_form_settings_page' ), 10 );
 
-			add_filter('gform_confirmation', array( $this, 'wpuk_add_copy_to_clipboard_button' ), 10, 4);
+			add_filter( 'gform_confirmation', array( $this, 'wpuk_add_copy_to_clipboard_button' ), 10, 4 );
 
-		}	
+		}
 	}
 
 	/**
@@ -149,22 +149,22 @@ class UltimaKit_Module_Copy_To_Clipboard_Form_Data extends UltimaKit_Module_Mana
 		$arguments['title'] = __( 'Copy Form Data to Clipboard Button (Gravity Forms)', 'ultimakit-for-wp' );
 
 		$arguments['fields'] = array(
-			'enable_global_settings'         => array(
+			'enable_global_settings' => array(
 				'type'  => 'switch',
 				'label' => __( 'Enable Global Settings', 'ultimakit-for-wp' ),
 				'value' => $this->getModuleSettings( $this->ID, 'enable_global_settings' ),
 			),
-			'btn_label'     => array(
+			'btn_label'              => array(
 				'type'  => 'text',
 				'label' => __( 'Button Label', 'ultimakit-for-wp' ),
 				'value' => $this->getModuleSettings( $this->ID, 'btn_label' ),
 			),
-			'btn_txt_color'     => array(
+			'btn_txt_color'          => array(
 				'type'  => 'color',
 				'label' => __( 'Button Text Color', 'ultimakit-for-wp' ),
 				'value' => $this->getModuleSettings( $this->ID, 'btn_txt_color' ),
 			),
-			'btn_bg_color'     => array(
+			'btn_bg_color'           => array(
 				'type'  => 'color',
 				'label' => __( 'Button Background Color', 'ultimakit-for-wp' ),
 				'value' => $this->getModuleSettings( $this->ID, 'btn_bg_color' ),
@@ -202,10 +202,10 @@ class UltimaKit_Module_Copy_To_Clipboard_Form_Data extends UltimaKit_Module_Mana
 	}
 
 
-	public function wpuk_custom_form_settings_menu_item($menu_items) {
+	public function wpuk_custom_form_settings_menu_item( $menu_items ) {
 		// Check if the menu item already exists
-		foreach ($menu_items as $menu_item) {
-			if ($menu_item['name'] === 'wpuk_button_settings') {
+		foreach ( $menu_items as $menu_item ) {
+			if ( $menu_item['name'] === 'wpuk_button_settings' ) {
 				return $menu_items; // Exit if the item already exists
 			}
 		}
@@ -213,14 +213,14 @@ class UltimaKit_Module_Copy_To_Clipboard_Form_Data extends UltimaKit_Module_Mana
 		// Add the menu item with a custom icon
 		$menu_items[] = array(
 			'name'  => 'wpuk_button_settings', // Unique identifier
-			'label' => __('Copy To Clipboard', 'ultimakit-for-wp'), // Tab label
-			'icon'  => 'dashicons dashicons-clipboard' // Icon class
+			'label' => __( 'Copy To Clipboard', 'ultimakit-for-wp' ), // Tab label
+			'icon'  => 'dashicons dashicons-clipboard', // Icon class
 		);
 
 		return $menu_items;
 	}
 
-	
+
 	/**
 	 * Whether the settings were just saved, so the render pass can show the notice.
 	 *
@@ -228,24 +228,24 @@ class UltimaKit_Module_Copy_To_Clipboard_Form_Data extends UltimaKit_Module_Mana
 	 */
 	private $settings_saved = false;
 
-	public function wpuk_custom_form_settings_page($form) {
+	public function wpuk_custom_form_settings_page( $form ) {
 		// Retrieve saved values or set defaults
 		static $executed = false;
 
 		// Prevent duplicate execution
-		if ($executed) {
+		if ( $executed ) {
 			return;
 		}
 		$executed = true;
-		
-		$form_id = rgget('id'); // Gravity Forms appends the form ID as 'id' in the URL
-		$form = GFFormsModel::get_form_meta($form_id);
-	
-		$enable_feature = !empty($form['wpuk_enable_copy_to_clipboard']);
-		$button_label = rgar($form, 'wpuk_button_label', 'Copy To Clipboard');
-		$button_color = rgar($form, 'wpuk_button_color', '#000000');
-		$button_bg_color = rgar($form, 'wpuk_button_bg_color', '#FFFFFF');
-	
+
+		$form_id = rgget( 'id' ); // Gravity Forms appends the form ID as 'id' in the URL
+		$form    = GFFormsModel::get_form_meta( $form_id );
+
+		$enable_feature  = ! empty( $form['wpuk_enable_copy_to_clipboard'] );
+		$button_label    = rgar( $form, 'wpuk_button_label', 'Copy To Clipboard' );
+		$button_color    = rgar( $form, 'wpuk_button_color', '#000000' );
+		$button_bg_color = rgar( $form, 'wpuk_button_bg_color', '#FFFFFF' );
+
 		GFFormSettings::page_header();
 
 		if ( $this->settings_saved ) {
@@ -253,98 +253,98 @@ class UltimaKit_Module_Copy_To_Clipboard_Form_Data extends UltimaKit_Module_Mana
 		}
 		?>
 		<form method="post" id="gform-settings">
-			<?php wp_nonce_field('wpuk_save_button_settings', 'wpuk_save_button_settings_nonce'); ?>
-			<h3><?php _e('Copy To Clipboard Settings By UltimaKit For Gravity Forms', 'ultimakit-for-wp'); ?></h3>
+			<?php wp_nonce_field( 'wpuk_save_button_settings', 'wpuk_save_button_settings_nonce' ); ?>
+			<h3><?php _e( 'Copy To Clipboard Settings By UltimaKit For Gravity Forms', 'ultimakit-for-wp' ); ?></h3>
 			<table class="form-table">
 				<tbody>
 					<!-- Enable/Disable Copy to Clipboard Feature -->
 					<tr>
 						<th scope="row">
-							<label for="wpuk_enable_copy_to_clipboard"><?php _e('Enable/Disable', 'ultimakit-for-wp'); ?></label>
+							<label for="wpuk_enable_copy_to_clipboard"><?php _e( 'Enable/Disable', 'ultimakit-for-wp' ); ?></label>
 						</th>
 						<td>
 							<input type="checkbox" name="wpuk_enable_copy_to_clipboard" id="wpuk_enable_copy_to_clipboard" value="1" <?php checked( $enable_feature ); ?> />
-							<p class="description"><?php _e('Check to enable the "Copy To Clipboard" feature for this form.', 'ultimakit-for-wp'); ?></p>
+							<p class="description"><?php _e( 'Check to enable the "Copy To Clipboard" feature for this form.', 'ultimakit-for-wp' ); ?></p>
 						</td>
 					</tr>
 					<!-- Button Label -->
 					<tr>
 						<th scope="row">
-							<label for="wpuk_button_label"><?php _e('Button Label', 'ultimakit-for-wp'); ?></label>
+							<label for="wpuk_button_label"><?php _e( 'Button Label', 'ultimakit-for-wp' ); ?></label>
 						</th>
 						<td>
-							<input type="text" name="wpuk_button_label" id="wpuk_button_label" value="<?php echo esc_attr($button_label); ?>" />
-							<p class="description"><?php _e('Enter the text to display on the button.', 'ultimakit-for-wp'); ?></p>
+							<input type="text" name="wpuk_button_label" id="wpuk_button_label" value="<?php echo esc_attr( $button_label ); ?>" />
+							<p class="description"><?php _e( 'Enter the text to display on the button.', 'ultimakit-for-wp' ); ?></p>
 						</td>
 					</tr>
 					<!-- Button Color -->
 					<tr>
 						<th scope="row">
-							<label for="wpuk_button_color"><?php _e('Button Text Color', 'ultimakit-for-wp'); ?></label>
+							<label for="wpuk_button_color"><?php _e( 'Button Text Color', 'ultimakit-for-wp' ); ?></label>
 						</th>
 						<td>
-							<input type="color" name="wpuk_button_color" id="wpuk_button_color" value="<?php echo esc_attr($button_color); ?>" />
-							<p class="description"><?php _e('Select the text color for the button.', 'ultimakit-for-wp'); ?></p>
+							<input type="color" name="wpuk_button_color" id="wpuk_button_color" value="<?php echo esc_attr( $button_color ); ?>" />
+							<p class="description"><?php _e( 'Select the text color for the button.', 'ultimakit-for-wp' ); ?></p>
 						</td>
 					</tr>
 					<!-- Button Background Color -->
 					<tr>
 						<th scope="row">
-							<label for="wpuk_button_bg_color"><?php _e('Button Background Color', 'ultimakit-for-wp'); ?></label>
+							<label for="wpuk_button_bg_color"><?php _e( 'Button Background Color', 'ultimakit-for-wp' ); ?></label>
 						</th>
 						<td>
-							<input type="color" name="wpuk_button_bg_color" id="wpuk_button_bg_color" value="<?php echo esc_attr($button_bg_color); ?>" />
-							<p class="description"><?php _e('Select the background color for the button.', 'ultimakit-for-wp'); ?></p>
+							<input type="color" name="wpuk_button_bg_color" id="wpuk_button_bg_color" value="<?php echo esc_attr( $button_bg_color ); ?>" />
+							<p class="description"><?php _e( 'Select the background color for the button.', 'ultimakit-for-wp' ); ?></p>
 						</td>
 					</tr>
 				</tbody>
 			</table>
 			<p class="submit">
-				<button type="submit" name="submit" class="button button-primary"><?php _e('Save Settings', 'ultimakit-for-wp'); ?></button>
+				<button type="submit" name="submit" class="button button-primary"><?php _e( 'Save Settings', 'ultimakit-for-wp' ); ?></button>
 			</p>
 		</form>
 		<?php
-	
+
 		GFFormSettings::page_footer();
 	}
 
-	public function wpuk_save_custom_form_settings($form) {
+	public function wpuk_save_custom_form_settings( $form ) {
 
 		static $executed = false;
 
 		// Prevent duplicate execution
-		if ($executed) {
+		if ( $executed ) {
 			return;
 		}
 		$executed = true;
 
 		// Verify the nonce for security
-		if (!isset($_POST['wpuk_save_button_settings_nonce']) || !wp_verify_nonce($_POST['wpuk_save_button_settings_nonce'], 'wpuk_save_button_settings')) {
+		if ( ! isset( $_POST['wpuk_save_button_settings_nonce'] ) || ! wp_verify_nonce( $_POST['wpuk_save_button_settings_nonce'], 'wpuk_save_button_settings' ) ) {
 			return;
 		}
-	
+
 		// Get the form ID from the request
-		$form_id = rgget('id'); // Gravity Forms appends the form ID as 'id' in the URL
-	
-		if (empty($form_id)) {
+		$form_id = rgget( 'id' ); // Gravity Forms appends the form ID as 'id' in the URL
+
+		if ( empty( $form_id ) ) {
 			return;
 		}
-	
+
 		// Fetch the form data
-		$form = GFFormsModel::get_form_meta($form_id);
-	
-		if (empty($form)) {
+		$form = GFFormsModel::get_form_meta( $form_id );
+
+		if ( empty( $form ) ) {
 			return;
 		}
-	
+
 		// Sanitize and save the custom settings
-		$form['wpuk_enable_copy_to_clipboard'] = rgpost('wpuk_enable_copy_to_clipboard') ? true : false;
-		$form['wpuk_button_label'] = sanitize_text_field(rgpost('wpuk_button_label'));
-		$form['wpuk_button_color'] = sanitize_hex_color(rgpost('wpuk_button_color'));
-		$form['wpuk_button_bg_color'] = sanitize_hex_color(rgpost('wpuk_button_bg_color'));
-	
+		$form['wpuk_enable_copy_to_clipboard'] = rgpost( 'wpuk_enable_copy_to_clipboard' ) ? true : false;
+		$form['wpuk_button_label']             = sanitize_text_field( rgpost( 'wpuk_button_label' ) );
+		$form['wpuk_button_color']             = sanitize_hex_color( rgpost( 'wpuk_button_color' ) );
+		$form['wpuk_button_bg_color']          = sanitize_hex_color( rgpost( 'wpuk_button_bg_color' ) );
+
 		// Update the form meta
-		GFFormsModel::update_form_meta($form_id, $form);
+		GFFormsModel::update_form_meta( $form_id, $form );
 
 		/*
 		 * Record the notice rather than echoing it here. This callback runs before the page
@@ -355,7 +355,7 @@ class UltimaKit_Module_Copy_To_Clipboard_Form_Data extends UltimaKit_Module_Mana
 	}
 
 
-	public function wpuk_add_copy_to_clipboard_button($confirmation, $form, $entry, $ajax) {
+	public function wpuk_add_copy_to_clipboard_button( $confirmation, $form, $entry, $ajax ) {
 
 		/*
 		 * gform_confirmation passes a STRING for message confirmations but an ARRAY for
@@ -368,8 +368,8 @@ class UltimaKit_Module_Copy_To_Clipboard_Form_Data extends UltimaKit_Module_Mana
 		}
 
 		// Generate the form data
-		$form_data = [];
-		foreach ($form['fields'] as $field) {
+		$form_data = array();
+		foreach ( $form['fields'] as $field ) {
 			if ( ! empty( $field->displayOnly ) ) {
 				continue;
 			}
@@ -400,22 +400,22 @@ class UltimaKit_Module_Copy_To_Clipboard_Form_Data extends UltimaKit_Module_Mana
 			}
 		}
 
-		$form_data_string = implode("\n", $form_data);
+		$form_data_string = implode( "\n", $form_data );
 
-		if( 'on' === $this->getModuleSettings( $this->ID, 'enable_global_settings' ) ){
-			$button_label = $this->getModuleSettings( $this->ID, 'btn_label' );
-			$button_color = $this->getModuleSettings( $this->ID, 'btn_txt_color', '#000000' ) ;
-			$button_bg_color = $this->getModuleSettings( $this->ID, 'btn_bg_color', '#FFFFFF' ) ;
+		if ( 'on' === $this->getModuleSettings( $this->ID, 'enable_global_settings' ) ) {
+			$button_label    = $this->getModuleSettings( $this->ID, 'btn_label' );
+			$button_color    = $this->getModuleSettings( $this->ID, 'btn_txt_color', '#000000' );
+			$button_bg_color = $this->getModuleSettings( $this->ID, 'btn_bg_color', '#FFFFFF' );
 		} else {
 
 			// Check if the feature is enabled for this form
-			if (empty($form['wpuk_enable_copy_to_clipboard'])) {
+			if ( empty( $form['wpuk_enable_copy_to_clipboard'] ) ) {
 				return $confirmation; // Return the default confirmation if not enabled
 			}
 
-			$button_label = rgar($form, 'wpuk_button_label', 'Copy To Clipboard');
-			$button_color = rgar($form, 'wpuk_button_color', '#000000');
-			$button_bg_color = rgar($form, 'wpuk_button_bg_color', '#FFFFFF');
+			$button_label    = rgar( $form, 'wpuk_button_label', 'Copy To Clipboard' );
+			$button_color    = rgar( $form, 'wpuk_button_color', '#000000' );
+			$button_bg_color = rgar( $form, 'wpuk_button_bg_color', '#FFFFFF' );
 		}
 
 		// These land in a CSS colour context, so only allow real colour values through.
@@ -423,22 +423,22 @@ class UltimaKit_Module_Copy_To_Clipboard_Form_Data extends UltimaKit_Module_Mana
 		$button_bg_color = sanitize_hex_color( $button_bg_color ) ? sanitize_hex_color( $button_bg_color ) : '#FFFFFF';
 
 		$confirmation .= '<style>#wpuk_copy_button {
-				background-color: '.$button_bg_color.';
-				color: '.$button_color.';
+				background-color: ' . $button_bg_color . ';
+				color: ' . $button_color . ';
 				border: none;
 				padding: 10px 20px;
 				cursor: pointer;
 				font-size: 14px;
 				border-radius: 5px;
-				border: 1px solid '.$button_color.';
+				border: 1px solid ' . $button_color . ';
 			}
 			#wpuk_copy_button:hover {
-				background-color: '.$button_bg_color.';
+				background-color: ' . $button_bg_color . ';
 			}
 		</style>';
 		// Add the Copy to Clipboard button
-		$confirmation .= '<div class="gform_footer"><textarea id="wpuk_form_data" style="display:none;">' . esc_textarea($form_data_string) . '</textarea>';
-		$confirmation .= '<button type="button" id="wpuk_copy_button" class="button">'. esc_html( $button_label ) .'</button>';
+		$confirmation .= '<div class="gform_footer"><textarea id="wpuk_form_data" style="display:none;">' . esc_textarea( $form_data_string ) . '</textarea>';
+		$confirmation .= '<button type="button" id="wpuk_copy_button" class="button">' . esc_html( $button_label ) . '</button>';
 		$confirmation .= '
 			<script>
 				document.getElementById("wpuk_copy_button").addEventListener("click", function() {
@@ -452,7 +452,7 @@ class UltimaKit_Module_Copy_To_Clipboard_Form_Data extends UltimaKit_Module_Mana
 			</script>
 			</div>
 		';
-	
+
 		return $confirmation;
 	}
 }

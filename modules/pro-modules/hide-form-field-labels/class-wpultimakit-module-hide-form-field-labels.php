@@ -110,43 +110,49 @@ class UltimaKit_Module_Hide_Form_Field_Labels extends UltimaKit_Module_Manager {
 	protected function initializeModule() {
 		if ( $this->is_active ) {
 
-			add_filter('gform_form_settings_fields', array( $this, 'wpuk_add_hide_label_settings_dropdown' ), 10, 2);
+			add_filter( 'gform_form_settings_fields', array( $this, 'wpuk_add_hide_label_settings_dropdown' ), 10, 2 );
 
-			add_filter('gform_pre_form_settings_save', array( $this, 'wpuk_save_hide_label_settings_dropdown'));
+			add_filter( 'gform_pre_form_settings_save', array( $this, 'wpuk_save_hide_label_settings_dropdown' ) );
 
-			add_filter('gform_field_content', array( $this, 'wpuk_apply_hide_label_logic_dropdown'), 10, 5);
+			add_filter( 'gform_field_content', array( $this, 'wpuk_apply_hide_label_logic_dropdown' ), 10, 5 );
 
-			add_filter('gform_tooltips', array( $this, 'wpuk_add_hide_label_tooltip'));
+			add_filter( 'gform_tooltips', array( $this, 'wpuk_add_hide_label_tooltip' ) );
 
-		}	
+		}
 	}
 
 
-	public function wpuk_add_hide_label_settings_dropdown($fields, $form) {
-		$hide_label_enabled = rgar($form, 'hideLabelEnabled', 'no'); // Default to 'no'
-	
+	public function wpuk_add_hide_label_settings_dropdown( $fields, $form ) {
+		$hide_label_enabled = rgar( $form, 'hideLabelEnabled', 'no' ); // Default to 'no'
+
 		$fields['hide_label_settings'] = array(
-			'title'  => __('Hide Label Settings', 'ultimakit-for-wp'),
+			'title'  => __( 'Hide Label Settings', 'ultimakit-for-wp' ),
 			'fields' => array(
 				array(
-					'type'        => 'select',
-					'label'       => __('Enable Hide Labels Globally', 'ultimakit-for-wp'),
-					'name'        => 'hide_label_enabled',
-					'tooltip'     => __('Enable this option to hide all field labels in this form globally.', 'ultimakit-for-wp'),
-					'class'       => 'medium',
-					'choices'     => array(
-						array('label' => __('No', 'ultimakit-for-wp'), 'value' => 'no'),
-						array('label' => __('Yes', 'ultimakit-for-wp'), 'value' => 'yes'),
+					'type'          => 'select',
+					'label'         => __( 'Enable Hide Labels Globally', 'ultimakit-for-wp' ),
+					'name'          => 'hide_label_enabled',
+					'tooltip'       => __( 'Enable this option to hide all field labels in this form globally.', 'ultimakit-for-wp' ),
+					'class'         => 'medium',
+					'choices'       => array(
+						array(
+							'label' => __( 'No', 'ultimakit-for-wp' ),
+							'value' => 'no',
+						),
+						array(
+							'label' => __( 'Yes', 'ultimakit-for-wp' ),
+							'value' => 'yes',
+						),
 					),
 					'default_value' => $hide_label_enabled,
 				),
 			),
 		);
-	
+
 		return $fields;
 	}
 
-	public function wpuk_save_hide_label_settings_dropdown($form) {
+	public function wpuk_save_hide_label_settings_dropdown( $form ) {
 		/*
 		 * Gravity Forms posts settings under _gform_setting_*, so the un-prefixed lookup
 		 * never matched and this unconditionally wrote 'no' on every save — while the read
@@ -160,7 +166,7 @@ class UltimaKit_Module_Hide_Form_Field_Labels extends UltimaKit_Module_Manager {
 		return $form;
 	}
 
-	public function wpuk_apply_hide_label_logic_dropdown($content, $field, $value, $lead_id, $form_id) {
+	public function wpuk_apply_hide_label_logic_dropdown( $content, $field, $value, $lead_id, $form_id ) {
 		// Cached per request: this fires once per field render.
 		static $forms = array();
 
@@ -185,10 +191,8 @@ class UltimaKit_Module_Hide_Form_Field_Labels extends UltimaKit_Module_Manager {
 		return $content;
 	}
 
-	public function wpuk_add_hide_label_tooltip($tooltips) {
-		$tooltips['hide_label_enabled'] = '<h6>' . esc_html__('Hide Labels Globally', 'ultimakit-for-wp') . '</h6>' . esc_html__('Enable this option to hide all form field labels globally for this form.', 'ultimakit-for-wp');
+	public function wpuk_add_hide_label_tooltip( $tooltips ) {
+		$tooltips['hide_label_enabled'] = '<h6>' . esc_html__( 'Hide Labels Globally', 'ultimakit-for-wp' ) . '</h6>' . esc_html__( 'Enable this option to hide all form field labels globally for this form.', 'ultimakit-for-wp' );
 		return $tooltips;
 	}
-	
-
 }

@@ -81,7 +81,6 @@ class UltimaKit {
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
-		
 
 		$this->module_settings = get_option( 'ultimakit_options', array() );
 	}

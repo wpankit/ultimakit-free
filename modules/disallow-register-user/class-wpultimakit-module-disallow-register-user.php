@@ -108,61 +108,62 @@ class UltimaKit_Module_Disallow_Register_User extends UltimaKit_Module_Manager {
 	 */
 	protected function initializeModule() {
 		if ( $this->is_active ) {
-			add_action('init', array($this, 'disable_user_registration'));
-			add_action('admin_init', array($this, 'remove_user_registration_options'));
-			add_action('admin_notices', array($this, 'registration_disabled_notice'));
-			add_filter('wp_login_errors', array($this, 'modify_registration_error_message'), 10, 2);
+			add_action( 'init', array( $this, 'disable_user_registration' ) );
+			add_action( 'admin_init', array( $this, 'remove_user_registration_options' ) );
+			add_action( 'admin_notices', array( $this, 'registration_disabled_notice' ) );
+			add_filter( 'wp_login_errors', array( $this, 'modify_registration_error_message' ), 10, 2 );
 		}
 	}
-	
+
 	public function disable_user_registration() {
 		// Disable the registration functionality
-		add_filter('option_users_can_register', '__return_zero');
-		
+		add_filter( 'option_users_can_register', '__return_zero' );
+
 		// Redirect registration page to login
-		if (isset($_GET['action']) && $_GET['action'] == 'register') {
-			wp_redirect(wp_login_url());
+		if ( isset( $_GET['action'] ) && $_GET['action'] == 'register' ) {
+			wp_redirect( wp_login_url() );
 			exit();
 		}
 	}
-	
+
 	public function remove_user_registration_options() {
 		// Remove the "Anyone can register" checkbox from the Settings > General page
-		add_filter('pre_option_users_can_register', '__return_zero');
-		
+		add_filter( 'pre_option_users_can_register', '__return_zero' );
+
 		// Hide the checkbox using CSS
-		add_action('admin_head', function() {
-			echo '<style>
+		add_action(
+			'admin_head',
+			function () {
+				echo '<style>
 				.options-general-php label[for="users_can_register"] {
 					display: none;
 				}
 			</style>';
-		});
+			}
+		);
 	}
-	
+
 	public function registration_disabled_notice() {
 		$screen = get_current_screen();
-		if ($screen && $screen->id === 'options-general') {
+		if ( $screen && $screen->id === 'options-general' ) {
 			?>
 			<div class="notice notice-warning is-dismissible">
-				<p><?php esc_html_e('User registration has been disabled for security reasons. New user accounts can only be created by administrators.', 'ultimakit-for-wp'); ?></p>
+				<p><?php esc_html_e( 'User registration has been disabled for security reasons. New user accounts can only be created by administrators.', 'ultimakit-for-wp' ); ?></p>
 			</div>
 			<?php
 		}
 	}
-	
-	public function modify_registration_error_message($errors, $redirect_to) {
+
+	public function modify_registration_error_message( $errors, $redirect_to ) {
 		// If someone tries to access the registration form directly
-		if (isset($_GET['action']) && $_GET['action'] == 'register') {
+		if ( isset( $_GET['action'] ) && $_GET['action'] == 'register' ) {
 			$errors->add(
 				'registerdisabled',
-				__('<strong>ERROR</strong>: User registration is disabled on this site.', 'ultimakit-for-wp'),
+				__( '<strong>ERROR</strong>: User registration is disabled on this site.', 'ultimakit-for-wp' ),
 				'message'
 			);
 		}
-		
+
 		return $errors;
 	}
-
-
 }

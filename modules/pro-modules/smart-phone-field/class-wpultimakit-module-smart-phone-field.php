@@ -105,41 +105,44 @@ class UltimaKit_Module_Smart_Phone_Field extends UltimaKit_Module_Manager {
 		if ( $this->is_active ) {
 			add_action( 'wp_enqueue_scripts', array( $this, 'add_front_scripts' ), 99 );
 
-			add_action('gform_field_standard_settings', array( $this, 'wpuk_smart_phone_standard_settings' ), 10, 2);
+			add_action( 'gform_field_standard_settings', array( $this, 'wpuk_smart_phone_standard_settings' ), 10, 2 );
 
-			add_action('gform_editor_js', array( $this, 'wpuk_smart_phone_editor_js' ) );
+			add_action( 'gform_editor_js', array( $this, 'wpuk_smart_phone_editor_js' ) );
 
-			add_action('gform_editor_js_set_default_values', array( $this, 'wpuk_gform_editor_js_set_default_values' ) );
+			add_action( 'gform_editor_js_set_default_values', array( $this, 'wpuk_gform_editor_js_set_default_values' ) );
 
-			add_filter('gform_pre_form_settings_save', array( $this, 'wpuk_gform_pre_form_settings_save' ) );
+			add_filter( 'gform_pre_form_settings_save', array( $this, 'wpuk_gform_pre_form_settings_save' ) );
 
-			add_action('gform_pre_submission', function($form) {
-				foreach ($form['fields'] as &$field) {
-					if ($field->type === 'smart_phone') {
-						$field_id = $field->id;
-						$phone = rgpost("input_{$field_id}");
-						$country_code = rgpost("input_{$field_id}_country_code");
-			
-						// Only a dial code may be prepended to the number: digits with an optional leading "+".
-						$country_code = is_string($country_code) ? trim($country_code) : '';
-						if (!preg_match('/^\+?[0-9]+\z/', $country_code)) {
-							$country_code = '';
-						}
+			add_action(
+				'gform_pre_submission',
+				function ( $form ) {
+					foreach ( $form['fields'] as &$field ) {
+						if ( $field->type === 'smart_phone' ) {
+							$field_id     = $field->id;
+							$phone        = rgpost( "input_{$field_id}" );
+							$country_code = rgpost( "input_{$field_id}_country_code" );
 
-						if (!empty($phone) && !empty($country_code)) {
-							// Check if the phone number already starts with the country code
-							if (strpos($phone, $country_code) !== 0) {
-								// Append the country code only if it's not already present
-								$_POST["input_{$field_id}"] = "{$country_code}{$phone}";
-							} else {
-								// Keep the phone number as it is
-								$_POST["input_{$field_id}"] = $phone;
+							// Only a dial code may be prepended to the number: digits with an optional leading "+".
+							$country_code = is_string( $country_code ) ? trim( $country_code ) : '';
+							if ( ! preg_match( '/^\+?[0-9]+\z/', $country_code ) ) {
+								$country_code = '';
+							}
+
+							if ( ! empty( $phone ) && ! empty( $country_code ) ) {
+								// Check if the phone number already starts with the country code
+								if ( strpos( $phone, $country_code ) !== 0 ) {
+									// Append the country code only if it's not already present
+									$_POST[ "input_{$field_id}" ] = "{$country_code}{$phone}";
+								} else {
+									// Keep the phone number as it is
+									$_POST[ "input_{$field_id}" ] = $phone;
+								}
 							}
 						}
 					}
 				}
-			});
-			
+			);
+
 		}
 	}
 
@@ -152,7 +155,7 @@ class UltimaKit_Module_Smart_Phone_Field extends UltimaKit_Module_Manager {
 			array(),
 			'17.0.19'
 		);
-	
+
 		wp_enqueue_script(
 			'ultimakit-module-script-input-' . $this->ID,
 			plugins_url( '/intlTelInput.min.js', __FILE__ ),
@@ -163,10 +166,10 @@ class UltimaKit_Module_Smart_Phone_Field extends UltimaKit_Module_Manager {
 
 		// Localize the script
 		$localized_data = array(
-			'ajax_url'           => admin_url('admin-ajax.php'), // For AJAX requests
-			'utils_script'       => plugins_url('/utils.js', __FILE__), // Path to utils.js
-			'errorMessage'       => __('Invalid number - please try again', 'ultimakit-for-wp'),
-			'successMessage'     => __('Valid number! Full international format: ', 'ultimakit-for-wp'),
+			'ajax_url'       => admin_url( 'admin-ajax.php' ), // For AJAX requests
+			'utils_script'   => plugins_url( '/utils.js', __FILE__ ), // Path to utils.js
+			'errorMessage'   => __( 'Invalid number - please try again', 'ultimakit-for-wp' ),
+			'successMessage' => __( 'Valid number! Full international format: ', 'ultimakit-for-wp' ),
 		);
 
 		// Pass the data to the script
@@ -175,37 +178,36 @@ class UltimaKit_Module_Smart_Phone_Field extends UltimaKit_Module_Manager {
 			'UltimaKitData', // JS object name
 			$localized_data
 		);
-
 	}
-	
-	public function wpuk_smart_phone_standard_settings($position, $form_id) {
-		$helper = new UltimaKit_Helpers();
+
+	public function wpuk_smart_phone_standard_settings( $position, $form_id ) {
+		$helper    = new UltimaKit_Helpers();
 		$countries = $helper->get_countries();
-		if ($position == 25) { ?>
+		if ( $position == 25 ) { ?>
 			<li class="wpuk_dial_mode field_setting">
-				<label for="wpuk_dial_mode"><?php _e('Flag Options', 'ultimakit-for-wp'); ?><button onclick="return false;" onkeypress="return false;" class="gf_tooltip tooltip tooltip_spf_flag_tooltips" aria-label="<?php echo esc_html_e('Choose flag option for getting flag and dial code in input field.','ultimakit-for-wp');?>">
+				<label for="wpuk_dial_mode"><?php _e( 'Flag Options', 'ultimakit-for-wp' ); ?><button onclick="return false;" onkeypress="return false;" class="gf_tooltip tooltip tooltip_spf_flag_tooltips" aria-label="<?php echo esc_html_e( 'Choose flag option for getting flag and dial code in input field.', 'ultimakit-for-wp' ); ?>">
 				<i class="gform-icon gform-icon--question-mark" aria-hidden="true"></i></button></label>
 				<select name="wpuk_dial_mode" id="wpuk_dial_mode" onchange="SetFieldProperty('wpuk_dial_mode', this.value);">
-					<option value=""><?php echo esc_html_e('Choose Flag','ultimakit-for-wp');?></option>
-					<option value="flagdial"><?php echo esc_html_e('Flag with dial code','ultimakit-for-wp');?></option>
-					<option value="flag"><?php echo esc_html_e('Flag only','ultimakit-for-wp');?></option>
+					<option value=""><?php echo esc_html_e( 'Choose Flag', 'ultimakit-for-wp' ); ?></option>
+					<option value="flagdial"><?php echo esc_html_e( 'Flag with dial code', 'ultimakit-for-wp' ); ?></option>
+					<option value="flag"><?php echo esc_html_e( 'Flag only', 'ultimakit-for-wp' ); ?></option>
 				</select>
 			</li>
 			<li class="wpuk_default_country field_setting">
-				<label for="wpuk_default_country"><?php _e('Default Country', 'ultimakit-for-wp'); ?></label>
+				<label for="wpuk_default_country"><?php _e( 'Default Country', 'ultimakit-for-wp' ); ?></label>
 				<select name="wpuk_default_country" id="wpuk_default_country" onchange="SetFieldProperty('wpuk_default_country', this.value);">
 					<option value="">None</option>
-					<?php 
-						if( !empty($countries)){
-							foreach( $countries as $code => $name ){
-								echo '<option value="'.esc_attr($code).'">'.esc_html($name).'</option>';
-							}
+					<?php
+					if ( ! empty( $countries ) ) {
+						foreach ( $countries as $code => $name ) {
+							echo '<option value="' . esc_attr( $code ) . '">' . esc_html( $name ) . '</option>';
 						}
+					}
 					?>
 				</select>
 			</li>
 			<li class="wpuk_preferred_countries field_setting">
-				<label for="wpuk_preferred_countries"><?php _e('Preferred Countries', 'ultimakit-for-wp'); ?></label>
+				<label for="wpuk_preferred_countries"><?php _e( 'Preferred Countries', 'ultimakit-for-wp' ); ?></label>
 				<select 
 					name="wpuk_preferred_countries[]" 
 					id="wpuk_preferred_countries" 
@@ -213,30 +215,33 @@ class UltimaKit_Module_Smart_Phone_Field extends UltimaKit_Module_Manager {
 					onchange="SetFieldProperty('wpuk_preferred_countries', jQuery(this).val());"
 					style="min-height: 100px"
 				>
-					<?php 
-						if( !empty($countries)){
-							foreach( $countries as $code => $name ){
-								echo '<option value="'.esc_attr($code).'">'.esc_html($name).'</option>';
-							}
+					<?php
+					if ( ! empty( $countries ) ) {
+						foreach ( $countries as $code => $name ) {
+							echo '<option value="' . esc_attr( $code ) . '">' . esc_html( $name ) . '</option>';
 						}
+					}
 					?>
 				</select>
 			</li>
 			<li class="wpuk_hide_dial_code field_setting">
-				<label for="wpuk_hide_dial_code"><?php _e('Show/Hide Country Code', 'ultimakit-for-wp'); ?><button onclick="return false;" onkeypress="return false;" class="gf_tooltip tooltip tooltip_spf_flag_tooltips" aria-label="Choose option to show or hide country code in input field.">
+				<label for="wpuk_hide_dial_code"><?php _e( 'Show/Hide Country Code', 'ultimakit-for-wp' ); ?><button onclick="return false;" onkeypress="return false;" class="gf_tooltip tooltip tooltip_spf_flag_tooltips" aria-label="Choose option to show or hide country code in input field.">
 				<i class="gform-icon gform-icon--question-mark" aria-hidden="true"></i>
 			</button></label>
 				<select name="wpuk_hide_dial_code" id="wpuk_hide_dial_code" onchange="SetFieldProperty('wpuk_hide_dial_code', this.value);">
-					<option value=""><?php echo esc_html_e('Choose option','ultimakit-for-wp');?></option>
-					<option value="show"><?php echo esc_html_e('Show Country Code', 'ultimakit-for-wp'); ?></option>
-					<option value="hide"><?php echo esc_html_e('Hide Country Code', 'ultimakit-for-wp'); ?></option>
+					<option value=""><?php echo esc_html_e( 'Choose option', 'ultimakit-for-wp' ); ?></option>
+					<option value="show"><?php echo esc_html_e( 'Show Country Code', 'ultimakit-for-wp' ); ?></option>
+					<option value="hide"><?php echo esc_html_e( 'Hide Country Code', 'ultimakit-for-wp' ); ?></option>
 				</select>
 			</li>
 	
-		<?php }
+			<?php
+		}
 	}
 
-	public function wpuk_smart_phone_editor_js() { ?>
+	public function wpuk_smart_phone_editor_js() {
+
+		?>
 		<script type="text/javascript">
 			jQuery(document).on('gform_load_field_settings', function(event, field) {
 				jQuery('#wpuk_default_country').val(field.wpuk_default_country || '');
@@ -248,7 +253,8 @@ class UltimaKit_Module_Smart_Phone_Field extends UltimaKit_Module_Manager {
 					.trigger('change');
 			});
 		</script>
-	<?php }
+		<?php
+	}
 
 	public function wpuk_gform_editor_js_set_default_values() {
 		?>
@@ -270,99 +276,98 @@ class UltimaKit_Module_Smart_Phone_Field extends UltimaKit_Module_Manager {
 		<?php
 	}
 
-	public function wpuk_gform_pre_form_settings_save($form) {
-		if (isset($_POST['wpuk_default_country'])) {
-			$form['wpuk_default_country'] = sanitize_text_field($_POST['wpuk_default_country']);
+	public function wpuk_gform_pre_form_settings_save( $form ) {
+		if ( isset( $_POST['wpuk_default_country'] ) ) {
+			$form['wpuk_default_country'] = sanitize_text_field( $_POST['wpuk_default_country'] );
 		}
-		if (isset($_POST['wpuk_only_country'])) {
-			$form['wpuk_only_country'] = sanitize_text_field($_POST['wpuk_only_country']);
+		if ( isset( $_POST['wpuk_only_country'] ) ) {
+			$form['wpuk_only_country'] = sanitize_text_field( $_POST['wpuk_only_country'] );
 		}
-		if (isset($_POST['wpuk_preferred_countries'])) {
-			$form['wpuk_preferred_countries'] = array_map('sanitize_text_field', $_POST['wpuk_preferred_countries']);
+		if ( isset( $_POST['wpuk_preferred_countries'] ) ) {
+			$form['wpuk_preferred_countries'] = array_map( 'sanitize_text_field', $_POST['wpuk_preferred_countries'] );
 		} else {
-			$form['wpuk_preferred_countries'] = [];
+			$form['wpuk_preferred_countries'] = array();
 		}
-	
+
 		return $form;
 	}
-
 }
 
 
-if (class_exists('GF_Field')) {
-    class WPUK_GF_Field_SmartPhone extends GF_Field {
-        public $type = 'smart_phone';
+if ( class_exists( 'GF_Field' ) ) {
+	class WPUK_GF_Field_SmartPhone extends GF_Field {
+		public $type = 'smart_phone';
 
-        public function get_form_editor_field_title() {
-            return esc_attr__('Smart Phone Field', 'ultimakit-for-wp');
-        }
+		public function get_form_editor_field_title() {
+			return esc_attr__( 'Smart Phone Field', 'ultimakit-for-wp' );
+		}
 
-        public function get_form_editor_button() {
-            return array(
-                'group' => 'advanced_fields',
-                'text'  => $this->get_form_editor_field_title(),
-				'icon' => 'dashicons dashicons-phone'
-            );
-        }
+		public function get_form_editor_button() {
+			return array(
+				'group' => 'advanced_fields',
+				'text'  => $this->get_form_editor_field_title(),
+				'icon'  => 'dashicons dashicons-phone',
+			);
+		}
 
-        public function get_form_editor_field_settings() {
-            /*
-             * 'label_setting' was listed twice, and 'wpuk_national_mode' has no matching
-             * settings markup rendered anywhere, so it referenced a control that never
-             * existed.
-             */
-            return array(
-                'label_setting',
-                'description_setting',
-                'css_class_setting',
+		public function get_form_editor_field_settings() {
+			/*
+			 * 'label_setting' was listed twice, and 'wpuk_national_mode' has no matching
+			 * settings markup rendered anywhere, so it referenced a control that never
+			 * existed.
+			 */
+			return array(
+				'label_setting',
+				'description_setting',
+				'css_class_setting',
 				'wpuk_default_country',
-                'wpuk_preferred_countries',
-                'wpuk_dial_mode',
-                'wpuk_hide_dial_code',
+				'wpuk_preferred_countries',
+				'wpuk_dial_mode',
+				'wpuk_hide_dial_code',
 				'conditional_logic_field_setting',
 				'error_message_setting',
 				'label_placement_setting',
 				'admin_label_setting',
 				'rules_setting',
 				'visibility_setting',
-            );
-        }
+			);
+		}
 
-        public function get_field_input($form, $value = '', $entry = null) {
-            $field_id = $this->id;
-            $form_id = $form['id'];
-            $saved_value = esc_attr($value);
-			
-			$dial_mode       = isset($this->wpuk_dial_mode) ? $this->wpuk_dial_mode : false;
-			$default_country = isset($this->wpuk_default_country) ? $this->wpuk_default_country : 'US';
+		public function get_field_input( $form, $value = '', $entry = null ) {
+			$field_id    = $this->id;
+			$form_id     = $form['id'];
+			$saved_value = esc_attr( $value );
+
+			$dial_mode       = isset( $this->wpuk_dial_mode ) ? $this->wpuk_dial_mode : false;
+			$default_country = isset( $this->wpuk_default_country ) ? $this->wpuk_default_country : 'US';
 			// isset() only guards "unset", not "wrong type" — implode() on a string is a
 			// fatal TypeError on PHP 8, so normalise to an array here.
-			$pref_country = isset($this->wpuk_preferred_countries) ? $this->wpuk_preferred_countries : array();
+			$pref_country = isset( $this->wpuk_preferred_countries ) ? $this->wpuk_preferred_countries : array();
 			if ( is_string( $pref_country ) ) {
 				$pref_country = array_filter( array_map( 'trim', explode( ',', $pref_country ) ) );
 			} elseif ( ! is_array( $pref_country ) ) {
 				$pref_country = array();
 			}
-			$hide_dial_code = isset($this->wpuk_hide_dial_code) ? $this->wpuk_hide_dial_code : '';
-            ob_start();
+			$hide_dial_code = isset( $this->wpuk_hide_dial_code ) ? $this->wpuk_hide_dial_code : '';
+			ob_start();
 			echo '<style>.wpuk-phone-container{display: flex; flex-direction: column; gap: 8px; } .wpuk-phone { width: 100%; padding: 10px; font-size: 16px; }.iti__country,.iti__selected-flag{font-size:16px;}.success_br{border-color:green !important; transition: background-color 0.3s ease-in-out;}.warning_br{border-color:red !important; transition: background-color 0.3s ease-in-out;}</style>';
-            ?>
-            <div id="wpuk-phone-container-<?php echo esc_attr($field_id); ?>" class="wpuk-phone-container">
-                <input 
-                    id="wpuk-phone-<?php echo esc_attr($field_id); ?>"
-                    class="wpuk-phone" 
-                    type="tel" 
-                    name="input_<?php echo esc_attr($field_id); ?>"
-                    value="<?php echo $saved_value; ?>" 
-                    data-field-id="<?php echo esc_attr($field_id); ?>"
-					data-dial-mode="<?php echo esc_attr($dial_mode ==='flagdial' ? 'true' : 'false'); ?>"
-					data-default-country="<?php echo esc_attr($default_country); ?>"
+			?>
+			<div id="wpuk-phone-container-<?php echo esc_attr( $field_id ); ?>" class="wpuk-phone-container">
+				<input 
+					id="wpuk-phone-<?php echo esc_attr( $field_id ); ?>"
+					class="wpuk-phone" 
+					type="tel" 
+					name="input_<?php echo esc_attr( $field_id ); ?>"
+					value="<?php echo $saved_value; ?>" 
+					data-field-id="<?php echo esc_attr( $field_id ); ?>"
+					data-dial-mode="<?php echo esc_attr( $dial_mode === 'flagdial' ? 'true' : 'false' ); ?>"
+					data-default-country="<?php echo esc_attr( $default_country ); ?>"
 					data-pref-country="<?php echo esc_attr( implode( ',', $pref_country ) ); ?>"
-					data-hide-dial-code="<?php echo esc_attr($hide_dial_code==='show' ? 'false' : 'true'); ?>"
-                />
-                <input type="hidden" id="input_<?php echo esc_attr($field_id); ?>_country_code" name="input_<?php echo esc_attr($field_id); ?>_country_code" value="" />
-            </div>
-            <script>
+					data-hide-dial-code="<?php echo esc_attr( $hide_dial_code === 'show' ? 'false' : 'true' ); ?>"
+				/>
+				<input type="hidden" id="input_<?php echo esc_attr( $field_id ); ?>_country_code" name="input_<?php echo esc_attr( $field_id ); ?>_country_code" value="" />
+			</div>
+			<script>
 				jQuery(document).ready(function($) {
 					$('.wpuk-phone').each(function() {
 						const phoneInput = $(this);
@@ -382,7 +387,7 @@ if (class_exists('GF_Field')) {
 							separateDialCode: dialMode,
 							nationalMode: hideDialCode,
 							preferredCountries: preferredCountries,
-							utilsScript: "<?php echo plugins_url('/utils.js', __FILE__); ?>", // Path to utils.js
+							utilsScript: "<?php echo plugins_url( '/utils.js', __FILE__ ); ?>", // Path to utils.js
 						};
 
 						// Initialize the library
@@ -427,10 +432,10 @@ if (class_exists('GF_Field')) {
 				});
 			</script>
 
-            <?php
-            return ob_get_clean();
-        }
-    }
+			<?php
+			return ob_get_clean();
+		}
+	}
 
-    GF_Fields::register(new WPUK_GF_Field_SmartPhone());
+	GF_Fields::register( new WPUK_GF_Field_SmartPhone() );
 }

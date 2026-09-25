@@ -87,7 +87,7 @@ class UltimaKit_Module_Limit_Login_Attempts extends UltimaKit_Module_Manager {
 	protected $login_failed;
 	protected $login_attempt;
 	private $db_version = '1.0.0';
-    private $db_version_key;
+	private $db_version_key;
 
 	/**
 	 *
@@ -109,36 +109,36 @@ class UltimaKit_Module_Limit_Login_Attempts extends UltimaKit_Module_Manager {
 
 		$this->db_version_key = 'ultimakit_login_attempts_db_version';
 
-		 // Check and setup database when module is loaded
-		 add_action('init', [$this, 'check_db_setup'], 1);
+		// Check and setup database when module is loaded
+		add_action( 'init', array( $this, 'check_db_setup' ), 1 );
 	}
 
 	/**
-     * Check and setup database
-     */
-    public function check_db_setup() {
-        if (!$this->is_active) {
-            return;
-        }
+	 * Check and setup database
+	 */
+	public function check_db_setup() {
+		if ( ! $this->is_active ) {
+			return;
+		}
 
-        $installed_version = get_option($this->db_version_key, '0');
-        if (! $this->is_table_exists($this->login_failed) || version_compare($installed_version, $this->db_version, '<')) {
-            $this->create_login_attempts_failed_table();
-        }
+		$installed_version = get_option( $this->db_version_key, '0' );
+		if ( ! $this->is_table_exists( $this->login_failed ) || version_compare( $installed_version, $this->db_version, '<' ) ) {
+			$this->create_login_attempts_failed_table();
+		}
 
-		if (! $this->is_table_exists($this->login_attempt) || version_compare($installed_version, $this->db_version, '<')) {
-            $this->create_login_attempts_attempt_table();
-        }
+		if ( ! $this->is_table_exists( $this->login_attempt ) || version_compare( $installed_version, $this->db_version, '<' ) ) {
+			$this->create_login_attempts_attempt_table();
+		}
 
 		// Update version in database
-        update_option($this->db_version_key, $this->db_version);
-    }
+		update_option( $this->db_version_key, $this->db_version );
+	}
 
 	public function create_login_attempts_failed_table() {
 		global $wpdb;
 
 		$charset_collate = $wpdb->get_charset_collate();
-		
+
 		/*Create login failed table*/
 		$login_failed_sql = " CREATE TABLE IF NOT EXISTS $this->login_failed (
 			`id` int(11) NOT NULL AUTO_INCREMENT,
@@ -158,7 +158,7 @@ class UltimaKit_Module_Limit_Login_Attempts extends UltimaKit_Module_Manager {
 		$wpdb->query( $login_failed_sql );
 
 		// Run version-specific migrations
-        $this->run_migrations(get_option($this->db_version_key, '0'));
+		$this->run_migrations( get_option( $this->db_version_key, '0' ) );
 	}
 
 	public function create_login_attempts_attempt_table() {
@@ -180,21 +180,20 @@ class UltimaKit_Module_Limit_Login_Attempts extends UltimaKit_Module_Manager {
 		$wpdb->query( $login_attempt_sql );
 
 		// Run version-specific migrations
-        $this->run_migrations(get_option($this->db_version_key, '0'));
+		$this->run_migrations( get_option( $this->db_version_key, '0' ) );
 	}
 
 	/**
-     * Run database migrations
-     */
-    private function run_migrations($from_version) {
-        global $wpdb;
+	 * Run database migrations
+	 */
+	private function run_migrations( $from_version ) {
+		global $wpdb;
 
-        if (version_compare($from_version, '1.0.1', '<')) {
-            // Add new columns or modify existing ones
-            // $wpdb->query("ALTER TABLE {$this->table_name} ADD COLUMN new_column varchar(100)");
-        }
-
-    }
+		if ( version_compare( $from_version, '1.0.1', '<' ) ) {
+			// Add new columns or modify existing ones
+			// $wpdb->query("ALTER TABLE {$this->table_name} ADD COLUMN new_column varchar(100)");
+		}
+	}
 
 	/**
 	 * Initializes the specific module within the application.
@@ -314,10 +313,6 @@ class UltimaKit_Module_Limit_Login_Attempts extends UltimaKit_Module_Manager {
 	 * and the dbDelta function for safe table creation.
 	 */
 	public function ultimakit_create_login_attempts_table() {
-
-		
-
-		
 	}
 
 	/**

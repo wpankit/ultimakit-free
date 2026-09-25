@@ -117,7 +117,7 @@ class UltimaKit_Module_Block_Admin_Username extends UltimaKit_Module_Manager {
 	public function ultimakit_admin_notice() {
 		$class   = 'notice notice-error';
 		$message = esc_html( 'detected username as admin. We recommend changing username for security purposes.', 'ultimakit-for-wp' );
-		
+
 		// Inline CSS for beautification
 		$inline_css = '
 		<style>
@@ -206,7 +206,7 @@ class UltimaKit_Module_Block_Admin_Username extends UltimaKit_Module_Manager {
 			color: #16a34a;
 		}
 		</style>';
-		
+
 		printf( '%1$s<div class="%2$s ultimakit_change_admin"><p><strong>' . esc_html( 'Ultimakit For WP', 'ultimakit-for-wp' ) . '</strong> %3$s</p><input type="text" name="change_username" id="change_username" class="form-control" placeholder="' . esc_html( 'Enter new username', 'ultimakit-for-wp' ) . '"><input type="submit" name="change_user" id="change_user" value="' . esc_html( 'Change', 'ultimakit-for-wp' ) . '" class="button button-primary"><p class="user_validation"></p></div>', $inline_css, esc_attr( $class ), esc_html( $message ) );
 	}
 

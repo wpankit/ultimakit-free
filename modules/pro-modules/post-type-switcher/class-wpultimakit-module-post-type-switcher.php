@@ -343,7 +343,16 @@ class UltimaKit_Module_Post_Type_Switcher extends UltimaKit_Module_Manager {
 	public function ultimakit_admin_head() {
 		?>
 		<script type="text/javascript">
-			var ultimakit_pts_obj = <?php echo wp_json_encode( array( 'ajax_url' => admin_url( 'admin-ajax.php' ), 'ajax_nonce' => wp_create_nonce( 'ultimakit_post_type_switcher' ) ) ); ?>;
+			var ultimakit_pts_obj = 
+			<?php
+			echo wp_json_encode(
+				array(
+					'ajax_url'   => admin_url( 'admin-ajax.php' ),
+					'ajax_nonce' => wp_create_nonce( 'ultimakit_post_type_switcher' ),
+				)
+			);
+			?>
+									;
 			jQuery( document ).ready( function($) {
 				jQuery( '.wpext-pub-section.curtime.wpext-pub-section-last' ).removeClass( 'wpext-pub-section-last' );
 				jQuery( '#edit-post-type-switcher' ).on( 'click', function(e) {

@@ -78,7 +78,7 @@ class UltimaKit_Module_Robots_Txt_Editor extends UltimaKit_Module_Manager {
 	 */
 	protected $settings;
 
-    
+
 	/**
 	 *
 	 * Initializes the module with default values for properties and prepares
@@ -92,7 +92,6 @@ class UltimaKit_Module_Robots_Txt_Editor extends UltimaKit_Module_Manager {
 		$this->is_active   = $this->isModuleActive( $this->ID );
 
 		$this->initializeModule();
-		
 	}
 
 
@@ -113,70 +112,71 @@ class UltimaKit_Module_Robots_Txt_Editor extends UltimaKit_Module_Manager {
 
 		if ( $this->is_active ) {
 
-            add_action('admin_menu', array($this, 'add_submenu_page'));
-			add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_assets']);
-            add_action('wp_ajax_save_robots_txt', array($this, 'save_robots_txt'));
+			add_action( 'admin_menu', array( $this, 'add_submenu_page' ) );
+			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_assets' ) );
+			add_action( 'wp_ajax_save_robots_txt', array( $this, 'save_robots_txt' ) );
 		}
-
 	}
 
-    /**
-     * Add submenu page
-     */
-    public function add_submenu_page() {
-        // Check if parent menu exists
-        global $submenu;
-        if (!isset($submenu['wp-ultimakit-dashboard'])) {
-            return;
-        }
+	/**
+	 * Add submenu page
+	 */
+	public function add_submenu_page() {
+		// Check if parent menu exists
+		global $submenu;
+		if ( ! isset( $submenu['wp-ultimakit-dashboard'] ) ) {
+			return;
+		}
 
-        add_submenu_page(
-            'wp-ultimakit-dashboard',
-            __('Robots.txt Editor', 'ultimakit-for-wp'),
-            __('Robots.txt Editor', 'ultimakit-for-wp'),
-            'manage_options',
-            'wp-ultimakit-robots-editor',
-            array($this, 'render_page')
-        );
-        
-    }
+		add_submenu_page(
+			'wp-ultimakit-dashboard',
+			__( 'Robots.txt Editor', 'ultimakit-for-wp' ),
+			__( 'Robots.txt Editor', 'ultimakit-for-wp' ),
+			'manage_options',
+			'wp-ultimakit-robots-editor',
+			array( $this, 'render_page' )
+		);
+	}
 
-    /**
-     * Enqueue admin assets.
-     *
-     * @param string $hook Current admin page.
-     */
-    public function enqueue_admin_assets($hook) {
-        
-        wp_enqueue_script(
-            'ultimakit-robots-txt-editor',
-            plugin_dir_url(__FILE__) . 'module-script.js',
-            ['jquery'],
-            '1.0.0',
-            true
-        );
+	/**
+	 * Enqueue admin assets.
+	 *
+	 * @param string $hook Current admin page.
+	 */
+	public function enqueue_admin_assets( $hook ) {
 
-        wp_localize_script('ultimakit-robots-txt-editor', 'ultimakitRobotsTxtEditor', array(
-            'nonce' => wp_create_nonce('ultimakit_robots_txt_editor_nonce'),
-            'ajaxurl' => admin_url('admin-ajax.php'),
-            'saveSuccess' => __('Robots.txt file updated successfully!', 'ultimakit-for-wp'),
-            'saveError' => __('Error updating robots.txt file.', 'ultimakit-for-wp'),
-            'saveButton' => __('Save Changes', 'ultimakit-for-wp'),
-            'resetConfirm' => __('Are you sure you want to reset the robots.txt file to the default settings?', 'ultimakit-for-wp')
-        ));
+		wp_enqueue_script(
+			'ultimakit-robots-txt-editor',
+			plugin_dir_url( __FILE__ ) . 'module-script.js',
+			array( 'jquery' ),
+			'1.0.0',
+			true
+		);
 
-    }
+		wp_localize_script(
+			'ultimakit-robots-txt-editor',
+			'ultimakitRobotsTxtEditor',
+			array(
+				'nonce'        => wp_create_nonce( 'ultimakit_robots_txt_editor_nonce' ),
+				'ajaxurl'      => admin_url( 'admin-ajax.php' ),
+				'saveSuccess'  => __( 'Robots.txt file updated successfully!', 'ultimakit-for-wp' ),
+				'saveError'    => __( 'Error updating robots.txt file.', 'ultimakit-for-wp' ),
+				'saveButton'   => __( 'Save Changes', 'ultimakit-for-wp' ),
+				'resetConfirm' => __( 'Are you sure you want to reset the robots.txt file to the default settings?', 'ultimakit-for-wp' ),
+			)
+		);
+	}
 
-    public function render_page() {
-        $object = new UltimaKit_Helpers();
-        $robots_content = $this->get_robots_content();
-        ?>
-        <style>
-            #robots-txt-editor-settings .form-check-label{
-                text-indent: unset !important;
-            }
-        </style>
-        <div class="wrap">
+	public function render_page() {
+		$object         = new UltimaKit_Helpers();
+		$robots_content = $this->get_robots_content();
+		?>
+		<style>
+			#robots-txt-editor-settings .form-check-label{
+				text-indent: unset !important;
+			}
+		</style>
+		<div class="wrap">
 			<?php $object->ultimakit_get_header(); ?>
 			<div class="container bg-white text-dark p-3 mb-3">
 				<!-- Nav tabs -->
@@ -192,27 +192,27 @@ class UltimaKit_Module_Robots_Txt_Editor extends UltimaKit_Module_Manager {
 					<div class="tab-pane fade show active" id="robots-txt-editor-settings" role="tabpanel" aria-labelledby="settings-tab">
 						<!-- Your modules content here -->
 						<div class="row">
-                            <div class="form-group mb-3">
-                                <textarea id="robots-content" class="form-control" rows="15"><?php echo esc_textarea($robots_content); ?></textarea>
-                            </div>
+							<div class="form-group mb-3">
+								<textarea id="robots-content" class="form-control" rows="15"><?php echo esc_textarea( $robots_content ); ?></textarea>
+							</div>
 
-                            <div class="form-check mb-3">
-                                <input class="form-check-input" type="checkbox" id="backup_robots" checked>
-                                <label class="form-check-label" for="backup_robots">
-                                    <?php _e('Create backup before saving', 'ultimakit-for-wp'); ?>
-                                </label>
-                            </div>
+							<div class="form-check mb-3">
+								<input class="form-check-input" type="checkbox" id="backup_robots" checked>
+								<label class="form-check-label" for="backup_robots">
+									<?php _e( 'Create backup before saving', 'ultimakit-for-wp' ); ?>
+								</label>
+							</div>
 
-                            <div class="d-flex justify-content-between align-items-center">
-                                <button id="save-robots" class="btn btn-primary">
-                                    <?php _e('Save Changes', 'ultimakit-for-wp'); ?>
-                                </button>
-                                <button id="reset-robots" class="btn btn-outline-secondary">
-                                    <?php _e('Reset to Default', 'ultimakit-for-wp'); ?>
-                                </button>
-                            </div>
+							<div class="d-flex justify-content-between align-items-center">
+								<button id="save-robots" class="btn btn-primary">
+									<?php _e( 'Save Changes', 'ultimakit-for-wp' ); ?>
+								</button>
+								<button id="reset-robots" class="btn btn-outline-secondary">
+									<?php _e( 'Reset to Default', 'ultimakit-for-wp' ); ?>
+								</button>
+							</div>
 
-                            <div id="save-message" class="alert mt-3 d-none"></div>
+							<div id="save-message" class="alert mt-3 d-none"></div>
 						</div>
 					</div>
 
@@ -220,53 +220,52 @@ class UltimaKit_Module_Robots_Txt_Editor extends UltimaKit_Module_Manager {
 			</div>
 		</div>
 
-        
-        <?php
-    }
+		
+		<?php
+	}
 
-    private function get_robots_content() {
-        $robots_path = ABSPATH . 'robots.txt';
-        
-        if (file_exists($robots_path)) {
-            return file_get_contents($robots_path);
-        }
+	private function get_robots_content() {
+		$robots_path = ABSPATH . 'robots.txt';
 
-        return $this->get_default_robots_content();
-    }
+		if ( file_exists( $robots_path ) ) {
+			return file_get_contents( $robots_path );
+		}
 
-    private function get_default_robots_content() {
-        $site_url = get_site_url();
-        return "User-agent: *\nDisallow: /wp-admin/\nDisallow: /wp-includes/\n\nSitemap: {$site_url}/sitemap.xml";
-    }
+		return $this->get_default_robots_content();
+	}
 
-    public function save_robots_txt() {
-        check_ajax_referer('ultimakit_robots_txt_editor_nonce', 'nonce');
+	private function get_default_robots_content() {
+		$site_url = get_site_url();
+		return "User-agent: *\nDisallow: /wp-admin/\nDisallow: /wp-includes/\n\nSitemap: {$site_url}/sitemap.xml";
+	}
 
-        if (!current_user_can('manage_options')) {
-            wp_send_json_error(__('You do not have permission to perform this action.', 'ultimakit-for-wp'));
-        }
+	public function save_robots_txt() {
+		check_ajax_referer( 'ultimakit_robots_txt_editor_nonce', 'nonce' );
 
-        // A multisite network shares one physical robots.txt, so only a super admin may replace it.
-        if (is_multisite() && !is_super_admin()) {
-            wp_send_json_error(__('On a multisite network only a super admin can edit the robots.txt file.', 'ultimakit-for-wp'));
-        }
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( __( 'You do not have permission to perform this action.', 'ultimakit-for-wp' ) );
+		}
 
-        $content = isset($_POST['content']) ? stripslashes($_POST['content']) : '';
-        // The checkbox value arrives as the string "true"/"false"; (bool) "false" would be true.
-        $create_backup = isset($_POST['backup']) ? filter_var(wp_unslash($_POST['backup']), FILTER_VALIDATE_BOOLEAN) : false;
-        $robots_path = ABSPATH . 'robots.txt';
+		// A multisite network shares one physical robots.txt, so only a super admin may replace it.
+		if ( is_multisite() && ! is_super_admin() ) {
+			wp_send_json_error( __( 'On a multisite network only a super admin can edit the robots.txt file.', 'ultimakit-for-wp' ) );
+		}
 
-        // Create backup if requested
-        if ($create_backup && file_exists($robots_path)) {
-            $backup_path = ABSPATH . 'robots.txt.backup-' . date('Y-m-d-H-i-s');
-            copy($robots_path, $backup_path);
-        }
+		$content = isset( $_POST['content'] ) ? stripslashes( $_POST['content'] ) : '';
+		// The checkbox value arrives as the string "true"/"false"; (bool) "false" would be true.
+		$create_backup = isset( $_POST['backup'] ) ? filter_var( wp_unslash( $_POST['backup'] ), FILTER_VALIDATE_BOOLEAN ) : false;
+		$robots_path   = ABSPATH . 'robots.txt';
 
-        if (file_put_contents($robots_path, $content) !== false) {
-            wp_send_json_success(__('Robots.txt file updated successfully!', 'ultimakit-for-wp'));
-        } else {
-            wp_send_json_error(__('Error updating robots.txt file. Please check file permissions.', 'ultimakit-for-wp'));
-        }
-    }
+		// Create backup if requested
+		if ( $create_backup && file_exists( $robots_path ) ) {
+			$backup_path = ABSPATH . 'robots.txt.backup-' . date( 'Y-m-d-H-i-s' );
+			copy( $robots_path, $backup_path );
+		}
 
+		if ( file_put_contents( $robots_path, $content ) !== false ) {
+			wp_send_json_success( __( 'Robots.txt file updated successfully!', 'ultimakit-for-wp' ) );
+		} else {
+			wp_send_json_error( __( 'Error updating robots.txt file. Please check file permissions.', 'ultimakit-for-wp' ) );
+		}
+	}
 }

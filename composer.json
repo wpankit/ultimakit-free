@@ -1,29 +1,47 @@
 {
-    "name": "ankitpanchal/ultimakit-for-wp-pro",
-    "autoload": {
-        "psr-4": {
-            "Ankitpanchal\\UltimakitForWpPro\\": "src/"
-        }
-    },
-    "authors": [
-        {
-            "name": "Ankit Panchal",
-            "email": "wptoolsdev@gmail.com"
-        }
-    ],
-    "require-dev": {
-        "squizlabs/php_codesniffer": "^3.7",
-        "wp-coding-standards/wpcs": "^3.1",
-        "phpcsstandards/phpcsutils": "^1.0.0",
-        "phpcsstandards/phpcsextra": "^1.0.0"
-    },
-    "scripts": {
-        "lint": "phpcs --standard=WordPress --extensions=php --ignore='vendor/*,tests/*,node_modules/*,src/freemius/*' . -p -v",
-        "lint-fix": "phpcbf --standard=WordPress --extensions=php --ignore='vendor/*,tests/*,node_modules/*,src/freemius/*' ."
-    },
-    "config": {
-        "allow-plugins": {
-            "dealerdirect/phpcodesniffer-composer-installer": true
-        }
-    }
+	"name": "wpankit/ultimakit-for-wp",
+	"description": "180 admin, security and optimization tools in one WordPress plugin, all free. Enable only what you need; disabled modules never load.",
+	"type": "wordpress-plugin",
+	"license": "GPL-2.0-or-later",
+	"homepage": "https://wordpress.org/plugins/ultimakit-for-wp/",
+	"authors": [
+		{
+			"name": "WPAnkit",
+			"homepage": "https://wpankit.com/"
+		}
+	],
+	"support": {
+		"issues": "https://github.com/wpankit/ultimakit-for-wp/issues",
+		"forum": "https://wordpress.org/support/plugin/ultimakit-for-wp/",
+		"source": "https://github.com/wpankit/ultimakit-for-wp",
+		"security": "https://github.com/wpankit/ultimakit-for-wp/security/policy"
+	},
+	"require": {
+		"php": ">=7.4"
+	},
+	"require-dev": {
+		"dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+		"phpcompatibility/phpcompatibility-wp": "^2.1",
+		"sirbrillig/phpcs-changed": "^3.1",
+		"wp-coding-standards/wpcs": "^3.1"
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		},
+		"platform": {
+			"php": "7.4"
+		},
+		"sort-packages": true
+	},
+	"scripts": {
+		"lint": "phpcs",
+		"lint:changed": "files=$(git diff --name-only --diff-filter=AMR origin/main...HEAD -- '*.php' ':!src/freemius/**' ':!tools/**' ':!vendor/**') && if [ -n \"$files\" ]; then phpcs-changed -s --git --git-base origin/main --standard=phpcs.xml.dist $files; else echo 'No PHP files changed.'; fi",
+		"format": "phpcbf"
+	},
+	"scripts-descriptions": {
+		"lint": "Check the code against the WordPress coding standards and PHP 7.4+ compatibility.",
+		"lint:changed": "Check only the lines your commits change, compared with origin/main, like the pull request check.",
+		"format": "Fix the coding standards issues that can be fixed automatically."
+	}
 }

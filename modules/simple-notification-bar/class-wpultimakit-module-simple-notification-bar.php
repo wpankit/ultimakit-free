@@ -73,13 +73,13 @@ class UltimaKit_Module_Simple_Notification_Bar extends UltimaKit_Module_Manager 
 	 */
 	protected $settings;
 
-	private $default_options = [
-        'message' => 'This is a notification bar!',
-        'background_color' => '#ffcc00',
-        'text_color' => '#000000',
-        'font_size' => '16px',
-        'show_close_button' => true,
-    ];
+	private $default_options = array(
+		'message'           => 'This is a notification bar!',
+		'background_color'  => '#ffcc00',
+		'text_color'        => '#000000',
+		'font_size'         => '16px',
+		'show_close_button' => true,
+	);
 
 	/**
 	 * Constructs the Simple Notification Bar module instance.
@@ -446,32 +446,32 @@ class UltimaKit_Module_Simple_Notification_Bar extends UltimaKit_Module_Manager 
 
 		// Allow the same HTML tags that the frontend allows when displaying
 		$settings = array(
-			'noti_bar_text_area'  => wp_kses_post( $post['noti_bar_text_area'] ?? '' ),
-			'wpuk_noti_bg_color'  => sanitize_hex_color( $post['wpuk_noti_bg_color'] ?? '#ffcc00' ),
-			'wpuk_noti_txt_color' => sanitize_hex_color( $post['wpuk_noti_txt_color'] ?? '#000000' ),
-			'wpuk_noti_txt_size'  => max( 10, min( 32, intval( $post['wpuk_noti_txt_size'] ?? 16 ) ) ),
+			'noti_bar_text_area'   => wp_kses_post( $post['noti_bar_text_area'] ?? '' ),
+			'wpuk_noti_bg_color'   => sanitize_hex_color( $post['wpuk_noti_bg_color'] ?? '#ffcc00' ),
+			'wpuk_noti_txt_color'  => sanitize_hex_color( $post['wpuk_noti_txt_color'] ?? '#000000' ),
+			'wpuk_noti_txt_size'   => max( 10, min( 32, intval( $post['wpuk_noti_txt_size'] ?? 16 ) ) ),
 			'wpuk_noti_txt_weight' => in_array( intval( $post['wpuk_noti_txt_weight'] ?? 400 ), array( 100, 200, 300, 400, 500, 600, 700, 800 ) )
 				? intval( $post['wpuk_noti_txt_weight'] )
 				: 400,
-			'wpuk_noti_btn'       => isset( $post['wpuk_noti_btn'] ) ? 'on' : 'off',
-			'bar_position'        => in_array( $post['bar_position'] ?? 'top', array( 'top', 'bottom' ) ) ? $post['bar_position'] : 'top',
-			'fixed_position'      => isset( $post['fixed_position'] ) ? 'on' : 'off',
-			'sticky_selector'     => sanitize_text_field( $post['sticky_selector'] ?? '' ),
-			'display_on_scroll'   => isset( $post['display_on_scroll'] ) ? 'on' : 'off',
-			'scroll_offset'       => max( 0, min( 1000, intval( $post['scroll_offset'] ?? 100 ) ) ),
-			'bar_height'          => max( 30, min( 200, intval( $post['bar_height'] ?? 50 ) ) ),
-			'position_offset'     => max( 0, min( 500, intval( $post['position_offset'] ?? 0 ) ) ),
-			'display_after'       => max( 0, min( 60, intval( $post['display_after'] ?? 0 ) ) ),
-			'animation_duration'  => max( 0, min( 10, intval( $post['animation_duration'] ?? 0 ) ) ),
-			'auto_close'          => max( 0, min( 300, intval( $post['auto_close'] ?? 0 ) ) ),
-			'display_shadow'      => isset( $post['display_shadow'] ) ? 'on' : 'off',
-			'display_reopen'      => isset( $post['display_reopen'] ) ? 'on' : 'off',
-			'reopen_image_url'    => esc_url_raw( $post['reopen_image_url'] ?? '' ),
-			'reopen_offset'       => max( 0, min( 200, intval( $post['reopen_offset'] ?? 0 ) ) ),
-			'display_devices'     => in_array( $post['display_devices'] ?? 'all', array( 'all', 'small', 'large' ) ) ? $post['display_devices'] : 'all',
-			'small_device_width'  => max( 320, min( 1200, intval( $post['small_device_width'] ?? 640 ) ) ),
-			'hide_small_window'   => isset( $post['hide_small_window'] ) ? 'on' : 'off',
-			'small_window_width'  => max( 320, min( 1200, intval( $post['small_window_width'] ?? 640 ) ) ),
+			'wpuk_noti_btn'        => isset( $post['wpuk_noti_btn'] ) ? 'on' : 'off',
+			'bar_position'         => in_array( $post['bar_position'] ?? 'top', array( 'top', 'bottom' ) ) ? $post['bar_position'] : 'top',
+			'fixed_position'       => isset( $post['fixed_position'] ) ? 'on' : 'off',
+			'sticky_selector'      => sanitize_text_field( $post['sticky_selector'] ?? '' ),
+			'display_on_scroll'    => isset( $post['display_on_scroll'] ) ? 'on' : 'off',
+			'scroll_offset'        => max( 0, min( 1000, intval( $post['scroll_offset'] ?? 100 ) ) ),
+			'bar_height'           => max( 30, min( 200, intval( $post['bar_height'] ?? 50 ) ) ),
+			'position_offset'      => max( 0, min( 500, intval( $post['position_offset'] ?? 0 ) ) ),
+			'display_after'        => max( 0, min( 60, intval( $post['display_after'] ?? 0 ) ) ),
+			'animation_duration'   => max( 0, min( 10, intval( $post['animation_duration'] ?? 0 ) ) ),
+			'auto_close'           => max( 0, min( 300, intval( $post['auto_close'] ?? 0 ) ) ),
+			'display_shadow'       => isset( $post['display_shadow'] ) ? 'on' : 'off',
+			'display_reopen'       => isset( $post['display_reopen'] ) ? 'on' : 'off',
+			'reopen_image_url'     => esc_url_raw( $post['reopen_image_url'] ?? '' ),
+			'reopen_offset'        => max( 0, min( 200, intval( $post['reopen_offset'] ?? 0 ) ) ),
+			'display_devices'      => in_array( $post['display_devices'] ?? 'all', array( 'all', 'small', 'large' ) ) ? $post['display_devices'] : 'all',
+			'small_device_width'   => max( 320, min( 1200, intval( $post['small_device_width'] ?? 640 ) ) ),
+			'hide_small_window'    => isset( $post['hide_small_window'] ) ? 'on' : 'off',
+			'small_window_width'   => max( 320, min( 1200, intval( $post['small_window_width'] ?? 640 ) ) ),
 		);
 
 		// Call directly on $this (which inherits UltimaKit_Helpers) to avoid
@@ -520,55 +520,55 @@ class UltimaKit_Module_Simple_Notification_Bar extends UltimaKit_Module_Manager 
 	// Helper to return the allowed HTML for front-end display
 	private function get_allowed_html() {
 		return array(
-			'a' => array(
-				'href' => array(),
-				'title' => array(),
+			'a'      => array(
+				'href'   => array(),
+				'title'  => array(),
 				'target' => array(),
-				'class' => array()
+				'class'  => array(),
 			),
-			'b' => array(),
+			'b'      => array(),
 			'strong' => array(),
-			'i' => array(),
-			'em' => array(),
-			'span' => array(
-				'class' => array()
+			'i'      => array(),
+			'em'     => array(),
+			'span'   => array(
+				'class' => array(),
 			),
-			'br' => array(),
+			'br'     => array(),
 			'button' => array(
-				'type' => array(),
+				'type'  => array(),
 				'title' => array(),
-				'class' => array()
-			)
+				'class' => array(),
+			),
 		);
 	}
 
 
-    public function display_notification_bar() {
+	public function display_notification_bar() {
 
 		// Check if the notification bar should be displayed
-		if (empty($this->getModuleSettings($this->ID, 'noti_bar_text_area'))) {
+		if ( empty( $this->getModuleSettings( $this->ID, 'noti_bar_text_area' ) ) ) {
 			return;
 		}
 
 		// Get settings
-		$position = $this->getModuleSettings($this->ID, 'bar_position', 'top');
-		$fixed = $this->getModuleSettings($this->ID, 'fixed_position', 'off') === 'on';
-		$bar_height = $this->getModuleSettings($this->ID, 'bar_height', 50);
-		$position_offset = $this->getModuleSettings($this->ID, 'position_offset', 0);
-		$display_shadow = $this->getModuleSettings($this->ID, 'display_shadow', 'off') === 'on';
-		$animation_duration = $this->getModuleSettings($this->ID, 'animation_duration', 0);
-		$auto_close = $this->getModuleSettings($this->ID, 'auto_close', 0);
-		$display_reopen = $this->getModuleSettings($this->ID, 'display_reopen', 'off') === 'on';
-		$reopen_offset = $this->getModuleSettings($this->ID, 'reopen_offset', 0);
-		$reopen_image_url = $this->getModuleSettings($this->ID, 'reopen_image_url', '');
-		$sticky_selector = $this->getModuleSettings($this->ID, 'sticky_selector', '');
-		$display_on_scroll = $this->getModuleSettings($this->ID, 'display_on_scroll', 'off') === 'on';
-		$scroll_offset = $this->getModuleSettings($this->ID, 'scroll_offset', 100);
-		$display_after = $this->getModuleSettings($this->ID, 'display_after', 0);
-		$display_devices = $this->getModuleSettings($this->ID, 'display_devices', 'all');
-		$small_device_width = $this->getModuleSettings($this->ID, 'small_device_width', 640);
-		$hide_small_window = $this->getModuleSettings($this->ID, 'hide_small_window', 'off') === 'on';
-		$small_window_width = $this->getModuleSettings($this->ID, 'small_window_width', 640);
+		$position           = $this->getModuleSettings( $this->ID, 'bar_position', 'top' );
+		$fixed              = $this->getModuleSettings( $this->ID, 'fixed_position', 'off' ) === 'on';
+		$bar_height         = $this->getModuleSettings( $this->ID, 'bar_height', 50 );
+		$position_offset    = $this->getModuleSettings( $this->ID, 'position_offset', 0 );
+		$display_shadow     = $this->getModuleSettings( $this->ID, 'display_shadow', 'off' ) === 'on';
+		$animation_duration = $this->getModuleSettings( $this->ID, 'animation_duration', 0 );
+		$auto_close         = $this->getModuleSettings( $this->ID, 'auto_close', 0 );
+		$display_reopen     = $this->getModuleSettings( $this->ID, 'display_reopen', 'off' ) === 'on';
+		$reopen_offset      = $this->getModuleSettings( $this->ID, 'reopen_offset', 0 );
+		$reopen_image_url   = $this->getModuleSettings( $this->ID, 'reopen_image_url', '' );
+		$sticky_selector    = $this->getModuleSettings( $this->ID, 'sticky_selector', '' );
+		$display_on_scroll  = $this->getModuleSettings( $this->ID, 'display_on_scroll', 'off' ) === 'on';
+		$scroll_offset      = $this->getModuleSettings( $this->ID, 'scroll_offset', 100 );
+		$display_after      = $this->getModuleSettings( $this->ID, 'display_after', 0 );
+		$display_devices    = $this->getModuleSettings( $this->ID, 'display_devices', 'all' );
+		$small_device_width = $this->getModuleSettings( $this->ID, 'small_device_width', 640 );
+		$hide_small_window  = $this->getModuleSettings( $this->ID, 'hide_small_window', 'off' ) === 'on';
+		$small_window_width = $this->getModuleSettings( $this->ID, 'small_window_width', 640 );
 
 		// Define allowed HTML tags
 		$allowed_html = $this->get_allowed_html();
@@ -576,52 +576,55 @@ class UltimaKit_Module_Simple_Notification_Bar extends UltimaKit_Module_Manager 
 		?>
 		<style>
 			#simple-notification-bar {
-				background-color: <?php echo esc_attr($this->getModuleSettings($this->ID, 'wpuk_noti_bg_color', '#ffcc00')); ?>;
-				color: <?php echo esc_attr($this->getModuleSettings($this->ID, 'wpuk_noti_txt_color', '#000000')); ?>;
-				font-size: <?php echo esc_attr($this->getModuleSettings($this->ID, 'wpuk_noti_txt_size', 16)); ?>px;
-				font-weight: <?php echo esc_attr($this->getModuleSettings($this->ID, 'wpuk_noti_txt_weight', 400)); ?>;
+				background-color: <?php echo esc_attr( $this->getModuleSettings( $this->ID, 'wpuk_noti_bg_color', '#ffcc00' ) ); ?>;
+				color: <?php echo esc_attr( $this->getModuleSettings( $this->ID, 'wpuk_noti_txt_color', '#000000' ) ); ?>;
+				font-size: <?php echo esc_attr( $this->getModuleSettings( $this->ID, 'wpuk_noti_txt_size', 16 ) ); ?>px;
+				font-weight: <?php echo esc_attr( $this->getModuleSettings( $this->ID, 'wpuk_noti_txt_weight', 400 ) ); ?>;
 				padding: 10px 20px;
 				text-align: center;
 				position: <?php echo $fixed ? 'fixed' : 'absolute'; ?>;
-				<?php echo esc_attr($position); ?>: <?php echo esc_attr($position_offset); ?>px;
+				<?php echo esc_attr( $position ); ?>: <?php echo esc_attr( $position_offset ); ?>px;
 				left: 0;
 				right: 0;
-				height: <?php echo esc_attr($bar_height); ?>px;
+				height: <?php echo esc_attr( $bar_height ); ?>px;
 				width: 100%;
 				z-index: 999999;
-				<?php if ($display_shadow) : ?>box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);<?php endif; ?>
+				<?php
+				if ( $display_shadow ) :
+					?>
+					box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);<?php endif; ?>
 				display: none;
-				transition: all <?php echo esc_attr($animation_duration); ?>s ease-in-out;
+				transition: all <?php echo esc_attr( $animation_duration ); ?>s ease-in-out;
 				box-sizing: border-box;
 			}
 
-			<?php if ($fixed && $position === 'top') : ?>
+			<?php if ( $fixed && $position === 'top' ) : ?>
 			body.has-notification-bar {
-				padding-top: <?php echo esc_attr($bar_height + $position_offset); ?>px !important;
+				padding-top: <?php echo esc_attr( $bar_height + $position_offset ); ?>px !important;
 			}
 
 			/* Handle admin bar overlap */
 			body.admin-bar.has-notification-bar {
-				padding-top: <?php echo esc_attr($bar_height + $position_offset + 32); ?>px !important;
+				padding-top: <?php echo esc_attr( $bar_height + $position_offset + 32 ); ?>px !important;
 			}
 
 			@media (max-width: 782px) {
 				body.admin-bar.has-notification-bar {
-					padding-top: <?php echo esc_attr($bar_height + $position_offset + 46); ?>px !important;
+					padding-top: <?php echo esc_attr( $bar_height + $position_offset + 46 ); ?>px !important;
 				}
 			}
 			<?php endif; ?>
 
-			<?php if ($fixed && $position === 'bottom') : ?>
+			<?php if ( $fixed && $position === 'bottom' ) : ?>
 			body.has-notification-bar {
-				padding-bottom: <?php echo esc_attr($bar_height + $position_offset); ?>px !important;
+				padding-bottom: <?php echo esc_attr( $bar_height + $position_offset ); ?>px !important;
 			}
 			<?php endif; ?>
 
 			#simple-notification-bar-close {
 				background: none;
 				border: none;
-				color: <?php echo esc_attr($this->getModuleSettings($this->ID, 'wpuk_noti_txt_color', '#000000')); ?> !important;
+				color: <?php echo esc_attr( $this->getModuleSettings( $this->ID, 'wpuk_noti_txt_color', '#000000' ) ); ?> !important;
 				font-size: 20px;
 				margin-left: 10px;
 				cursor: pointer;
@@ -631,7 +634,7 @@ class UltimaKit_Module_Simple_Notification_Bar extends UltimaKit_Module_Manager 
 
 			#simple-notification-bar-reopen {
 				position: fixed;
-				bottom: <?php echo esc_attr($reopen_offset); ?>px;
+				bottom: <?php echo esc_attr( $reopen_offset ); ?>px;
 				right: 20px;
 				cursor: pointer;
 				z-index: 999998;
@@ -643,16 +646,16 @@ class UltimaKit_Module_Simple_Notification_Bar extends UltimaKit_Module_Manager 
 				height: auto;
 			}
 
-			@media (max-width: <?php echo esc_attr($small_device_width); ?>px) {
-				<?php if ($display_devices === 'large') : ?>
+			@media (max-width: <?php echo esc_attr( $small_device_width ); ?>px) {
+				<?php if ( $display_devices === 'large' ) : ?>
 				#simple-notification-bar {
 					display: none !important;
 				}
 				<?php endif; ?>
 			}
 
-			@media (min-width: <?php echo esc_attr($small_device_width + 1); ?>px) {
-				<?php if ($display_devices === 'small') : ?>
+			@media (min-width: <?php echo esc_attr( $small_device_width + 1 ); ?>px) {
+				<?php if ( $display_devices === 'small' ) : ?>
 				#simple-notification-bar {
 					display: none !important;
 				}
@@ -663,17 +666,17 @@ class UltimaKit_Module_Simple_Notification_Bar extends UltimaKit_Module_Manager 
 		<div id="simple-notification-bar">
 			<div style="display: flex; align-items: center; justify-content: center; height: 100%;">
 				<div style="flex: 1; text-align: center;">
-					<?php echo wp_kses($this->getModuleSettings($this->ID, 'noti_bar_text_area'), $allowed_html); ?>
+					<?php echo wp_kses( $this->getModuleSettings( $this->ID, 'noti_bar_text_area' ), $allowed_html ); ?>
 				</div>
-				<?php if ('on' == $this->getModuleSettings($this->ID, 'wpuk_noti_btn')) : ?>
+				<?php if ( 'on' == $this->getModuleSettings( $this->ID, 'wpuk_noti_btn' ) ) : ?>
 					<button id="simple-notification-bar-close">&times;</button>
 				<?php endif; ?>
 			</div>
 		</div>
 
-		<?php if ($display_reopen && !empty($reopen_image_url)) : ?>
+		<?php if ( $display_reopen && ! empty( $reopen_image_url ) ) : ?>
 			<div id="simple-notification-bar-reopen">
-				<img src="<?php echo esc_url($reopen_image_url); ?>" alt="<?php esc_attr_e('Reopen Notification Bar', 'ultimakit-for-wp'); ?>" />
+				<img src="<?php echo esc_url( $reopen_image_url ); ?>" alt="<?php esc_attr_e( 'Reopen Notification Bar', 'ultimakit-for-wp' ); ?>" />
 			</div>
 		<?php endif; ?>
 
@@ -684,18 +687,18 @@ class UltimaKit_Module_Simple_Notification_Bar extends UltimaKit_Module_Manager 
 				// Configuration
 				const config = {
 					displayOnScroll: <?php echo $display_on_scroll ? 'true' : 'false'; ?>,
-					scrollOffset: <?php echo esc_attr($scroll_offset); ?>,
-					displayAfter: <?php echo esc_attr($display_after); ?> * 1000,
-					autoClose: <?php echo esc_attr($auto_close); ?> * 1000,
-					displayDevices: '<?php echo esc_attr($display_devices); ?>',
-					smallDeviceWidth: <?php echo esc_attr($small_device_width); ?>,
+					scrollOffset: <?php echo esc_attr( $scroll_offset ); ?>,
+					displayAfter: <?php echo esc_attr( $display_after ); ?> * 1000,
+					autoClose: <?php echo esc_attr( $auto_close ); ?> * 1000,
+					displayDevices: '<?php echo esc_attr( $display_devices ); ?>',
+					smallDeviceWidth: <?php echo esc_attr( $small_device_width ); ?>,
 					hideSmallWindow: <?php echo $hide_small_window ? 'true' : 'false'; ?>,
-					smallWindowWidth: <?php echo esc_attr($small_window_width); ?>,
-					stickySelector: '<?php echo esc_attr($sticky_selector); ?>',
-					position: '<?php echo esc_attr($position); ?>',
+					smallWindowWidth: <?php echo esc_attr( $small_window_width ); ?>,
+					stickySelector: '<?php echo esc_attr( $sticky_selector ); ?>',
+					position: '<?php echo esc_attr( $position ); ?>',
 					fixed: <?php echo $fixed ? 'true' : 'false'; ?>,
-					barHeight: <?php echo esc_attr($bar_height); ?>,
-					positionOffset: <?php echo esc_attr($position_offset); ?>
+					barHeight: <?php echo esc_attr( $bar_height ); ?>,
+					positionOffset: <?php echo esc_attr( $position_offset ); ?>
 				};
 
 				let hasBeenShown = false;
@@ -874,5 +877,4 @@ class UltimaKit_Module_Simple_Notification_Bar extends UltimaKit_Module_Manager 
 		</script>
 		<?php
 	}
-
 }

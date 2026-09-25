@@ -78,7 +78,7 @@ class UltimaKit_Module_Post_Publish_Checklist extends UltimaKit_Module_Manager {
 	 */
 	protected $settings;
 
-    
+
 	/**
 	 *
 	 * Initializes the module with default values for properties and prepares
@@ -92,7 +92,6 @@ class UltimaKit_Module_Post_Publish_Checklist extends UltimaKit_Module_Manager {
 		$this->is_active   = $this->isModuleActive( $this->ID );
 
 		$this->initializeModule();
-		
 	}
 
 
@@ -114,96 +113,94 @@ class UltimaKit_Module_Post_Publish_Checklist extends UltimaKit_Module_Manager {
 		if ( $this->is_active ) {
 
 			// Add meta box for the checklist
-			add_action('add_meta_boxes', array($this, 'add_checklist_meta_box'));
-        
+			add_action( 'add_meta_boxes', array( $this, 'add_checklist_meta_box' ) );
+
 			// Save checklist items
-			add_action('save_post', array($this, 'save_checklist'));
-			
+			add_action( 'save_post', array( $this, 'save_checklist' ) );
+
 			// Enqueue scripts and styles
-			add_action('admin_enqueue_scripts', array($this, 'enqueue_assets'));
+			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 
 		}
-
 	}
 
 
 	public function add_checklist_meta_box() {
-        add_meta_box(
-            'post-publish-checklist',
-            __('Post-Publish Checklist', 'ultimakit-for-wp'),
-            array($this, 'render_meta_box'),
-            array('post', 'page'),
-            'side',
-            'high'
-        );
-    }
+		add_meta_box(
+			'post-publish-checklist',
+			__( 'Post-Publish Checklist', 'ultimakit-for-wp' ),
+			array( $this, 'render_meta_box' ),
+			array( 'post', 'page' ),
+			'side',
+			'high'
+		);
+	}
 
-    public function render_meta_box($post) {
-        // Get the saved checklist items
-        $checklist_items = get_post_meta($post->ID, '_post_publish_checklist', true);
-        $checklist_items = $checklist_items ? json_decode($checklist_items, true) : [];
-        ?>
-        <div id="post-publish-checklist-container">
-            <ul id="checklist-items">
-                <?php
-                $default_items = [
-                    __('Add meta tags', 'ultimakit-for-wp'),
-                    __('Set featured image', 'ultimakit-for-wp'),
-                    __('Proofread content', 'ultimakit-for-wp'),
-                    __('Check links', 'ultimakit-for-wp'),
-                    __('Preview post', 'ultimakit-for-wp'),
-                ];
-                foreach ($default_items as $item) {
-                    $checked = in_array($item, $checklist_items) ? 'checked' : '';
-                    echo '<li><label><input type="checkbox" name="checklist_items[]" value="' . esc_attr($item) . '" ' . $checked . '> ' . esc_html($item) . '</label></li>';
-                }
-                ?>
-            </ul>
-            <input type="text" id="new-checklist-item" placeholder="<?php esc_attr_e('Add new item...', 'ultimakit-for-wp'); ?>" style="width: 100%;">
-            <button type="button" id="add-checklist-item" class="button" style="margin-top: 5px;"><?php _e('Add', 'ultimakit-for-wp'); ?></button>
-        </div>
-        <?php
-    }
+	public function render_meta_box( $post ) {
+		// Get the saved checklist items
+		$checklist_items = get_post_meta( $post->ID, '_post_publish_checklist', true );
+		$checklist_items = $checklist_items ? json_decode( $checklist_items, true ) : array();
+		?>
+		<div id="post-publish-checklist-container">
+			<ul id="checklist-items">
+				<?php
+				$default_items = array(
+					__( 'Add meta tags', 'ultimakit-for-wp' ),
+					__( 'Set featured image', 'ultimakit-for-wp' ),
+					__( 'Proofread content', 'ultimakit-for-wp' ),
+					__( 'Check links', 'ultimakit-for-wp' ),
+					__( 'Preview post', 'ultimakit-for-wp' ),
+				);
+				foreach ( $default_items as $item ) {
+					$checked = in_array( $item, $checklist_items ) ? 'checked' : '';
+					echo '<li><label><input type="checkbox" name="checklist_items[]" value="' . esc_attr( $item ) . '" ' . $checked . '> ' . esc_html( $item ) . '</label></li>';
+				}
+				?>
+			</ul>
+			<input type="text" id="new-checklist-item" placeholder="<?php esc_attr_e( 'Add new item...', 'ultimakit-for-wp' ); ?>" style="width: 100%;">
+			<button type="button" id="add-checklist-item" class="button" style="margin-top: 5px;"><?php _e( 'Add', 'ultimakit-for-wp' ); ?></button>
+		</div>
+		<?php
+	}
 
-    public function save_checklist($post_id) {
-        // Skip autosaves
-        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
-            return;
-        }
+	public function save_checklist( $post_id ) {
+		// Skip autosaves
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+			return;
+		}
 
-        // Check permissions
-        if (!current_user_can('edit_post', $post_id)) {
-            return;
-        }
+		// Check permissions
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			return;
+		}
 
-        // Save checklist items if set
-        if (isset($_POST['checklist_items'])) {
-            $checklist_items = array_map('sanitize_text_field', $_POST['checklist_items']);
-            update_post_meta($post_id, '_post_publish_checklist', json_encode($checklist_items));
-        } else {
-            delete_post_meta($post_id, '_post_publish_checklist');
-        }
-    }
+		// Save checklist items if set
+		if ( isset( $_POST['checklist_items'] ) ) {
+			$checklist_items = array_map( 'sanitize_text_field', $_POST['checklist_items'] );
+			update_post_meta( $post_id, '_post_publish_checklist', json_encode( $checklist_items ) );
+		} else {
+			delete_post_meta( $post_id, '_post_publish_checklist' );
+		}
+	}
 
-    public function enqueue_assets($hook) {
-        if (!in_array($hook, array('post.php', 'post-new.php'))) {
-            return;
-        }
+	public function enqueue_assets( $hook ) {
+		if ( ! in_array( $hook, array( 'post.php', 'post-new.php' ) ) ) {
+			return;
+		}
 
-        wp_enqueue_script(
-            $this->ID,
-            plugin_dir_url(__FILE__) . 'module-script.js',
-            array('jquery'),
-            '1.0.0',
-            true
-        );
+		wp_enqueue_script(
+			$this->ID,
+			plugin_dir_url( __FILE__ ) . 'module-script.js',
+			array( 'jquery' ),
+			'1.0.0',
+			true
+		);
 
-        wp_enqueue_style(
-            $this->ID,
-            plugin_dir_url(__FILE__) . 'module-style.css',
-            array(),
-            '1.0.0'
-        );
-    }
-
+		wp_enqueue_style(
+			$this->ID,
+			plugin_dir_url( __FILE__ ) . 'module-style.css',
+			array(),
+			'1.0.0'
+		);
+	}
 }
