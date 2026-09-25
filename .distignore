@@ -39,6 +39,7 @@ desktop.ini
 /vendor
 /composer.json
 /composer.lock
+/phpcs.xml.dist
 /package.json
 /package-lock.json
 node_modules
