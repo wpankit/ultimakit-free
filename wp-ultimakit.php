@@ -15,7 +15,7 @@
  * Plugin Name:       UltimaKit for WP
  * Plugin URI:        https://wordpress.org/plugins/ultimakit-for-wp/
  * Description:       <strong>UltimaKit:</strong> The only admin, speed, and security toolkit you need. Reduce your plugin count and make your site faster, today.
- * Version:           3.0.0
+ * Version:           3.0.1
  * Author:            WPAnkit
  * Author URI:        https://wpankit.com/
  * License:           GPL-2.0+
@@ -48,7 +48,7 @@ if ( function_exists( 'ufw_fs' ) ) {
 	 * Start at version 1.0.0 and use SemVer - https://semver.org
 	 * Rename this for your plugin and update it as you release new versions.
 	 */
-	define( 'ULTIMAKIT_FOR_WP_VERSION', '3.0.0' );
+	define( 'ULTIMAKIT_FOR_WP_VERSION', '3.0.1' );
 
 	define( 'ULTIMAKIT_FOR_WP_LOGO', plugins_url( 'admin/img/wp-ultimakit-logo.svg', __FILE__ ) );
 	define( 'ULTIMAKIT_FOR_WP_PATH', plugin_dir_path( __FILE__ ) );
