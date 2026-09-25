@@ -147,6 +147,9 @@ jobs:
           refuse ".wordpress-org"
           refuse "vendor"
           refuse "composer.json"
+          refuse "phpcs.xml.dist"
+          refuse "tools"
+          refuse "CONTRIBUTING.md"
           refuse "admin/css/package-lock.json"
           refuse "admin/css/bootstrap.min.css"
 

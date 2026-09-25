@@ -1,0 +1,53 @@
+name: Bug report
+description: A module doesn't work as it should, or the plugin causes an error.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug. For questions about setting up or using the plugin, please use the [support forum](https://wordpress.org/support/plugin/ultimakit-for-wp/). Security issues go through the [security policy](https://github.com/wpankit/ultimakit-for-wp/security/policy), not here.
+  - type: input
+    id: module
+    attributes:
+      label: Module
+      description: The module's name as shown on the UltimaKit dashboard. Leave it empty if the problem isn't about one module.
+      placeholder: e.g. Change Login URL
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: What did you expect, and what happened instead?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Include the module's settings if it has any.
+      placeholder: |
+        1. Switch on the module and set ...
+        2. Open ... as a logged-out visitor.
+        3. ...
+    validations:
+      required: true
+  - type: input
+    id: plugin-version
+    attributes:
+      label: Plugin version
+      placeholder: e.g. 3.0.0
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: WordPress and PHP versions, theme, and related plugins
+      description: For WooCommerce and Gravity Forms modules, include that plugin's version.
+      placeholder: e.g. WordPress 7.1, PHP 8.3, Twenty Twenty-Five, WooCommerce 11.0
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Errors or logs
+      description: PHP errors from debug.log or browser console errors, if any.
+      render: shell

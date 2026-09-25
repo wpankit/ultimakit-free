@@ -16,8 +16,12 @@
 /.editorconfig
 /.distignore
 
-# GitHub's readme; WordPress.org reads README.txt.
+# GitHub's readme and community files; WordPress.org reads README.txt.
 /README.md
+/CODE_OF_CONDUCT.md
+/CONTRIBUTING.md
+/SECURITY.md
+/SUPPORT.md
 
 # Agent/editor workspace, and the WordPress.org listing assets (banners and icons
 # belong in the SVN assets/ directory, never inside the plugin itself) with the
