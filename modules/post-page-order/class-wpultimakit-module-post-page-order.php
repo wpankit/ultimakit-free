@@ -311,14 +311,13 @@ class UltimaKit_Module_Post_Page_Order extends UltimaKit_Module_Manager {
 	} // route_register
 
 	public function route_rights_check() {
-		return true;
-		// return current_user_can( 'edit_others_posts' );
+		return current_user_can( 'edit_others_posts' );
 	}
 
-	public function reorder_route() {
+	public function reorder_route( \WP_REST_Request $request ) {
 		try {
-			$items = sanitize_post( $_POST['items'] );
-			if ( empty( $items ) ) {
+			$items = $request->get_param( 'items' );
+			if ( empty( $items ) || ! is_array( $items ) ) {
 				throw new \Exception( 'Empty request' );
 			}
 			$errors = array();
@@ -326,30 +325,34 @@ class UltimaKit_Module_Post_Page_Order extends UltimaKit_Module_Manager {
 
 			foreach ( $items as $item ) {
 				try {
-					if ( empty( $item['id'] ) ) {
-						throw new \Exception( 'Item does not have ID: ' . json_encode( $item ) );
+					if ( empty( $item['id'] ) || ! is_numeric( $item['id'] ) || ! is_numeric( $item['order'] ) ) {
+						throw new \Exception( 'Item does not have a valid ID or order: ' . wp_json_encode( $item ) );
 					}
 
-					$post = get_post( $item['id'] );
+					$post = get_post( (int) $item['id'] );
 
 					if ( ! $post ) {
-						throw new \Exception( 'Post not found: ' . json_encode( $item ) );
+						throw new \Exception( 'Post not found: ' . wp_json_encode( $item ) );
 					}
 
-					if ( $post->menu_order === $item['order'] ) {
-						throw new \Exception( "Item {$item->id} order has not changed" );
+					if ( ! current_user_can( 'edit_post', $post->ID ) ) {
+						throw new \Exception( "You do not have permission to edit post {$post->ID}" );
 					}
 
-					$post->menu_order = $item['order'];
+					if ( (int) $post->menu_order === (int) $item['order'] ) {
+						throw new \Exception( "Item {$item['id']} order has not changed" );
+					}
+
+					$post->menu_order = (int) $item['order'];
 
 					$updated = wp_update_post( $post );
 
 					if ( ! $updated ) {
-						throw new \Exception( "Update of post {$item->id} failed" );
+						throw new \Exception( "Update of post {$item['id']} failed" );
 					}
 
 					if ( is_wp_error( $updated ) ) {
-						throw new \Exception( "Updated of post {$item->id} failed with " . implode( "\n", $updated->errors ) );
+						throw new \Exception( "Updated of post {$item['id']} failed with " . implode( "\n", $updated->errors ) );
 					}
 
 					$saved[] = $item;
