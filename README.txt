@@ -2,8 +2,8 @@
 Contributors: ankitmaru, siapanchal
 Tags: admin, enhancements, optimization, security, tweaks
 Requires at least: 5.6
-Tested up to: 7.1
-Stable tag: 3.0.0
+Tested up to: 7.1.2
+Stable tag: 3.0.1
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -203,6 +203,10 @@ UltimaKit does not contact any outside service unless you switch on a module tha
 2. Per-module settings, opened inline from the module card.
 
 == Changelog ==
+
+= 3.0.1 =
+
+* CHANGED: Confirmed compatibility with WordPress 7.1.2.
 
 = 3.0.0 =
 
