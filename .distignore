@@ -10,6 +10,7 @@
 
 # -- Version control, CI and editor state -----------------------------------
 /.git
+/.git-blame-ignore-revs
 /.github
 /.gitignore
 /.gitattributes

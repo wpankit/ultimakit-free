@@ -1,0 +1,5 @@
+# Commits that only reformat code. GitHub skips them in its blame view; to skip them
+# in git blame locally too, run: git config blame.ignoreRevsFile .git-blame-ignore-revs
+
+# Format the code to the WordPress coding standards
+49dc9f0c5cb24262090bd49b4f2a364516a89984
