@@ -1,0 +1,62 @@
+name: Coding Standards
+
+# Checks the lines a pull request adds or changes against phpcs.xml.dist: WordPress-Extra,
+# PHP 7.4+ compatibility, the text domain and the prefixes. Code the pull request doesn't
+# touch isn't reported, because the plugin predates these checks and still has issues
+# that are being fixed separately. `composer lint` shows every issue in the plugin.
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  phpcs:
+    name: WordPress Coding Standards (changed lines)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v7
+        with:
+          # The base branch is needed to work out what the pull request changed.
+          fetch-depth: 0
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+
+      - name: Install the coding standards
+        uses: ramsey/composer-install@v4
+
+      - name: Check the changed lines
+        env:
+          BASE: origin/${{ github.base_ref }}
+        run: |
+          # PHP files the pull request adds or changes. The Freemius SDK and the
+          # listing-asset tools are left out, as in phpcs.xml.dist.
+          git diff --name-only --diff-filter=AMR "$BASE"...HEAD -- '*.php' ':!src/freemius/**' ':!tools/**' ':!vendor/**' > changed-files.txt
+          mapfile -t FILES < changed-files.txt
+          if [ ${#FILES[@]} -eq 0 ]; then
+            echo "The pull request doesn't change any PHP files."
+            exit 0
+          fi
+          printf 'Checking %s changed PHP file(s):\n' "${#FILES[@]}"
+          printf '  %s\n' "${FILES[@]}"
+
+          if vendor/bin/phpcs-changed -s --git --git-base "$BASE" --standard=phpcs.xml.dist "${FILES[@]}"; then
+            echo "No new coding standards issues."
+            exit 0
+          fi
+
+          # Show each issue on the changed line in the pull request too.
+          vendor/bin/phpcs-changed --git --git-base "$BASE" --standard=phpcs.xml.dist --report json "${FILES[@]}" \
+            | jq -r '.files | to_entries[] | .key as $file | .value.messages[] |
+                "::\(if .type == "ERROR" then "error" else "warning" end) file=\($file),line=\(.line),col=\(.column),title=\(.source)::\(.message)"' || true
+          exit 1

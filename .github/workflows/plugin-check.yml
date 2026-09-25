@@ -1,0 +1,48 @@
+name: Plugin Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  plugin-check:
+    name: WordPress.org Plugin Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v7
+
+      # Same staging as build-plugin-zip.yml, so the check sees the plugin as it ships.
+      - name: Stage the plugin as it ships
+        run: |
+          mkdir -p build/ultimakit-for-wp
+          rsync -a \
+            --include='/src/freemius/***' \
+            --exclude-from=.distignore \
+            --exclude='/build' \
+            ./ build/ultimakit-for-wp/
+          find build/ultimakit-for-wp -name '.*' -prune -exec rm -rf {} +
+
+      # Report only for now: the plugin predates this check and still has issues that are
+      # being fixed in separate pull requests. The results are in the step's annotations and
+      # the plugin-check-results artifact. Once they are fixed, remove continue-on-error so
+      # new issues fail the check, and remove repo-token (and grant pull-requests: write)
+      # to get the results as a pull request comment; today's list is too long for one.
+      - name: Run Plugin Check
+        uses: wordpress/plugin-check-action@v1
+        continue-on-error: true
+        with:
+          build-dir: ./build/ultimakit-for-wp
+          # The bundled Freemius SDK is third-party code that Plugin Check reports on
+          # heavily; the check covers the plugin's own code.
+          exclude-directories: src/freemius
+          repo-token: ''
