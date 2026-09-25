@@ -78,7 +78,7 @@ class UltimaKit_Module_Quick_Draft_Notes extends UltimaKit_Module_Manager {
 	 */
 	protected $settings;
 
-    
+
 	/**
 	 *
 	 * Initializes the module with default values for properties and prepares
@@ -92,7 +92,6 @@ class UltimaKit_Module_Quick_Draft_Notes extends UltimaKit_Module_Manager {
 		$this->is_active   = $this->isModuleActive( $this->ID );
 
 		$this->initializeModule();
-		
 	}
 
 
@@ -113,76 +112,73 @@ class UltimaKit_Module_Quick_Draft_Notes extends UltimaKit_Module_Manager {
 
 		if ( $this->is_active ) {
 
-           	// Add meta box for quick draft notes
-			add_action('add_meta_boxes', array($this, 'add_notes_meta_box'));
-			
+			// Add meta box for quick draft notes
+			add_action( 'add_meta_boxes', array( $this, 'add_notes_meta_box' ) );
+
 			// Save notes
-			add_action('save_post', array($this, 'save_notes'));
-			
+			add_action( 'save_post', array( $this, 'save_notes' ) );
+
 			// Enqueue scripts and styles
-			add_action('admin_enqueue_scripts', array($this, 'enqueue_assets'));
+			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 
 		}
-
 	}
 
 	public function add_notes_meta_box() {
-        add_meta_box(
-            'quick-draft-notes',
-            __('Quick Draft Notes', 'ultimakit-for-wp'),
-            array($this, 'render_meta_box'),
-            array('post', 'page'),
-            'normal',
-            'high'
-        );
-    }
+		add_meta_box(
+			'quick-draft-notes',
+			__( 'Quick Draft Notes', 'ultimakit-for-wp' ),
+			array( $this, 'render_meta_box' ),
+			array( 'post', 'page' ),
+			'normal',
+			'high'
+		);
+	}
 
-    public function render_meta_box($post) {
-        // Get the saved notes
-        $notes = get_post_meta($post->ID, '_quick_draft_notes', true);
-        ?>
-        <div id="quick-draft-notes-container">
-            <textarea 
-                id="quick-draft-notes" 
-                name="quick_draft_notes" 
-                rows="5" 
-                style="width: 100%;"
-                placeholder="<?php esc_attr_e('Jot down your ideas or reminders here...', 'ultimakit-for-wp'); ?>"
-            ><?php echo esc_textarea($notes); ?></textarea>
-        </div>
-        <?php
-    }
+	public function render_meta_box( $post ) {
+		// Get the saved notes
+		$notes = get_post_meta( $post->ID, '_quick_draft_notes', true );
+		?>
+		<div id="quick-draft-notes-container">
+			<textarea 
+				id="quick-draft-notes" 
+				name="quick_draft_notes" 
+				rows="5" 
+				style="width: 100%;"
+				placeholder="<?php esc_attr_e( 'Jot down your ideas or reminders here...', 'ultimakit-for-wp' ); ?>"
+			><?php echo esc_textarea( $notes ); ?></textarea>
+		</div>
+		<?php
+	}
 
-    public function save_notes($post_id) {
-        // Skip autosaves
-        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
-            return;
-        }
+	public function save_notes( $post_id ) {
+		// Skip autosaves
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+			return;
+		}
 
-        // Check permissions
-        if (!current_user_can('edit_post', $post_id)) {
-            return;
-        }
+		// Check permissions
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			return;
+		}
 
-        // Save notes if set
-        if (isset($_POST['quick_draft_notes'])) {
-            $notes = sanitize_textarea_field($_POST['quick_draft_notes']);
-            update_post_meta($post_id, '_quick_draft_notes', $notes);
-        }
-    }
+		// Save notes if set
+		if ( isset( $_POST['quick_draft_notes'] ) ) {
+			$notes = sanitize_textarea_field( $_POST['quick_draft_notes'] );
+			update_post_meta( $post_id, '_quick_draft_notes', $notes );
+		}
+	}
 
-    public function enqueue_assets($hook) {
-        if (!in_array($hook, array('post.php', 'post-new.php'))) {
-            return;
-        }
+	public function enqueue_assets( $hook ) {
+		if ( ! in_array( $hook, array( 'post.php', 'post-new.php' ) ) ) {
+			return;
+		}
 
-        wp_enqueue_style(
-            $this->ID,
-            plugin_dir_url(__FILE__) . 'module-style.css',
-            array(),
-            '1.0.0'
-        );
-    }
-
-
+		wp_enqueue_style(
+			$this->ID,
+			plugin_dir_url( __FILE__ ) . 'module-style.css',
+			array(),
+			'1.0.0'
+		);
+	}
 }

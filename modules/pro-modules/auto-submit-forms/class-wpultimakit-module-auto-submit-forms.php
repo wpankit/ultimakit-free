@@ -107,49 +107,49 @@ class UltimaKit_Module_Auto_Submit_Forms extends UltimaKit_Module_Manager {
 	 */
 	protected function initializeModule() {
 		if ( $this->is_active ) {
-			
-			// Add form settings field
-			add_filter('gform_form_settings_fields', array( $this, 'wpuk_add_auto_submit_settings' ), 10, 2);
-			
-			// Save form settings
-			add_filter('gform_pre_form_settings_save', array( $this, 'wpuk_save_auto_submit_setting' ) );
-			
-			// Add inline script to enable auto-submit functionality
-			add_action('gform_enqueue_scripts', array( $this, 'wpuk_enqueue_auto_submit_script' ) );
 
-		}	
+			// Add form settings field
+			add_filter( 'gform_form_settings_fields', array( $this, 'wpuk_add_auto_submit_settings' ), 10, 2 );
+
+			// Save form settings
+			add_filter( 'gform_pre_form_settings_save', array( $this, 'wpuk_save_auto_submit_setting' ) );
+
+			// Add inline script to enable auto-submit functionality
+			add_action( 'gform_enqueue_scripts', array( $this, 'wpuk_enqueue_auto_submit_script' ) );
+
+		}
 	}
 
-	public function wpuk_add_auto_submit_settings($fields, $form) {
-		$form_setting = isset($form['wpuk_auto_submit_enabled']) ? $form['wpuk_auto_submit_enabled'] : '0';
+	public function wpuk_add_auto_submit_settings( $fields, $form ) {
+		$form_setting = isset( $form['wpuk_auto_submit_enabled'] ) ? $form['wpuk_auto_submit_enabled'] : '0';
 
-		$fields['auto_submit_settings'] = [
-			'title'  => __('Auto-Submit Settings', 'ultimakit-for-wp'),
-			'fields' => [
-				[
+		$fields['auto_submit_settings'] = array(
+			'title'  => __( 'Auto-Submit Settings', 'ultimakit-for-wp' ),
+			'fields' => array(
+				array(
 					'type'          => 'select',
-					'label'         => __('Enable Auto-Submit', 'ultimakit-for-wp'),
+					'label'         => __( 'Enable Auto-Submit', 'ultimakit-for-wp' ),
 					'name'          => 'wpuk_auto_submit_enabled', // Unique key
-					'tooltip'       => __('Automatically submits the form when the last field is filled.', 'ultimakit-for-wp'),
-					'choices'       => [
-						[
-							'label' => __('No', 'ultimakit-for-wp'),
+					'tooltip'       => __( 'Automatically submits the form when the last field is filled.', 'ultimakit-for-wp' ),
+					'choices'       => array(
+						array(
+							'label' => __( 'No', 'ultimakit-for-wp' ),
 							'value' => '0',
-						],
-						[
-							'label' => __('Yes', 'ultimakit-for-wp'),
+						),
+						array(
+							'label' => __( 'Yes', 'ultimakit-for-wp' ),
 							'value' => '1',
-						],
-					],
+						),
+					),
 					'default_value' => $form_setting,
-				],
-			],
-		];
+				),
+			),
+		);
 
 		return $fields;
 	}
 
-	public function wpuk_save_auto_submit_setting($form) {
+	public function wpuk_save_auto_submit_setting( $form ) {
 		/*
 		 * The Gravity Forms settings framework posts fields under _gform_setting_*, so the
 		 * un-prefixed key never matched and this branch never ran. (The setting still
@@ -162,8 +162,8 @@ class UltimaKit_Module_Auto_Submit_Forms extends UltimaKit_Module_Manager {
 		return $form;
 	}
 
-	public function wpuk_enqueue_auto_submit_script($form) {
-		if (!empty($form['wpuk_auto_submit_enabled']) && $form['wpuk_auto_submit_enabled'] === '1') {
+	public function wpuk_enqueue_auto_submit_script( $form ) {
+		if ( ! empty( $form['wpuk_auto_submit_enabled'] ) && $form['wpuk_auto_submit_enabled'] === '1' ) {
 			$form_id = absint( $form['id'] );
 
 			/*
@@ -179,9 +179,11 @@ class UltimaKit_Module_Auto_Submit_Forms extends UltimaKit_Module_Manager {
 			 * 3. DOMContentLoaded has already fired for AJAX-rendered forms and re-renders
 			 *    after a validation failure, so the behaviour was lost there.
 			 */
-			wp_add_inline_script('jquery', "
-				( function ( \$ ) {
-					var wpukFormId = " . $form_id . ";
+			wp_add_inline_script(
+				'jquery',
+				'
+				( function ( $ ) {
+					var wpukFormId = ' . $form_id . ";
 
 					function wpukBindAutoSubmit( formId ) {
 						if ( formId && parseInt( formId, 10 ) !== wpukFormId ) {
@@ -221,9 +223,8 @@ class UltimaKit_Module_Auto_Submit_Forms extends UltimaKit_Module_Manager {
 						wpukBindAutoSubmit( wpukFormId );
 					} );
 				} )( jQuery );
-			");
+			"
+			);
 		}
 	}
-
-
 }

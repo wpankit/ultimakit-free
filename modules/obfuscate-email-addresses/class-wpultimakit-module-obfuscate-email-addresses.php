@@ -133,11 +133,11 @@ class UltimaKit_Module_Obfuscate_Email_Addresses extends UltimaKit_Module_Manage
 
 		// Simple regex to find email addresses
 		$pattern = '/([a-zA-Z0-9._%+-]+)@([a-zA-Z0-9.-]+)\\.([a-zA-Z]{2,})/i';
-		
-		$callback = function( $matches ) use ( $method ) {
+
+		$callback = function ( $matches ) use ( $method ) {
 			return $this->obfuscate_email( $matches[0], $method );
 		};
-		
+
 		return preg_replace_callback( $pattern, $callback, $content );
 	}
 
@@ -154,16 +154,16 @@ class UltimaKit_Module_Obfuscate_Email_Addresses extends UltimaKit_Module_Manage
 				$obfuscated = str_replace( '@', ' [at] ', $email );
 				$obfuscated = str_replace( '.', ' [dot] ', $obfuscated );
 				return '<span class="ultimakit-obfuscated-email" title="Email protected">' . esc_html( $obfuscated ) . '</span>';
-				
+
 			case 'html_entities':
 				$obfuscated = str_replace( '@', '&#64;', $email );
 				$obfuscated = str_replace( '.', '&#46;', $obfuscated );
 				return '<span class="ultimakit-obfuscated-email" title="Email protected">' . $obfuscated . '</span>';
-				
+
 			case 'reverse_text':
 				$obfuscated = strrev( $email );
 				return '<span class="ultimakit-obfuscated-email" title="Email protected" data-email="' . esc_attr( $email ) . '">' . esc_html( $obfuscated ) . '</span>';
-				
+
 			default:
 				return $email;
 		}
@@ -231,4 +231,4 @@ class UltimaKit_Module_Obfuscate_Email_Addresses extends UltimaKit_Module_Manage
 			true
 		);
 	}
-} 
+}

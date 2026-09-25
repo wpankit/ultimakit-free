@@ -110,7 +110,7 @@ class UltimaKit_Module_Lock_Submissions_After_A_Deadline extends UltimaKit_Modul
 	protected function initializeModule() {
 		if ( $this->is_active ) {
 			// Display a message if the submission deadline has passed
-			add_filter('gform_get_form_filter', array( $this, 'wpuk_check_submission_deadline' ), 10, 2);
+			add_filter( 'gform_get_form_filter', array( $this, 'wpuk_check_submission_deadline' ), 10, 2 );
 
 			/*
 			 * gform_get_form_filter only swaps the rendered markup, so anyone holding a page
@@ -118,13 +118,13 @@ class UltimaKit_Module_Lock_Submissions_After_A_Deadline extends UltimaKit_Modul
 			 * page — or anyone POSTing directly could still submit and have the entry stored.
 			 * Enforce the deadline server-side at validation time as well.
 			 */
-			add_filter('gform_validation', array( $this, 'wpuk_validate_submission_deadline' ) );
-			add_filter('gform_validation_message', array( $this, 'wpuk_deadline_validation_message' ), 10, 2);
+			add_filter( 'gform_validation', array( $this, 'wpuk_validate_submission_deadline' ) );
+			add_filter( 'gform_validation_message', array( $this, 'wpuk_deadline_validation_message' ), 10, 2 );
 
 			// Save custom form settings
-			add_filter('gform_pre_form_settings_save', array( $this, 'wpuk_save_custom_form_settings' ) );
+			add_filter( 'gform_pre_form_settings_save', array( $this, 'wpuk_save_custom_form_settings' ) );
 
-			add_filter('gform_form_settings_fields', array( $this, 'wpuk_add_custom_form_settings' ), 10, 2);
+			add_filter( 'gform_form_settings_fields', array( $this, 'wpuk_add_custom_form_settings' ), 10, 2 );
 		}
 	}
 
@@ -209,59 +209,63 @@ class UltimaKit_Module_Lock_Submissions_After_A_Deadline extends UltimaKit_Modul
 		return $message;
 	}
 
-	public function wpuk_add_custom_form_settings($fields, $form) {
-		$submission_deadline = isset($form['submission_deadline']) ? esc_attr($form['submission_deadline']) : '';
-		$lock_message = isset($form['lock_message']) ? esc_textarea($form['lock_message']) : __('This form is no longer accepting submissions. The submission deadline has passed.', 'ultimakit-for-wp');
-	
+	public function wpuk_add_custom_form_settings( $fields, $form ) {
+		$submission_deadline = isset( $form['submission_deadline'] ) ? esc_attr( $form['submission_deadline'] ) : '';
+		$lock_message        = isset( $form['lock_message'] ) ? esc_textarea( $form['lock_message'] ) : __( 'This form is no longer accepting submissions. The submission deadline has passed.', 'ultimakit-for-wp' );
+
 		$fields['submission_settings'] = array(
-			'title'  => __('Lock Form Submissions After a Deadline', 'ultimakit-for-wp'),
+			'title'  => __( 'Lock Form Submissions After a Deadline', 'ultimakit-for-wp' ),
 			'fields' => array(
 				array(
-					'id'    => 'submission_deadline',
-					'name'  => 'submission_deadline',
-					'label' => __('Submission Deadline', 'ultimakit-for-wp'),
-					'type'  => 'text',
-					'value' => $submission_deadline,
-					'tooltip' => __('Set a deadline after which submissions will be locked.', 'ultimakit-for-wp'),
-					'class' => 'datetime-picker',
+					'id'      => 'submission_deadline',
+					'name'    => 'submission_deadline',
+					'label'   => __( 'Submission Deadline', 'ultimakit-for-wp' ),
+					'type'    => 'text',
+					'value'   => $submission_deadline,
+					'tooltip' => __( 'Set a deadline after which submissions will be locked.', 'ultimakit-for-wp' ),
+					'class'   => 'datetime-picker',
 				),
 				array(
-					'id'    => 'lock_message',
-					'name'  => 'lock_message',
-					'label' => __('Lock Message', 'ultimakit-for-wp'),
-					'type'  => 'textarea',
-					'value' => $lock_message,
-					'tooltip' => __('Message to display when the form is locked.', 'ultimakit-for-wp'),
+					'id'      => 'lock_message',
+					'name'    => 'lock_message',
+					'label'   => __( 'Lock Message', 'ultimakit-for-wp' ),
+					'type'    => 'textarea',
+					'value'   => $lock_message,
+					'tooltip' => __( 'Message to display when the form is locked.', 'ultimakit-for-wp' ),
 				),
 			),
 		);
-	
-		add_action('admin_enqueue_scripts', function () {
-			wp_enqueue_script('jquery-ui-datepicker');
 
-			wp_enqueue_script(
-				'jquery-ui-timepicker-addon',
-				plugins_url( '/jquery-ui-timepicker-addon.min.js', __FILE__ ),
-				array('jquery', 'jquery-ui-datepicker'),
-				ULTIMAKIT_FOR_WP_VERSION,
-				true
-			);
-		
-			wp_enqueue_style(
-				'jquery-ui-css',
-				plugins_url( '/jquery-ui.css', __FILE__ ),
-			);
+		add_action(
+			'admin_enqueue_scripts',
+			function () {
+				wp_enqueue_script( 'jquery-ui-datepicker' );
 
-			wp_enqueue_style(
-				'jquery-ui-timepicker-addon-css',
-				plugins_url( '/jquery-ui-timepicker-addon.min.css', __FILE__ ),
-			);
+				wp_enqueue_script(
+					'jquery-ui-timepicker-addon',
+					plugins_url( '/jquery-ui-timepicker-addon.min.js', __FILE__ ),
+					array( 'jquery', 'jquery-ui-datepicker' ),
+					ULTIMAKIT_FOR_WP_VERSION,
+					true
+				);
 
-		});
-		
+				wp_enqueue_style(
+					'jquery-ui-css',
+					plugins_url( '/jquery-ui.css', __FILE__ ),
+				);
+
+				wp_enqueue_style(
+					'jquery-ui-timepicker-addon-css',
+					plugins_url( '/jquery-ui-timepicker-addon.min.css', __FILE__ ),
+				);
+			}
+		);
+
 		// Add inline JavaScript and CSS for the date-time picker and calendar icon
-		add_action('admin_footer', function () {
-			?>
+		add_action(
+			'admin_footer',
+			function () {
+				?>
 			<style>
 				.datetime-picker {
 					padding-right: 30px;
@@ -315,20 +319,21 @@ class UltimaKit_Module_Lock_Submissions_After_A_Deadline extends UltimaKit_Modul
 					});
 				});
 			</script>
-			<?php
-		});
-	
+				<?php
+			}
+		);
+
 		return $fields;
 	}
 
-	public function wpuk_save_custom_form_settings($form) {
-		$form['submission_deadline'] = isset($_POST['_gform_setting_submission_deadline']) ? sanitize_text_field($_POST['_gform_setting_submission_deadline']) : '';
-		$form['lock_message'] = isset($_POST['_gform_setting_lock_message']) ? sanitize_textarea_field($_POST['_gform_setting_lock_message']) : '';
-	
+	public function wpuk_save_custom_form_settings( $form ) {
+		$form['submission_deadline'] = isset( $_POST['_gform_setting_submission_deadline'] ) ? sanitize_text_field( $_POST['_gform_setting_submission_deadline'] ) : '';
+		$form['lock_message']        = isset( $_POST['_gform_setting_lock_message'] ) ? sanitize_textarea_field( $_POST['_gform_setting_lock_message'] ) : '';
+
 		return $form;
 	}
 
-	public function wpuk_check_submission_deadline($form_string, $form) {
+	public function wpuk_check_submission_deadline( $form_string, $form ) {
 		// Compare the current time with the deadline
 		if ( $this->wpuk_deadline_has_passed( $form ) ) {
 			$lock_message = $this->wpuk_get_lock_message( $form );
@@ -343,11 +348,10 @@ class UltimaKit_Module_Lock_Submissions_After_A_Deadline extends UltimaKit_Modul
 					font-size: 16px;
 					margin-bottom: 20px;
 					text-align: center;
-				}</style><div class="gform_deadline_message">' . esc_html($lock_message) . '</div>';
+				}</style><div class="gform_deadline_message">' . esc_html( $lock_message ) . '</div>';
 		}
 
 		// If the deadline has not passed, return the form as usual
 		return $form_string;
 	}
-	
 }

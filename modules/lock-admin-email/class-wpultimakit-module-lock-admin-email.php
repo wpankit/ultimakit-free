@@ -117,14 +117,14 @@ class UltimaKit_Module_Lock_admin_email extends UltimaKit_Module_Manager {
 			// Block admin email changes at multiple levels
 			add_filter( 'pre_update_option_admin_email', array( $this, 'ultimakit_block_admin_email_update' ), 1, 2 );
 			add_filter( 'pre_update_option_new_admin_email', array( $this, 'ultimakit_block_admin_email_update' ), 1, 2 );
-			
+
 			// Block through form submissions
 			add_action( 'admin_init', array( $this, 'ultimakit_block_options_form' ), 1 );
 			add_action( 'admin_init', array( $this, 'ultimakit_block_direct_updates' ), 1 );
-			
+
 			// Add admin notice when someone tries to change the email
 			add_action( 'admin_notices', array( $this, 'ultimakit_show_admin_notice' ) );
-			
+
 			// Remove the admin email field from the General Settings page
 			add_action( 'admin_head', array( $this, 'ultimakit_hide_admin_email_field' ) );
 		}
@@ -142,7 +142,7 @@ class UltimaKit_Module_Lock_admin_email extends UltimaKit_Module_Manager {
 	public function ultimakit_block_admin_email_update( $new_value, $old_value ) {
 		// Set a flag to show notice
 		set_transient( 'ultimakit_admin_email_blocked', true, 60 );
-		
+
 		// Always return the old value to prevent changes
 		return $old_value;
 	}
@@ -155,7 +155,7 @@ class UltimaKit_Module_Lock_admin_email extends UltimaKit_Module_Manager {
 			if ( isset( $_POST['admin_email'] ) ) {
 				// Remove the admin_email from POST data to prevent it from being saved
 				unset( $_POST['admin_email'] );
-				
+
 				// Set a flag to show notice
 				set_transient( 'ultimakit_admin_email_blocked', true, 60 );
 			}
@@ -170,12 +170,12 @@ class UltimaKit_Module_Lock_admin_email extends UltimaKit_Module_Manager {
 		if ( isset( $_POST['admin_email'] ) || isset( $_POST['new_admin_email'] ) ) {
 			// Set a flag to show notice
 			set_transient( 'ultimakit_admin_email_blocked', true, 60 );
-			
+
 			// Remove the email fields from POST data
 			unset( $_POST['admin_email'] );
 			unset( $_POST['new_admin_email'] );
 		}
-		
+
 		// Block AJAX requests that might update admin email
 		if ( wp_doing_ajax() && ( isset( $_POST['admin_email'] ) || isset( $_POST['new_admin_email'] ) ) ) {
 			wp_send_json_error( 'Admin email changes are blocked by the Lock Admin Email module.' );
@@ -197,7 +197,7 @@ class UltimaKit_Module_Lock_admin_email extends UltimaKit_Module_Manager {
 			</div>
 			<?php
 		}
-		
+
 		// Show notice if transient is set
 		if ( get_transient( 'ultimakit_admin_email_blocked' ) ) {
 			delete_transient( 'ultimakit_admin_email_blocked' );
@@ -235,4 +235,4 @@ class UltimaKit_Module_Lock_admin_email extends UltimaKit_Module_Manager {
 			<?php
 		}
 	}
-} 
+}

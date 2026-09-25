@@ -108,38 +108,36 @@ class UltimaKit_Module_Disallow_Plugin_Upload extends UltimaKit_Module_Manager {
 	 */
 	protected function initializeModule() {
 		if ( $this->is_active ) {
-			add_action('admin_menu', array($this, 'remove_plugin_install_menu'));
-			add_action('admin_init', array($this, 'block_plugin_install_page'));
-			add_action('admin_notices', array($this, 'plugin_upload_disabled_notice'));
+			add_action( 'admin_menu', array( $this, 'remove_plugin_install_menu' ) );
+			add_action( 'admin_init', array( $this, 'block_plugin_install_page' ) );
+			add_action( 'admin_notices', array( $this, 'plugin_upload_disabled_notice' ) );
 		}
 	}
-	
+
 	public function remove_plugin_install_menu() {
-		remove_submenu_page('plugins.php', 'plugin-install.php');
+		remove_submenu_page( 'plugins.php', 'plugin-install.php' );
 	}
-	
+
 	public function block_plugin_install_page() {
 		global $pagenow;
-		
-		if ($pagenow === 'plugin-install.php') {
+
+		if ( $pagenow === 'plugin-install.php' ) {
 			wp_die(
-				__('Plugin installation has been disabled for security reasons.', 'ultimakit-for-wp'),
-				__('Plugin Installation Disabled', 'ultimakit-for-wp'),
-				array('response' => 403)
+				__( 'Plugin installation has been disabled for security reasons.', 'ultimakit-for-wp' ),
+				__( 'Plugin Installation Disabled', 'ultimakit-for-wp' ),
+				array( 'response' => 403 )
 			);
 		}
 	}
-	
+
 	public function plugin_upload_disabled_notice() {
 		$screen = get_current_screen();
-		if ($screen && $screen->id === 'plugins') {
+		if ( $screen && $screen->id === 'plugins' ) {
 			?>
 			<div class="notice notice-warning is-dismissible">
-				<p><?php esc_html_e('Plugin uploads have been disabled for security reasons. Please contact your administrator if you need to install a new plugin.', 'ultimakit-for-wp'); ?></p>
+				<p><?php esc_html_e( 'Plugin uploads have been disabled for security reasons. Please contact your administrator if you need to install a new plugin.', 'ultimakit-for-wp' ); ?></p>
 			</div>
 			<?php
 		}
 	}
-
-
 }

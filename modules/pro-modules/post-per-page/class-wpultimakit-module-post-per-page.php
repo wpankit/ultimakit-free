@@ -133,7 +133,7 @@ class UltimaKit_Module_Post_Per_Page extends UltimaKit_Module_Manager {
 
 		// Get the post type
 		$post_type = $query->get( 'post_type' );
-		
+
 		// Default to 'post' if no post type is set
 		if ( empty( $post_type ) ) {
 			$post_type = 'post';
@@ -146,7 +146,7 @@ class UltimaKit_Module_Post_Per_Page extends UltimaKit_Module_Manager {
 
 		// Get custom posts per page setting for this post type
 		$posts_per_page = $this->get_posts_per_page_for_type( $post_type );
-		
+
 		if ( $posts_per_page && is_numeric( $posts_per_page ) && $posts_per_page > 0 ) {
 			$query->set( 'posts_per_page', intval( $posts_per_page ) );
 		}
@@ -180,7 +180,7 @@ class UltimaKit_Module_Post_Per_Page extends UltimaKit_Module_Manager {
 	 * @return array Array of post types with their labels.
 	 */
 	private function get_available_post_types() {
-		$post_types = get_post_types( array( 'public' => true ), 'objects' );
+		$post_types      = get_post_types( array( 'public' => true ), 'objects' );
 		$available_types = array();
 
 		foreach ( $post_types as $post_type => $post_type_object ) {
@@ -200,13 +200,13 @@ class UltimaKit_Module_Post_Per_Page extends UltimaKit_Module_Manager {
 	 */
 	public function sanitize_posts_per_page( $value ) {
 		$value = intval( $value );
-		
+
 		if ( $value < 1 ) {
 			$value = 1;
 		} elseif ( $value > 100 ) {
 			$value = 100;
 		}
-		
+
 		return $value;
 	}
 
@@ -291,6 +291,4 @@ class UltimaKit_Module_Post_Per_Page extends UltimaKit_Module_Manager {
 			)
 		);
 	}
-
-
-} 
+}

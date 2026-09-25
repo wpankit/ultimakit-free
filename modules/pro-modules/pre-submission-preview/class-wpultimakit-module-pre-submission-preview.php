@@ -107,15 +107,15 @@ class UltimaKit_Module_Pre_Submission_Preview extends UltimaKit_Module_Manager {
 	 */
 	protected function initializeModule() {
 		if ( $this->is_active ) {
-			
+
 			add_action( 'wp_enqueue_scripts', array( $this, 'add_scripts' ) );
 
 			// Add the "Preview" button to Gravity Forms
-			add_filter('gform_submit_button', [$this, 'gf_pre_submission_preview_add_preview_button'], 10, 2);
+			add_filter( 'gform_submit_button', array( $this, 'gf_pre_submission_preview_add_preview_button' ), 10, 2 );
 
 			// Generate the preview modal
-			add_action('wp_footer', [$this, 'gf_pre_submission_preview_modal']);
-		}	
+			add_action( 'wp_footer', array( $this, 'gf_pre_submission_preview_modal' ) );
+		}
 	}
 
 	/**
@@ -153,15 +153,15 @@ class UltimaKit_Module_Pre_Submission_Preview extends UltimaKit_Module_Manager {
 			'ultimakit-module-script-front-' . $this->ID,
 			'ultimakit_pre_submissions',
 			array(
-				'field'   => __('Field','ultimakit-for-wp'),
-				'your_response'   => __('Your Response','ultimakit-for-wp'),
-				'no_response'   => __('No response','ultimakit-for-wp'),
-				
+				'field'         => __( 'Field', 'ultimakit-for-wp' ),
+				'your_response' => __( 'Your Response', 'ultimakit-for-wp' ),
+				'no_response'   => __( 'No response', 'ultimakit-for-wp' ),
+
 			)
 		);
 	}
 
-	public function gf_pre_submission_preview_add_preview_button($button, $form) {
+	public function gf_pre_submission_preview_add_preview_button( $button, $form ) {
 		$preview_button = '<button type="button" class="gform_button gform_preview_button" onclick="gfShowPreview(' . $form['id'] . ')">Preview</button>';
 		return $preview_button . $button;
 	}
@@ -170,15 +170,14 @@ class UltimaKit_Module_Pre_Submission_Preview extends UltimaKit_Module_Manager {
 		?>
 		<div id="gf-preview-modal" style="display: none;">
 			<div class="gf-preview-modal-content">
-				<h2><?php echo esc_html_e('Preview Your Submission','ultimakit-for-wp');?></h2>
+				<h2><?php echo esc_html_e( 'Preview Your Submission', 'ultimakit-for-wp' ); ?></h2>
 				<div id="gf-preview-content"></div>
 				<div class="gf-preview-buttons">
-					<button type="button" class="gform_button" onclick="gfClosePreview()"><?php echo esc_html_e('Back to Edit','ultimakit-for-wp');?></button>
-					<button type="button" class="gform_button gform_submit_button" onclick="gfSubmitForm()"><?php echo esc_html_e('Submit Form','ultimakit-for-wp');?></button>
+					<button type="button" class="gform_button" onclick="gfClosePreview()"><?php echo esc_html_e( 'Back to Edit', 'ultimakit-for-wp' ); ?></button>
+					<button type="button" class="gform_button gform_submit_button" onclick="gfSubmitForm()"><?php echo esc_html_e( 'Submit Form', 'ultimakit-for-wp' ); ?></button>
 				</div>
 			</div>
 		</div>
 		<?php
 	}
-
 }

@@ -77,35 +77,37 @@ if ( function_exists( 'ufw_fs' ) ) {
 		// Create a helper function for easy SDK access.
 		function ufw_fs() {
 			global $ufw_fs;
-	
+
 			if ( ! isset( $ufw_fs ) ) {
 				// Include Freemius SDK.
-				require_once dirname( __FILE__ ) . '/src/freemius/start.php';
+				require_once __DIR__ . '/src/freemius/start.php';
 				/*
 				 * Free-only since 3.0.0: every former Pro module ships in this plugin and
 				 * nothing is sold. Freemius stays for the optional opt-in only, so there is
 				 * no premium version, no paid plans, no add-ons and no affiliate program.
 				 */
-				$ufw_fs = fs_dynamic_init( array(
-					'id'                  => '15524',
-					'slug'                => 'ultimakit-for-wp',
-					'type'                => 'plugin',
-					'public_key'          => 'pk_7242c13a2ba33bb432d938683d41a',
-					'is_premium'          => false,
-					'has_premium_version' => false,
-					'has_addons'          => false,
-					'has_paid_plans'      => false,
-					'menu'                => array(
-						'slug'           => 'wp-ultimakit-dashboard',
-						'first-path'     => 'admin.php?page=wp-ultimakit-dashboard',
-						'support'        => true,
-					),
-				) );
+				$ufw_fs = fs_dynamic_init(
+					array(
+						'id'                  => '15524',
+						'slug'                => 'ultimakit-for-wp',
+						'type'                => 'plugin',
+						'public_key'          => 'pk_7242c13a2ba33bb432d938683d41a',
+						'is_premium'          => false,
+						'has_premium_version' => false,
+						'has_addons'          => false,
+						'has_paid_plans'      => false,
+						'menu'                => array(
+							'slug'       => 'wp-ultimakit-dashboard',
+							'first-path' => 'admin.php?page=wp-ultimakit-dashboard',
+							'support'    => true,
+						),
+					)
+				);
 			}
-	
+
 			return $ufw_fs;
 		}
-	
+
 		// Init Freemius.
 		ufw_fs();
 		// Signal that SDK was initiated.
@@ -143,12 +145,12 @@ if ( function_exists( 'ufw_fs' ) ) {
 	require plugin_dir_path( __FILE__ ) . 'includes/class-wp-ultimakit.php';
 	require plugin_dir_path( __FILE__ ) . 'includes/class-wp-ultimakit-module-base.php';
 	require plugin_dir_path( __FILE__ ) . 'includes/class-wp-ultimakit-helpers.php';
-	
+
 	if ( ! class_exists( 'UltimaKit_Module_Manager' ) ) {
 		require plugin_dir_path( __FILE__ ) . 'includes/class-wp-ultimakit-manager.php';
 	}
-	
-	
+
+
 
 	function ufw_fs_uninstall_cleanup() {
 		$option_name = 'ultimakit_options';
@@ -174,34 +176,37 @@ if ( function_exists( 'ufw_fs' ) ) {
 	}
 
 	// Hook the custom connect message function to init to avoid early text domain loading
-	add_action( 'init', function() {
-		function ufw_fs_custom_connect_message_on_update(
-			$message,
-			$user_first_name,
-			$plugin_title,
-			$user_login,
-			$site_link,
-			$freemius_link
-		) {
-			return sprintf(
-				__( 'Hey %1$s' ) . ',<br>' .
-				__( 'Please help us improve %2$s! If you opt-in, some data about your usage of %2$s will be sent to %5$s. If you skip this, that\'s okay! %2$s will still work just fine.', 'ultimakit-for-wp' ),
+	add_action(
+		'init',
+		function () {
+			function ufw_fs_custom_connect_message_on_update(
+				$message,
 				$user_first_name,
-				'<b>' . $plugin_title . '</b>',
-				'<b>' . $user_login . '</b>',
+				$plugin_title,
+				$user_login,
 				$site_link,
 				$freemius_link
-			);
-		}
+			) {
+				return sprintf(
+					__( 'Hey %1$s' ) . ',<br>' .
+					__( 'Please help us improve %2$s! If you opt-in, some data about your usage of %2$s will be sent to %5$s. If you skip this, that\'s okay! %2$s will still work just fine.', 'ultimakit-for-wp' ),
+					$user_first_name,
+					'<b>' . $plugin_title . '</b>',
+					'<b>' . $user_login . '</b>',
+					$site_link,
+					$freemius_link
+				);
+			}
 
-		ufw_fs()->add_filter( 'connect_message_on_update', 'ufw_fs_custom_connect_message_on_update', 10, 6 );
-	});
+			ufw_fs()->add_filter( 'connect_message_on_update', 'ufw_fs_custom_connect_message_on_update', 10, 6 );
+		}
+	);
 
 	/**
 	 * Load text domain early to avoid translation loading issues
 	 */
 	function ultimakit_load_textdomain_early() {
-		load_plugin_textdomain('ultimakit-for-wp', false, dirname(plugin_basename(__FILE__)) . '/languages');
+		load_plugin_textdomain( 'ultimakit-for-wp', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 	}
 
 	/**
@@ -226,7 +231,6 @@ if ( function_exists( 'ufw_fs' ) ) {
 			// Shared instance: module discovery is expensive and must run only once per request.
 			UltimaKit_Module_Manager::get_instance();
 		}
-		
 	}
 
 	add_action( 'plugins_loaded', 'ultimakit_run_wp_ultimakit' );

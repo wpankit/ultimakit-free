@@ -78,7 +78,7 @@ class UltimaKit_Module_Word_Count_Tracker extends UltimaKit_Module_Manager {
 	 */
 	protected $settings;
 
-    
+
 	/**
 	 *
 	 * Initializes the module with default values for properties and prepares
@@ -92,7 +92,6 @@ class UltimaKit_Module_Word_Count_Tracker extends UltimaKit_Module_Manager {
 		$this->is_active   = $this->isModuleActive( $this->ID );
 
 		$this->initializeModule();
-		
 	}
 
 
@@ -113,113 +112,110 @@ class UltimaKit_Module_Word_Count_Tracker extends UltimaKit_Module_Manager {
 
 		if ( $this->is_active ) {
 
-            // Add meta box for target word count
-			add_action('add_meta_boxes', array($this, 'add_word_count_meta_box'));
-			
+			// Add meta box for target word count
+			add_action( 'add_meta_boxes', array( $this, 'add_word_count_meta_box' ) );
+
 			// Save target word count
-			add_action('save_post', array($this, 'save_target_word_count'));
-			
+			add_action( 'save_post', array( $this, 'save_target_word_count' ) );
+
 			// Enqueue scripts
-			add_action('enqueue_block_editor_assets', array($this, 'enqueue_block_editor_assets'));
-			add_action('admin_enqueue_scripts', array($this, 'enqueue_classic_editor_assets'));
+			add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_block_editor_assets' ) );
+			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_classic_editor_assets' ) );
 
 		}
-
 	}
 
 
 	public function add_word_count_meta_box() {
-        add_meta_box(
-            'word-count-tracker',
-            __('Word Count Tracker', 'ultimakit-for-wp'),
-            array($this, 'render_meta_box'),
-            array('post', 'page'),
-            'side',
-            'high'
-        );
-    }
+		add_meta_box(
+			'word-count-tracker',
+			__( 'Word Count Tracker', 'ultimakit-for-wp' ),
+			array( $this, 'render_meta_box' ),
+			array( 'post', 'page' ),
+			'side',
+			'high'
+		);
+	}
 
-    public function render_meta_box($post) {
-        // Get the target word count
-        $target_word_count = get_post_meta($post->ID, '_target_word_count', true);
-        ?>
-        <div id="word-count-tracker-container">
-            <p>
-                <strong><?php _e('Current Word Count:', 'ultimakit-for-wp'); ?></strong>
-                <span id="current-word-count">0</span>
-            </p>
-            <p>
-                <label for="target-word-count"><?php _e('Target Word Count:', 'ultimakit-for-wp'); ?></label>
-                <input 
-                    type="number" 
-                    id="target-word-count" 
-                    name="target_word_count" 
-                    value="<?php echo esc_attr($target_word_count); ?>" 
-                    min="0"
-                    style="width: 100%;"
-                />
-            </p>
-        </div>
-        <?php
-    }
+	public function render_meta_box( $post ) {
+		// Get the target word count
+		$target_word_count = get_post_meta( $post->ID, '_target_word_count', true );
+		?>
+		<div id="word-count-tracker-container">
+			<p>
+				<strong><?php _e( 'Current Word Count:', 'ultimakit-for-wp' ); ?></strong>
+				<span id="current-word-count">0</span>
+			</p>
+			<p>
+				<label for="target-word-count"><?php _e( 'Target Word Count:', 'ultimakit-for-wp' ); ?></label>
+				<input 
+					type="number" 
+					id="target-word-count" 
+					name="target_word_count" 
+					value="<?php echo esc_attr( $target_word_count ); ?>" 
+					min="0"
+					style="width: 100%;"
+				/>
+			</p>
+		</div>
+		<?php
+	}
 
-    public function save_target_word_count($post_id) {
-        // Skip autosaves
-        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
-            return;
-        }
+	public function save_target_word_count( $post_id ) {
+		// Skip autosaves
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+			return;
+		}
 
-        // Check permissions
-        if (!current_user_can('edit_post', $post_id)) {
-            return;
-        }
+		// Check permissions
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			return;
+		}
 
-        // Save target word count if set
-        if (isset($_POST['target_word_count'])) {
-            $target_word_count = intval($_POST['target_word_count']);
-            update_post_meta($post_id, '_target_word_count', $target_word_count);
-        }
-    }
+		// Save target word count if set
+		if ( isset( $_POST['target_word_count'] ) ) {
+			$target_word_count = intval( $_POST['target_word_count'] );
+			update_post_meta( $post_id, '_target_word_count', $target_word_count );
+		}
+	}
 
-    public function enqueue_block_editor_assets() {
-        wp_enqueue_script(
-           $this->ID,
-            plugin_dir_url(__FILE__) . 'module-script.js',
-            array('wp-blocks', 'wp-element', 'wp-editor'),
-            '1.0.0',
-            true
-        );
+	public function enqueue_block_editor_assets() {
+		wp_enqueue_script(
+			$this->ID,
+			plugin_dir_url( __FILE__ ) . 'module-script.js',
+			array( 'wp-blocks', 'wp-element', 'wp-editor' ),
+			'1.0.0',
+			true
+		);
 
-        wp_enqueue_style(
-            $this->ID,
-            plugin_dir_url(__FILE__) . 'module-style.css',
-            array(),
-            '1.0.0'
-        );
-    }
+		wp_enqueue_style(
+			$this->ID,
+			plugin_dir_url( __FILE__ ) . 'module-style.css',
+			array(),
+			'1.0.0'
+		);
+	}
 
-    public function enqueue_classic_editor_assets($hook) {
-        if (!in_array($hook, array('post.php', 'post-new.php'))) {
-            return;
-        }
+	public function enqueue_classic_editor_assets( $hook ) {
+		if ( ! in_array( $hook, array( 'post.php', 'post-new.php' ) ) ) {
+			return;
+		}
 
-        if (!use_block_editor_for_post_type(get_post_type())) {
-            wp_enqueue_script(
-                $this->ID,
-                plugin_dir_url(__FILE__) . 'module-script-editor.js',
-                array('jquery', 'editor'), // Add 'editor' dependency
-                '1.0.0',
-                true
-            );
-        }
+		if ( ! use_block_editor_for_post_type( get_post_type() ) ) {
+			wp_enqueue_script(
+				$this->ID,
+				plugin_dir_url( __FILE__ ) . 'module-script-editor.js',
+				array( 'jquery', 'editor' ), // Add 'editor' dependency
+				'1.0.0',
+				true
+			);
+		}
 
-        wp_enqueue_style(
-            $this->ID,
-            plugin_dir_url(__FILE__) . 'module-style.css',
-            array(),
-            '1.0.0'
-        );
-    }
-
-
+		wp_enqueue_style(
+			$this->ID,
+			plugin_dir_url( __FILE__ ) . 'module-style.css',
+			array(),
+			'1.0.0'
+		);
+	}
 }

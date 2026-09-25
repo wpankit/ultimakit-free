@@ -108,37 +108,36 @@ class UltimaKit_Module_Disallow_Theme_Upload extends UltimaKit_Module_Manager {
 	 */
 	protected function initializeModule() {
 		if ( $this->is_active ) {
-			add_action('admin_menu', array($this, 'remove_theme_install_menu'));
-			add_action('admin_init', array($this, 'block_theme_install_page'));
-			add_action('admin_notices', array($this, 'theme_upload_disabled_notice'));
+			add_action( 'admin_menu', array( $this, 'remove_theme_install_menu' ) );
+			add_action( 'admin_init', array( $this, 'block_theme_install_page' ) );
+			add_action( 'admin_notices', array( $this, 'theme_upload_disabled_notice' ) );
 		}
 	}
 
 	public function remove_theme_install_menu() {
-		remove_submenu_page('themes.php', 'theme-install.php');
+		remove_submenu_page( 'themes.php', 'theme-install.php' );
 	}
-	
+
 	public function block_theme_install_page() {
 		global $pagenow;
-		
-		if ($pagenow === 'theme-install.php') {
+
+		if ( $pagenow === 'theme-install.php' ) {
 			wp_die(
-				__('Theme installation has been disabled for security reasons.', 'ultimakit-for-wp'),
-				__('Theme Installation Disabled', 'ultimakit-for-wp'),
-				array('response' => 403)
+				__( 'Theme installation has been disabled for security reasons.', 'ultimakit-for-wp' ),
+				__( 'Theme Installation Disabled', 'ultimakit-for-wp' ),
+				array( 'response' => 403 )
 			);
 		}
 	}
-	
+
 	public function theme_upload_disabled_notice() {
 		$screen = get_current_screen();
-		if ($screen && $screen->id === 'themes') {
+		if ( $screen && $screen->id === 'themes' ) {
 			?>
 			<div class="notice notice-warning is-dismissible">
-				<p><?php esc_html_e('Theme uploads have been disabled for security reasons. Please contact your administrator if you need to install a new theme.', 'ultimakit-for-wp'); ?></p>
+				<p><?php esc_html_e( 'Theme uploads have been disabled for security reasons. Please contact your administrator if you need to install a new theme.', 'ultimakit-for-wp' ); ?></p>
 			</div>
 			<?php
 		}
 	}
-
 }

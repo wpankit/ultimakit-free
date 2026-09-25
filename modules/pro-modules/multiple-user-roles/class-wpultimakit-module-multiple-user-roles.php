@@ -135,7 +135,7 @@ class UltimaKit_Module_Multiple_User_Roles extends UltimaKit_Module_Manager {
 			return;
 		}
 
-		$user_roles = $this->get_user_multiple_roles( $user->ID );
+		$user_roles      = $this->get_user_multiple_roles( $user->ID );
 		$available_roles = $this->ultimakit_get_assignable_roles();
 
 		wp_nonce_field( 'ultimakit_multiple_roles_' . $user->ID, 'ultimakit_multiple_roles_nonce' );
@@ -151,9 +151,9 @@ class UltimaKit_Module_Multiple_User_Roles extends UltimaKit_Module_Manager {
 							<?php if ( $role_key !== $user->roles[0] ) : // Don't show primary role ?>
 								<label>
 									<input type="checkbox" 
-										   name="ultimakit_additional_roles[]" 
-										   value="<?php echo esc_attr( $role_key ); ?>"
-										   <?php checked( in_array( $role_key, $user_roles ) ); ?> />
+											name="ultimakit_additional_roles[]" 
+											value="<?php echo esc_attr( $role_key ); ?>"
+											<?php checked( in_array( $role_key, $user_roles ) ); ?> />
 									<?php echo esc_html( $role_name ); ?>
 								</label><br>
 							<?php endif; ?>
@@ -197,7 +197,7 @@ class UltimaKit_Module_Multiple_User_Roles extends UltimaKit_Module_Manager {
 		 * WooCommerce and others use to keep, say, a Shop Manager from granting Administrator.
 		 */
 		$available_roles = array_keys( $this->ultimakit_get_assignable_roles() );
-		$valid_roles = array_values( array_intersect( $additional_roles, $available_roles ) );
+		$valid_roles     = array_values( array_intersect( $additional_roles, $available_roles ) );
 
 		// Save to user meta
 		update_user_meta( $user_id, '_ultimakit_additional_roles', $valid_roles );
@@ -267,7 +267,7 @@ class UltimaKit_Module_Multiple_User_Roles extends UltimaKit_Module_Manager {
 		}
 
 		$additional_roles = $this->get_user_multiple_roles( $user->ID );
-		
+
 		foreach ( $additional_roles as $role_key ) {
 			$role = get_role( $role_key );
 			if ( $role ) {
@@ -323,12 +323,12 @@ class UltimaKit_Module_Multiple_User_Roles extends UltimaKit_Module_Manager {
 		}
 
 		$all_roles = array();
-		
+
 		// Add primary role
 		if ( ! empty( $user->roles ) ) {
 			$primary_role = $user->roles[0];
-			$role_names = wp_roles()->get_names();
-			$all_roles[] = '<strong>' . esc_html( $role_names[ $primary_role ] ?? $primary_role ) . '</strong>';
+			$role_names   = wp_roles()->get_names();
+			$all_roles[]  = '<strong>' . esc_html( $role_names[ $primary_role ] ?? $primary_role ) . '</strong>';
 		}
 
 		// Add additional roles
@@ -336,7 +336,7 @@ class UltimaKit_Module_Multiple_User_Roles extends UltimaKit_Module_Manager {
 		if ( ! empty( $additional_roles ) ) {
 			$role_names = wp_roles()->get_names();
 			foreach ( $additional_roles as $role_key ) {
-				$role_name = $role_names[ $role_key ] ?? $role_key;
+				$role_name   = $role_names[ $role_key ] ?? $role_key;
 				$all_roles[] = '<span class="ultimakit-additional-role">' . esc_html( $role_name ) . '</span>';
 			}
 		}
@@ -375,13 +375,15 @@ class UltimaKit_Module_Multiple_User_Roles extends UltimaKit_Module_Manager {
 		}
 
 		$additional_roles = $this->get_user_multiple_roles( $user_id );
-		$available_roles = $this->ultimakit_get_assignable_roles();
+		$available_roles  = $this->ultimakit_get_assignable_roles();
 
-		wp_send_json_success( array(
-			'user_roles' => $additional_roles,
-			'available_roles' => $available_roles,
-			'primary_role' => $user->roles[0] ?? ''
-		) );
+		wp_send_json_success(
+			array(
+				'user_roles'      => $additional_roles,
+				'available_roles' => $available_roles,
+				'primary_role'    => $user->roles[0] ?? '',
+			)
+		);
 	}
 
 	/**
@@ -408,10 +410,10 @@ class UltimaKit_Module_Multiple_User_Roles extends UltimaKit_Module_Manager {
 
 		// Only roles the current user is allowed to grant.
 		$available_roles = array_keys( $this->ultimakit_get_assignable_roles() );
-		$valid_roles = array_values( array_intersect( $roles, $available_roles ) );
+		$valid_roles     = array_values( array_intersect( $roles, $available_roles ) );
 
 		update_user_meta( $user_id, '_ultimakit_additional_roles', $valid_roles );
-		
+
 		wp_send_json_success( array( 'message' => __( 'User roles updated successfully.', 'ultimakit-for-wp' ) ) );
 	}
 
@@ -438,7 +440,7 @@ class UltimaKit_Module_Multiple_User_Roles extends UltimaKit_Module_Manager {
 				'value' => $this->getModuleSettings( $this->ID, 'enable_multiple_roles' ),
 				'desc'  => __( 'Allow users to have multiple roles with combined capabilities', 'ultimakit-for-wp' ),
 			),
-			'role_management' => array(
+			'role_management'       => array(
 				'type'  => 'custom',
 				'label' => __( 'Role Management', 'ultimakit-for-wp' ),
 				'value' => $this->getModuleSettings( $this->ID, 'role_management' ),
@@ -488,4 +490,4 @@ class UltimaKit_Module_Multiple_User_Roles extends UltimaKit_Module_Manager {
 			)
 		);
 	}
-} 
+}

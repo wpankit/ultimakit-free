@@ -111,7 +111,6 @@ class UltimaKit_Module_Disable_Gf_Styles extends UltimaKit_Module_Manager {
 		if ( $this->is_active ) {
 			// Hook to disable Gravity Forms styles
 			add_filter( 'gform_disable_css', '__return_true' );
-		}	
+		}
 	}
-
 }

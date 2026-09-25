@@ -112,13 +112,13 @@ class UltimaKit_Module_Disallow_Dir_Listing extends UltimaKit_Module_Manager {
 		if ( $this->is_active ) {
 			// Add security headers to prevent directory listing
 			add_action( 'send_headers', array( $this, 'add_security_headers' ) );
-			
+
 			// Add .htaccess rules for Apache servers
 			add_action( 'init', array( $this, 'maybe_add_htaccess_rules' ) );
-			
+
 			// Add index.php files to directories that don't have them
 			add_action( 'init', array( $this, 'maybe_add_index_files' ) );
-			
+
 			// Block direct access to sensitive directories
 			add_action( 'init', array( $this, 'block_sensitive_directories' ) );
 		}
@@ -134,7 +134,7 @@ class UltimaKit_Module_Disallow_Dir_Listing extends UltimaKit_Module_Manager {
 		header( 'X-Content-Type-Options: nosniff' );
 		header( 'X-Frame-Options: SAMEORIGIN' );
 		header( 'X-XSS-Protection: 1; mode=block' );
-		
+
 		// Add additional security headers
 		if ( ! headers_sent() ) {
 			header( 'Referrer-Policy: strict-origin-when-cross-origin' );
@@ -159,7 +159,7 @@ class UltimaKit_Module_Disallow_Dir_Listing extends UltimaKit_Module_Manager {
 			return;
 		}
 
-		$htaccess_file = ABSPATH . '.htaccess';
+		$htaccess_file    = ABSPATH . '.htaccess';
 		$htaccess_content = '';
 
 		// Read existing .htaccess file
@@ -174,7 +174,7 @@ class UltimaKit_Module_Disallow_Dir_Listing extends UltimaKit_Module_Manager {
 		}
 
 		// Prepare the rules to add
-		$rules = "\n# BEGIN UltimaKit Directory Listing Protection\n";
+		$rules  = "\n# BEGIN UltimaKit Directory Listing Protection\n";
 		$rules .= "<IfModule mod_autoindex.c>\n";
 		$rules .= "    Options -Indexes\n";
 		$rules .= "</IfModule>\n";
@@ -237,7 +237,7 @@ class UltimaKit_Module_Disallow_Dir_Listing extends UltimaKit_Module_Manager {
 	 */
 	private function create_index_file( $directory ) {
 		$index_content = "<?php\n// Silence is golden.\n";
-		$index_file = $directory . 'index.php';
+		$index_file    = $directory . 'index.php';
 
 		// Check if directory is writable
 		if ( ! is_writable( $directory ) ) {
@@ -256,7 +256,7 @@ class UltimaKit_Module_Disallow_Dir_Listing extends UltimaKit_Module_Manager {
 	public function block_sensitive_directories() {
 		// Get the current request URI
 		$request_uri = $_SERVER['REQUEST_URI'] ?? '';
-		
+
 		// Define sensitive patterns to block
 		$sensitive_patterns = array(
 			'/wp-config.php',
@@ -292,18 +292,18 @@ class UltimaKit_Module_Disallow_Dir_Listing extends UltimaKit_Module_Manager {
 	private function is_directory_listing_request( $request_uri ) {
 		// Remove query string
 		$path = parse_url( $request_uri, PHP_URL_PATH );
-		
+
 		// Check if the path ends with a slash (directory request)
 		if ( substr( $path, -1 ) === '/' ) {
 			return true;
 		}
-		
+
 		// Check if no file extension is present
 		$extension = pathinfo( $path, PATHINFO_EXTENSION );
 		if ( empty( $extension ) ) {
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -315,14 +315,14 @@ class UltimaKit_Module_Disallow_Dir_Listing extends UltimaKit_Module_Manager {
 	private function block_access() {
 		// Send 403 Forbidden response
 		http_response_code( 403 );
-		
+
 		// Display a simple error message
 		echo '<!DOCTYPE html>';
 		echo '<html><head><title>403 Forbidden</title></head>';
 		echo '<body><h1>403 Forbidden</h1>';
 		echo '<p>Access to this resource is forbidden.</p>';
 		echo '</body></html>';
-		
+
 		exit;
 	}
 
@@ -335,4 +335,4 @@ class UltimaKit_Module_Disallow_Dir_Listing extends UltimaKit_Module_Manager {
 		$server_software = $_SERVER['SERVER_SOFTWARE'] ?? '';
 		return stripos( $server_software, 'apache' ) !== false;
 	}
-} 
+}

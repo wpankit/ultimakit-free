@@ -304,9 +304,9 @@ class UltimaKit_Module_Wc_Product_Timer extends UltimaKit_Module_Manager {
 
 			// These are printed into the <style> block below: sizes as whole numbers, alignment
 			// whitelisted (the meta can also be written outside the product form, e.g. REST).
-			$font_size   = absint( get_post_meta( get_the_ID(), '_timer_font_size', true ) ) ?: '16';
-			$alignment   = get_post_meta( get_the_ID(), '_timer_alignment', true );
-			$alignment   = in_array( $alignment, array( 'left', 'center', 'right' ), true ) ? $alignment : 'center';
+			$font_size = absint( get_post_meta( get_the_ID(), '_timer_font_size', true ) ) ?: '16';
+			$alignment = get_post_meta( get_the_ID(), '_timer_alignment', true );
+			$alignment = in_array( $alignment, array( 'left', 'center', 'right' ), true ) ? $alignment : 'center';
 			// "?:" binds looser than ".", so a blank width used to print "width: px;" instead of 100%.
 			$timer_width = absint( get_post_meta( get_the_ID(), '_timer_width', true ) );
 			$timer_width = $timer_width ? $timer_width . 'px' : '100%';

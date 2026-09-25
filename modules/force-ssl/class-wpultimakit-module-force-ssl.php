@@ -110,49 +110,49 @@ class UltimaKit_Module_Force_SSL extends UltimaKit_Module_Manager {
 		if ( $this->is_active && ! $this->is_localhost() ) {
 			// Force HTTPS redirect
 			add_action( 'template_redirect', array( $this, 'force_ssl_redirect' ) );
-			
+
 			// Update WordPress site URL to HTTPS
 			add_filter( 'home_url', array( $this, 'force_ssl_url' ), 10, 2 );
 			add_filter( 'site_url', array( $this, 'force_ssl_url' ), 10, 2 );
-			
+
 			// Update content URLs to HTTPS
 			add_filter( 'content_url', array( $this, 'force_ssl_url' ), 10, 2 );
 			add_filter( 'plugins_url', array( $this, 'force_ssl_url' ), 10, 2 );
 			add_filter( 'upload_dir', array( $this, 'force_ssl_upload_dir' ) );
-			
+
 			// Force HTTPS for admin area
 			add_action( 'admin_init', array( $this, 'force_ssl_admin' ) );
-			
+
 			// Update canonical URLs
 			add_filter( 'wp_get_canonical_url', array( $this, 'force_ssl_canonical_url' ), 10, 2 );
-			
+
 			// Force HTTPS for login and registration
 			add_action( 'login_init', array( $this, 'force_ssl_login' ) );
-			
+
 			// Update REST API URLs
 			add_filter( 'rest_url', array( $this, 'force_ssl_rest_url' ) );
-			
+
 			// Force HTTPS for XML-RPC
 			add_filter( 'xmlrpc_url', array( $this, 'force_ssl_url' ), 10, 2 );
-			
+
 			// Update theme and stylesheet URLs
 			add_filter( 'theme_root_uri', array( $this, 'force_ssl_url' ), 10, 2 );
 			add_filter( 'stylesheet_uri', array( $this, 'force_ssl_url' ), 10, 2 );
 			add_filter( 'template_directory_uri', array( $this, 'force_ssl_url' ), 10, 2 );
-			
+
 			// Force HTTPS for AJAX requests
 			add_filter( 'admin_url', array( $this, 'force_ssl_admin_url' ), 10, 2 );
-			
+
 			// Update pingback URLs
 			add_filter( 'pingback_url', array( $this, 'force_ssl_url' ), 10, 2 );
-			
+
 			// Force HTTPS for comment form action
 			add_filter( 'comment_form_defaults', array( $this, 'force_ssl_comment_form' ) );
-			
+
 			// Update feed URLs
 			add_filter( 'feed_link', array( $this, 'force_ssl_url' ), 10, 2 );
 			add_filter( 'get_feed_link', array( $this, 'force_ssl_url' ), 10, 2 );
-			
+
 			// Force HTTPS for wp-login.php
 			add_action( 'init', array( $this, 'force_ssl_login_redirect' ) );
 		}
@@ -183,10 +183,10 @@ class UltimaKit_Module_Force_SSL extends UltimaKit_Module_Manager {
 		if ( ! is_ssl() ) {
 			// Get the current URL
 			$current_url = ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http' ) . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-			
+
 			// Convert to HTTPS
 			$https_url = str_replace( 'http://', 'https://', $current_url );
-			
+
 			// Perform 301 redirect to HTTPS
 			wp_redirect( $https_url, 301 );
 			exit;
@@ -328,7 +328,7 @@ class UltimaKit_Module_Force_SSL extends UltimaKit_Module_Manager {
 			'dev',
 			'development',
 			'test',
-			'staging'
+			'staging',
 		);
 
 		$current_host = isset( $_SERVER['HTTP_HOST'] ) ? $_SERVER['HTTP_HOST'] : '';
@@ -345,9 +345,9 @@ class UltimaKit_Module_Force_SSL extends UltimaKit_Module_Manager {
 		}
 
 		// Check for local IP addresses
-		if ( preg_match( '/^192\.168\./', $current_host ) || 
-			 preg_match( '/^10\./', $current_host ) || 
-			 preg_match( '/^172\.(1[6-9]|2[0-9]|3[0-1])\./', $current_host ) ) {
+		if ( preg_match( '/^192\.168\./', $current_host ) ||
+			preg_match( '/^10\./', $current_host ) ||
+			preg_match( '/^172\.(1[6-9]|2[0-9]|3[0-1])\./', $current_host ) ) {
 			return true;
 		}
 
@@ -365,15 +365,18 @@ class UltimaKit_Module_Force_SSL extends UltimaKit_Module_Manager {
 	 * @return bool True if HTTPS is accessible, false otherwise.
 	 */
 	private function is_https_accessible() {
-		$site_url = get_site_url();
+		$site_url  = get_site_url();
 		$https_url = str_replace( 'http://', 'https://', $site_url );
-		
+
 		// Test HTTPS accessibility
-		$response = wp_remote_get( $https_url, array(
-			'timeout' => 5,
-			'sslverify' => false
-		) );
-		
+		$response = wp_remote_get(
+			$https_url,
+			array(
+				'timeout'   => 5,
+				'sslverify' => false,
+			)
+		);
+
 		return ! is_wp_error( $response ) && wp_remote_retrieve_response_code( $response ) === 200;
 	}
 
@@ -386,18 +389,18 @@ class UltimaKit_Module_Force_SSL extends UltimaKit_Module_Manager {
 		if ( is_ssl() ) {
 			// HSTS header (HTTP Strict Transport Security)
 			header( 'Strict-Transport-Security: max-age=31536000; includeSubDomains; preload' );
-			
+
 			// Content Security Policy header
 			header( 'Content-Security-Policy: upgrade-insecure-requests' );
-			
+
 			// X-Content-Type-Options header
 			header( 'X-Content-Type-Options: nosniff' );
-			
+
 			// X-Frame-Options header
 			header( 'X-Frame-Options: SAMEORIGIN' );
-			
+
 			// X-XSS-Protection header
 			header( 'X-XSS-Protection: 1; mode=block' );
 		}
 	}
-} 
+}
