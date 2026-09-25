@@ -279,7 +279,13 @@ class UltimaKit_Module_Broken_Link_Checker extends UltimaKit_Module_Manager {
 					$is_external = strpos( $url, home_url() ) === false;
 
 					if ( ( $is_external && $check_external ) || ( ! $is_external && $check_internal ) ) {
-						$response      = wp_remote_head( $url, array( 'timeout' => 5 ) );
+						/*
+						 * wp_safe_remote_head() rejects requests to private/reserved IPs (see
+						 * wp_http_validate_url()). Post content can come from any author who can
+						 * publish, so a link like http://169.254.169.254/ must not be fetched
+						 * server-side just because an admin later ran this scan.
+						 */
+						$response      = wp_safe_remote_head( $url, array( 'timeout' => 5 ) );
 						$response_code = wp_remote_retrieve_response_code( $response );
 
 						if ( is_wp_error( $response ) || $response_code >= 400 ) {
